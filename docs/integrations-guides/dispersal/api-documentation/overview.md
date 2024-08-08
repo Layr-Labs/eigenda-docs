@@ -75,7 +75,7 @@ The `DisperseBlob()` endpoint accepts a [DisperseBlobRequest](https://github.com
 Clients authenticate a request to the disperser by providing an ECDSA signature of a `BlobAuthHeader` which can be passed to the DA nodes. This header should contain the KZG commitment of the blob itself, which may be inconvenient for a client to calculate given that it requres the storage of a large SRS file. The `DisperseBlobAuthenticated()` uses an interactive flow whereby the client can first send the blob, and then receive the KZG commitment back from the disperser, verify it, and send back the authenticating signature. The current interface implements this overall flow, but using a simple random challenge mechanism in the place of the KZG commitment, for the reason that the `BlobAuthHeader` will only be sent to the DA nodes once payments are released. 
 
 :::warning
-In order to minimize security risks, we recommend that clients utilize a keypair for authentication not associated with any Ethereum founds.
+In order to minimize security risks, we recommend that clients utilize a keypair for authentication not associated with any Ethereum funds.
 :::
 
 :::info
