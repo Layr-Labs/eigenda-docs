@@ -46,111 +46,163 @@ const config = {
         redirects: [
           {
             from: "/eigenda-guides/eigenda-overview/",
-            to: "/eigenda/overview/",
+            to: "/overview/",
+          },
+          {
+            from: "/eigenda/overview/",
+            to: "/overview/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/",
-            to: "/eigenda/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/rollup-guides/",
+          },
+          {
+            from: "/eigenda/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/rollup-guides/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/building-on-top-of-eigenda",
-            to: "/eigenda/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/rollup-guides/",
           },
           {
             from: "/eigenda/rollup-guides/tutorial",
-            to: "/eigenda/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/rollup-guides/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/system-performance-and-customization",
-            to: "/eigenda/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+          },
+          {
+            from: "/eigenda/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
           },
           {
             from: "/eigenda/system-performance-and-customization",
-            to: "/eigenda/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
           },
           {
             from: "/eigenda/performance-metrics",
-            to: "/eigenda/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/blob-explorer",
-            to: "/eigenda/networks/",
+            to: "/networks/",
+          },
+          {
+            from: "/eigenda/networks/",
+            to: "/networks/",
           },
           {
             from: "/eigenda/blob-explorer",
-            to: "/eigenda/networks/",
+            to: "/networks/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/op-stack-+-eigenda-user-guide",
-            to: "/eigenda/integrations-guides/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
+          },
+          {
+            from: "/eigenda/integrations-guides/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/rollup-guides/op-stack",
-            to: "/eigenda/integrations-guides/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/op-stack/overview",
-            to: "/eigenda/integrations-guides/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/op-stack-+-eigenda-user-guide/deploying-op-stack",
-            to: "/eigenda/integrations-guides/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/op-stack/deployment",
-            to: "/eigenda/integrations-guides/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda-guides/integrations-overview",
-            to: "/eigenda/integrations-guides/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
+          },
+          {
+            from: "/eigenda/integrations-guides/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/integrations-overview",
-            to: "/eigenda/integrations-guides/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/rollup-guides/integrations-overview",
-            to: "/eigenda/integrations-guides/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/operator-guides/avs-installation-and-registration/eigenda-operator-guide/",
-            to: "/eigenda/operator-guides/overview",
+            to: "/operator-guides/overview",
+          },
+          {
+            from: "/eigenda/operator-guides/overview",
+            to: "/operator-guides/overview",
           },
           {
             from: "/operator-guides/avs-installation-and-registration/eigenda-operator-guide/troubleshooting",
-            to: "/eigenda/operator-guides/troubleshooting",
+            to: "/operator-guides/troubleshooting",
+          },
+          {
+            from: "/eigenda/operator-guides/troubleshooting",
+            to: "/operator-guides/troubleshooting",
           },
           {
             from: "/faqs/eigenda-operator-faq",
-            to: "/eigenda/operator-guides/operator-faq",
+            to: "/operator-guides/operator-faq",
+          },
+          {
+            from: "/eigenda/operator-guides/operator-faq",
+            to: "/operator-guides/operator-faq",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/orbit/",
-            to: "/eigenda/integrations-guides/rollup-guides/orbit",
+            to: "/integrations-guides/rollup-guides/orbit",
+          },
+          {
+            from: "/eigenda/integrations-guides/rollup-guides/orbit",
+            to: "/integrations-guides/rollup-guides/orbit",
           },
           {
             from: "/eigenda/rollup-guides/orbit/",
-            to: "/eigenda/integrations-guides/rollup-guides/orbit",
+            to: "/integrations-guides/rollup-guides/orbit",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/orbit/overview",
-            to: "/eigenda/integrations-guides/rollup-guides/orbit",
+            to: "/integrations-guides/rollup-guides/orbit",
           },
           {
             from: "/eigenda/rollup-guides/",
-            to: "/eigenda/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/rollup-guides/",
           },
           {
             from: "/eigenda/rollup-guides/api-error-codes",
-            to: "/eigenda/integrations-guides/dispersal/api-documentation/error-codes",
+            to: "/integrations-guides/dispersal/api-documentation/error-codes",
+          },
+          {
+            from: "/eigenda/integrations-guides/dispersal/api-documentation/error-codes",
+            to: "/integrations-guides/dispersal/api-documentation/error-codes",
           },
           {
             from: "/eigenda/rollup-guides/blob-encoding",
-            to: "/eigenda/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+            to: "/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+          },
+          {
+            from: "/eigenda/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+            to: "/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/disperser-golang-grpc-client",
-            to: "/eigenda/integrations-guides/dispersal/clients/golang-client",
+            to: "/integrations-guides/dispersal/clients/golang-client",
+          },
+          {
+            from: "/eigenda/integrations-guides/dispersal/clients/golang-client",
+            to: "/integrations-guides/dispersal/clients/golang-client",
           },
         ],
         createRedirects(existingPath) {
@@ -193,7 +245,7 @@ const config = {
         },
 
         gtag: {
-          trackingID: 'G-GN5RBJ9VRL',
+          trackingID: 'G-Z1L4DWRVCZ',
           anonymizeIP: true,
         },
       }),
