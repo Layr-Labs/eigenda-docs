@@ -124,12 +124,13 @@ The following command can be used to opt out from the EigenDA AVS:
 ```
 
 ## Update Node Sockets
-Updates ode Sockets due to any changes in the node network 
-In the case of changes to the node network 
+Updates node Sockets due to any changes in the node configuration 
 
-Ex: 
-- Ports for dispersal or retrieval have been changed
+Ex: Ports for dispersal or retrieval have been changed
 
+:::warning
+Be sure to update your [.env](https://github.com/Layr-Labs/eigenda-operator-setup/blob/31d99e2aa67962878969b81a15c7e8d13ee69750/mainnet/.env.example) before running
+:::
 ```
 ./run.sh update-socket
 ```
