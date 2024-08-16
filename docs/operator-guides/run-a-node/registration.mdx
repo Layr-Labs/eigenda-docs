@@ -126,3 +126,15 @@ The following command can be used to opt out from the EigenDA AVS:
 # for opting out to quorum 0 and 1:
 ./run.sh opt-out 0,1 
 ```
+
+## Update Node Sockets
+Updates node Sockets due to any changes in the node configuration 
+
+Ex: Ports for dispersal or retrieval have been changed
+
+:::warning
+Be sure to update your [.env](https://github.com/Layr-Labs/eigenda-operator-setup/blob/31d99e2aa67962878969b81a15c7e8d13ee69750/mainnet/.env.example) before running
+:::
+```
+./run.sh update-socket
+```
