@@ -6,22 +6,23 @@ sidebar_position: 2
 
 [OP Stack](https://stack.optimism.io/) is the set of [software
 components](https://github.com/ethereum-optimism/optimism) that run the [Optimism](https://www.optimism.io/) rollup and can be
-deployed independently to power third-party rollups.
+deployed independently to power third-party roll-ups.
 
-By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured talk to a third-party HTTP server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how this works.
+By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured talk to a third-party HTTP server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
 
-To implement this server spec, EigenDA provides the [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) sidecar, which can be run alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
+To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
 ## Deploying
 
 ### Deploying EigenDA Proxy
 
-First check out the version of the EigenDA proxy corresponding to the verison of OP Stack you are deploying, and follow there README in that version:
+First check out the version of the EigenDA proxy corresponding to the version of OP Stack you are deploying, and follow their `README.md` in that version:
 
 | OP Stack Version | Compatible EigenDA Proxy Version |
 |------------------|-----------------------|
 | [v1.7.6](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.6)           | [v1.0.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.0.0)                |
 | [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7)           | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0)                |
+| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)
 
 ### Deploying OP Stack
 
@@ -64,23 +65,19 @@ The following env config values should be set accordingly to ensure proper commu
 
 When you are ready to onboard your rollup to mainnet you can fill out the following form to get your keypair whitelisted: [https://forms.gle/niMzQqj1JEzqHEny9](https://forms.gle/niMzQqj1JEzqHEny9).
 
-## Security Guarrantees
+## Security Guarantees
 
-This setup provides Stage 0 security guarrantees without adding an unnecessary trust assumption on the EigenDA disperser. The EigenDA Proxy [docs page](../../dispersal/clients/eigenda-proxy.md) and [repo readme](https://github.com/Layr-Labs/eigenda-proxy/blob/main/README.md) explain how this is achieved.
+This setup provides Stage 0 security guarantees without adding an unnecessary trust assumption on the EigenDA disperser. The EigenDA Proxy [docs page](../../dispersal/clients/eigenda-proxy.md) and [repo readme](https://github.com/Layr-Labs/eigenda-proxy/blob/main/README.md) explain how this is achieved.
 
 ### OP Stack DA Challenge Contract
 
-One new component of OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 assetholders to delay a data withholding attack executed by the sequencer or DA network. This integration does not implement a DA challenge contract, because it would not provide any additional security to OP Stack deployment without fault proofs enabled. This is because the OP Sequencer is a trusted entity that unilaterally controls the liveness and safety of the L2 chain.
+One new component of the OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to delay a data withholding attack executed by the sequencer or DA network.
 
-The chain's liveness assumption on the sequencer is unchanged, because if the sequencer posts an invalid commitment then any verifier nodes syncing from EigenDA will halt, as they'd be incapable of inspecting the batch. This is equivalent to the same DoS vector where the sequencer arbitrarily stops producing batches.
-
-The safety property is unchanged, because although the DA challenge contract could theoretically prevent a malicious sequencer from peforming a data withholding attack, in a stage 0 deployment such a sequencer would already have unilateral control of the bridge, and so would be able to steal all the funds in broad daylight, even with all the data available to prove that they violated the chain's safety.
-
-The EigenDA protocol integrations team has roadmap plans to implement an DA challenge contract with along fault proof support in order to provide full safety guarrantees to OP Stack x EigenDA deployments.
+The EigenDA team has roadmap plans to implement an EigenDA challenge contract along with fault proof support in order to provide full safety/liveness guarantees for OP Stack x EigenDA deployments.
 
 ## Roadmap
 
-The EigenDA Rollup Integrations team is working to support OP Stack fault proofs by the end of summer 2024, and will post updates to [@eigen_da](https://x.com/eigen_da?lang=en).
+The EigenDA Rollup Integrations team is working to support OP Stack fault proofs and will post updates to [@eigen_da](https://x.com/eigen_da?lang=en).
 
 ## Contact
 
