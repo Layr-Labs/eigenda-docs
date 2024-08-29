@@ -28,9 +28,9 @@ yarn hardhat run scripts/local-deployment/deployCreator.ts
 
 The script will take a few minutes to complete as it prints out the addresses of the deployed contracts along the way. Lastly, the script will store the deployed contracts into the CREATOR_DEPLOYMENT_INFO file you specified. Upon completion, your rollup creator is ready to use. 
 
-## How to deploy a Rollup
+## How to deploy a Rollup on Testnet
 
-While you can interact with the deployed Rollup creator directly, we recommend using the [EigenDA x Orbit chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendly UX. 
+While you can interact with the deployed Rollup creator directly, we recommend using the [EigenDA x Orbit chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendly UX. Currently, the supported tesnets are Ethereum Holesky. 
 
 1. Start by clicking the button to "Launch on holesky testnet" and connect a wallet through your preferred wallet provider. 
 
@@ -42,7 +42,19 @@ While you can interact with the deployed Rollup creator directly, we recommend u
 
 5. Go to the next page and follow the instructions there to set up nitro nodes using the downloaded config files to power the rollup. If you've completed these steps successfully, you are now running an Orbit rollup that uses EigenDA!
 
+### Troubleshooting
 
+1. If your nitro node encounters a warning `error getting latest batch count: no contract code at given address`, you can check the deployed contracts using the following command:
+
+Check the deployed sequencer inbox address specified in your `OrbitSetupScriptConfig.json` file:
+```
+## Check if the sequencer inbox address has code deployed
+curl --location $ETH_RPC_URL \ 
+--header 'Content-Type: application/json' \
+--data '{"method":"eth_getCode","params":["__SEQUENCER_INBOX_ADDRESS__","latest"],"id":1,"jsonrpc":"2.0"}'
+```
+
+If the deployment process was successful, you should see the code for the sequencer inbox contract. If you received `0x` as the response, something went wrong in the deployment process. This should not have happened, you might want to try deploying the rollup again or contact support. This warning might process for up to an hour for the batch poster to eventually finds the correct block number where the sequencer inbox has been deployed. 
 
 > Deploying the rollup creator and creating a rollup can be ran together with one command: `yarn hardhat run scripts/local-deployment/deployCreatorAndCreateRollup.ts`, but the provided UI separates these concerns and is more user friendly. 
 
