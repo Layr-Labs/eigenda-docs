@@ -19,8 +19,11 @@ const styles = {
     gap: '20px',
   },
   inputSection: {
-    backgroundColor: '#f0f0f0',
     padding: '20px',
+    borderRadius: '8px',
+  },
+  innerInputSection: {
+    padding: '0 20px',
     borderRadius: '8px',
   },
   inputTitle: {
@@ -40,19 +43,17 @@ const styles = {
     width: '100%',
     padding: '8px',
     borderRadius: '4px',
-    border: '1px solid #ccc',
   },
   select: {
     width: '100%',
     padding: '8px',
     borderRadius: '4px',
-    border: '1px solid #ccc',
   },
   resultsSection: {
     flex: '1',
+    padding: '20px',
   },
   resultItem: {
-    backgroundColor: '#f9f9f9',
     padding: '15px',
     marginBottom: '15px',
     borderRadius: '8px',
@@ -63,15 +64,12 @@ const styles = {
   },
   resultValue: {
     fontSize: '18px',
-    color: '#0066cc',
     marginBottom: '5px',
   },
   resultExplanation: {
     fontSize: '14px',
-    color: '#666',
   },
   assumptions: {
-    backgroundColor: '#f0f0f0',
     padding: '15px',
     borderRadius: '8px',
     marginTop: '20px',
@@ -85,10 +83,8 @@ const styles = {
     listStyleType: 'disc',
     paddingLeft: '20px',
     fontSize: '14px',
-    color: '#333',
   },
   errorMessage: {
-    color: 'red',
     marginBottom: '10px',
   },
 };
@@ -236,52 +232,54 @@ const CostCalculator = () => {
       <div style={styles.grid}>
         <div style={styles.inputSection}>
           <h2 style={styles.inputTitle}>Input Parameters</h2>
-          <div style={styles.inputGroup}>
-            <label style={styles.label} htmlFor="rollupFramework">Rollup Framework</label>
-            <select
-              id="rollupFramework"
-              value={rollupFramework}
-              onChange={(e) => setRollupFramework(e.target.value)}
-              style={styles.select}
-            >
-              <option value="OP Stack">OP Stack</option>
-              <option value="Arb Orbit">Arb Orbit</option>
-            </select>
-          </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label} htmlFor="gasPrice">Gas Price (Gwei)</label>
-            <input
-              id="gasPrice"
-              type="number"
-              value={gasPrice}
-              onChange={(e) => setGasPrice(Number(e.target.value))}
-              step="0.001"
-              style={styles.input}
-            />
-          </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label} htmlFor="ethPrice">ETH Price (USD)</label>
-            <input
-              id="ethPrice"
-              type="number"
-              value={ethPrice}
-              onChange={(e) => setEthPrice(Number(e.target.value))}
-              style={styles.input}
-            />
-          </div>
-          <div style={styles.inputGroup}>
-            <label style={styles.label} htmlFor="daThroughput">DA Throughput</label>
-            <input
-              id="daThroughput"
-              type="range"
-              min={3}
-              max={8}
-              step={0.01}
-              value={daThroughputLog}
-              onChange={(e) => setDAThroughputLog(Number(e.target.value))}
-              style={styles.input}
-            />
-            <div style={{ textAlign: 'center', marginTop: '5px' }}>{formatBytes(getDAThroughput())}/second</div>
+          <div style={styles.innerInputSection}>
+            <div style={styles.inputGroup}>
+              <label style={styles.label} htmlFor="rollupFramework">Rollup Framework</label>
+              <select
+                id="rollupFramework"
+                value={rollupFramework}
+                onChange={(e) => setRollupFramework(e.target.value)}
+                style={styles.select}
+              >
+                <option value="OP Stack">OP Stack</option>
+                <option value="Arb Orbit">Arb Orbit</option>
+              </select>
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={styles.label} htmlFor="gasPrice">Gas Price (Gwei)</label>
+              <input
+                id="gasPrice"
+                type="number"
+                value={gasPrice}
+                onChange={(e) => setGasPrice(Number(e.target.value))}
+                step="0.001"
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={styles.label} htmlFor="ethPrice">ETH Price (USD)</label>
+              <input
+                id="ethPrice"
+                type="number"
+                value={ethPrice}
+                onChange={(e) => setEthPrice(Number(e.target.value))}
+                style={styles.input}
+              />
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={styles.label} htmlFor="daThroughput">DA Throughput</label>
+              <input
+                id="daThroughput"
+                type="range"
+                min={3}
+                max={8}
+                step={0.01}
+                value={daThroughputLog}
+                onChange={(e) => setDAThroughputLog(Number(e.target.value))}
+                style={styles.input}
+              />
+              <div style={{ textAlign: 'center', marginTop: '5px' }}>{formatBytes(getDAThroughput())}/second</div>
+            </div>
           </div>
         </div>
 
