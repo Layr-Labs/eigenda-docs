@@ -257,6 +257,9 @@ const config = {
     ({
       image: 'img/eigenda-logo.png',
 
+      colorMode: {
+        respectPrefersColorScheme: true,
+      },
       navbar: {
         title: "EigenDA Docs",
         logo: {
