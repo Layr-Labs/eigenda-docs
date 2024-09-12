@@ -1,6 +1,6 @@
 # Rollup Guides
 
-This section contains specs, guides and examples for integrating rollups with EigenDA.
+This section contains specs, guides and examples for integrating rollups with EigenDA. Currently we support the Optimism and Arbitrum Orbit stacks.
 
 <!-- Data Availability is a requirement for both for ZK and Optimistic rollups
 ([source](http://datalayr-docs.s3-website-us-east-1.amazonaws.com/build/rollups/)):
