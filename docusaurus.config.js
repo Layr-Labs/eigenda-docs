@@ -204,6 +204,10 @@ const config = {
             from: "/eigenda/integrations-guides/dispersal/clients/golang-client",
             to: "/integrations-guides/dispersal/clients/golang-client",
           },
+          {
+            from: "/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides",
+          }
         ],
         createRedirects(existingPath) {
           return undefined; // Return a falsy value: no redirect created
