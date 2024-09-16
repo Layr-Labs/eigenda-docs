@@ -9,6 +9,7 @@ sidebar_position: 5
 
 You can search using the below EigenLayer webapp links:
 
+* [Mainnet](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0)
 * [Holesky](https://holesky.eigenlayer.xyz/avs/eigenda)
 
 #### I opted in into running EigenDA but I am not in the operator set anymore. What happened?
@@ -31,7 +32,7 @@ There are few ways you can confirm that your node is signing the blobs
   EigenDA Node. If you are signing correctly, your logs should resemble those shown [here](./run-a-node/registration#check-for-network-traffic)
 
 
-#### Errors while opting in into EigenDA
+### Errors while opting in into EigenDA
 
 ##### failed to request churn approval
 
@@ -40,6 +41,14 @@ Error: failed to opt-in EigenDA Node Network for operator ID: <OPERATOR_ID>, ope
 ```
 
 This is because your operator doesn't have enough stake to run EigenDA. Please refer to [EigenDA Churn Management](./requirements/delegation-requirements#have-i-been-churned) to learn more about this error.
+
+##### failed to reregister
+```error: execution reverted: RegistryCoordinator._registerOperator: operator cannot reregister yet
+{"time":"<TIME>","level":"ERROR","source":{"function":"github.com/Layr-Labs/eigenda/core/eth.(*Transactor). 
+RegisterOperator","file":"/app/core/eth/tx.go","line":207},"msg":"Failed to register operator","component":"Transactor","err":"execution reverted: RegistryCoordinator._registerOperator: operator cannot reregister yet"}
+```
+
+The cooldown for reregistering following ejection is 7 days on mainnet and 1 day on testnet. Try reregistering following the cooldown period. 
 
 ##### failed to read or decrypt the BLS/ECDSA private key
 
