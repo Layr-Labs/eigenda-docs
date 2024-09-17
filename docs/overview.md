@@ -3,28 +3,24 @@ sidebar_position: 1
 title: EigenDA Overview
 ---
 
-EigenDA is a data availability store made by
-[EigenLabs](https://www.eigenlabs.org/) and built on top of
-[EigenLayer](https://www.eigenlayer.xyz/), currently on mainnet since Q2 2024.
-It is also available on Holesky testnet for testing and development purposes.
+EigenDA is a hyper scalable data availability store built for Ethereum rollups.
+Live on mainnet, with 15MB/s of write throughput. 
 
 EigenDA stores rollup transactions until their computed state is
 finalized on the rollup bridge, and is...
 
 * **Scalable.** EigenDA write throughput scales linearly with number of
-operators. At launch EigenDA will provide 10 MB/s of write throughput. This is
-5x greater than the nearest competitor.
+operators. With 15 MB/s of write throughput today it is the most scalable DA layer with a path to 100 MB/s then GB/s.
 
-* **Secure.** EigenDA is decentralized, and made up of hundreds of operators
-registered in EigenLayer whose delegated stake imposes an economic cost to
-misbehavior. EigenDA will have billions of dollars of economic security at
-launch.
+* **Secure.** Operators of EigenDA are registered and stake to participate, imposing an economic cost to misbehavior. EigenDA is secured by [billions of dollars in economic security](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) today.
 
-* **Decentralized.** EigenDA's design is inspired by Danksharding, which
-promises to scale Ethereum-native DA beyond EIP-4844. EigenDA blob writes are
+* **Cost efficient.** Spend cents per MB, not dollars. See our [tiered pricing](https://www.eigenda.xyz/#pricing).
+
+* **Decentralized.** EigenDA is operated by [hundreds of operators](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) running the EigenDA client. The design is inspired by Danksharding, reducing the overhead for operators enablings high participation. 
+
+* **Built for Ethereum.** EigenDA blob writes are
 registered with contracts on Ethereum, which natively subject operators to
-certain slashing risks. Ethereum L2s using EigenDA avoid any trust assumption on
-another chain's light client, which can be fooled by dishonest validator sets.
+certain slashing risks. Ethereum L2s using EigenDA avoid any trust assumption on another chain's light client, which can be fooled by dishonest validator sets.
 
 ## How EigenDA Works
 
