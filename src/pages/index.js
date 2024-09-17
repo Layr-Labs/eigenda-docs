@@ -49,7 +49,7 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/dispersal/quick-start"
+                to="quick-start"
                 header={{
                   label: "Disperse your first blob"
                 }}

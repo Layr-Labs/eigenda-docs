@@ -14,9 +14,9 @@ operators. With 15 MB/s of write throughput today it is the most scalable DA lay
 
 * **Secure.** Operators of EigenDA are registered and stake to participate, imposing an economic cost to misbehavior. EigenDA is secured by [billions of dollars in economic security](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) today.
 
-* **Cost efficient.** Spend cents per MB, see our [tiered pricing](https://www.eigenda.xyz/#pricing).
+* **Cost efficient.** Spend cents per MB, not dollars. See our [tiered pricing](https://www.eigenda.xyz/#pricing).
 
-* **Decentralized.** EigenDA is operated by [hundreds of operators](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) running the EigenDA client. The design is inspired by Danksharding, reducing the overhead for operators enabling high participation. 
+* **Decentralized.** EigenDA is operated by [hundreds of operators](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) running the EigenDA client. The design is inspired by Danksharding, reducing the overhead for operators enablings high participation. 
 
 * **Built for Ethereum.** EigenDA blob writes are
 registered with contracts on Ethereum, which natively subject operators to
