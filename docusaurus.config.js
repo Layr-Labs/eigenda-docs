@@ -161,22 +161,6 @@ const config = {
             to: "/operator-guides/operator-faq",
           },
           {
-            from: "/eigenda-guides/eigenda-rollup-user-guides/orbit/",
-            to: "/integrations-guides/rollup-guides/orbit",
-          },
-          {
-            from: "/eigenda/integrations-guides/rollup-guides/orbit",
-            to: "/integrations-guides/rollup-guides/orbit",
-          },
-          {
-            from: "/eigenda/rollup-guides/orbit/",
-            to: "/integrations-guides/rollup-guides/orbit",
-          },
-          {
-            from: "/eigenda/integrations-guides/rollup-guides/orbit/overview",
-            to: "/integrations-guides/rollup-guides/orbit",
-          },
-          {
             from: "/eigenda/rollup-guides/",
             to: "/integrations-guides/rollup-guides/",
           },
