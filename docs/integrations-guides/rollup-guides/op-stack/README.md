@@ -52,19 +52,23 @@ Only `da_commitment_type` is important, because eigenDA does not use da challeng
 
 The following env config values should be set to ensure proper communication between op-node and eigenda-proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
-- `OP_NODE_PLASMA_ENABLED=true`
-- `OP_NODE_PLASMA_DA_SERVICE=true`
-- `OP_NODE_PLASMA_VERIFY_ON_READ=false`
-- `OP_NODE_PLASMA_DA_SERVER={EIGENDA_PROXY_URL}`
+- `OP_NODE_ALTDA_ENABLED=true`
+- `OP_NODE_ALTDA_DA_SERVICE=true`
+- `OP_NODE_ALTDA_VERIFY_ON_READ=false`
+- `OP_NODE_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
 
 #### op-batcher CLI configuration
 
 The following env config values should be set accordingly to ensure proper communication between OP Batcher and EigenDA Proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
-- `OP_BATCHER_PLASMA_ENABLED=true`
-- `OP_BATCHER_PLASMA_DA_SERVICE=true`
-- `OP_BATCHER_PLASMA_VERIFY_ON_READ=false`
-- `OP_BATCHER_PLASMA_DA_SERVER={EIGENDA_PROXY_URL}`
+- `OP_BATCHER_ALTDA_ENABLED=true`
+- `OP_BATCHER_ALTDA_DA_SERVICE=true`
+- `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`
+- `OP_BATCHER_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
+- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=200`
+- `OP_BATCHER_TARGET_NUM_FRAMES=16`
+
+Our high-throughput integration sends multiple op frames (128KB each) together as one EigenDA blob. To use an entire 16MB blob, set `OP_BATCHER_TARGET_NUM_FRAMES` to `16MB/128KB=125`. Similarly, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` needs to be set to allow submitting enough parallel EigenDA blobs. Blob dispersals on EigenDA currently take 3 mins for batching and 24 mins for Ethereum finality. Setting `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 200 means that op-batcher will be submitting at most 200*16MB=3.2GB of data per 27 min window, for a throughput of ~2MB/sec.
 
 ### Mainnet Keypair Registration
 
@@ -76,9 +80,9 @@ This setup provides Stage 0 security guarantees without adding an unnecessary tr
 
 ### OP Stack DA Challenge Contract
 
-One new component of the OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to delay a data withholding attack executed by the sequencer or DA network.
+One new component of the OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to prevent a data withholding attack executed by the sequencer or DA network. EigenDA does not make use of the challenge contract because uploading high-throughput bandwidth onto Ethereum is not physically possible.
 
-The EigenDA team has roadmap plans to implement an EigenDA challenge contract along with fault proof support in order to provide full safety/liveness guarantees for OP Stack x EigenDA deployments.
+The EigenDA team has roadmap plans to implement fault proof support for EigenDA cert validity in order to provide full safety/liveness guarantees for OP Stack x EigenDA deployments.
 
 ## Roadmap
 
