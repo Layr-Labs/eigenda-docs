@@ -8,7 +8,7 @@ sidebar_position: 2
 components](https://github.com/ethereum-optimism/optimism) that run the [Optimism](https://www.optimism.io/) rollup and can be
 deployed independently to power third-party roll-ups.
 
-By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured talk to a third-party HTTP server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
+By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured tp talk to a third-party HTTP proxy server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
 
 To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
@@ -22,7 +22,8 @@ First check out the version of the EigenDA proxy corresponding to the version of
 |------------------|-----------------------|
 | [v1.7.6](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.6)           | [v1.0.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.0.0)                |
 | [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7)           | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0)                |
-| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)
+| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)                |
+| [op-challenger v1.1.0](https://github.com/ethereum-optimism/optimism/releases/tag/op-challenger%2Fv1.1.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)                |
 
 ### Deploying OP Stack
 
@@ -34,14 +35,16 @@ In the op-node `rollup.json` configuration the following should be set:
 
 ```json
 {
-  "plasma_config": {
-    "da_challenge_contract_address": "0x0000000000000000000000000000000000000000",
+  "alt_da": {
     "da_commitment_type": "GenericCommitment",
+    "da_challenge_contract_address": "0x0000000000000000000000000000000000000000",
     "da_challenge_window": 300,
     "da_resolve_window": 300
   }
 }
 ```
+Only `da_commitment_type` is important, because eigenDA does not use da challenges.
+
 
 #### op-node CLI configuration
 
