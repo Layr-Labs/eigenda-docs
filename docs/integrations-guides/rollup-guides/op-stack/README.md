@@ -8,7 +8,7 @@ sidebar_position: 2
 components](https://github.com/ethereum-optimism/optimism) that run the [Optimism](https://www.optimism.io/) rollup and can be
 deployed independently to power third-party roll-ups.
 
-By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured tp talk to a third-party HTTP proxy server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
+By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured to talk to a third-party HTTP proxy server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
 
 To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
