@@ -27,11 +27,11 @@ For reference, these requirements generally match the large, xlarge and 4xlarge 
 
 ### Network and Storage Requirements
 
-*Each 1% of TQS needs 2.5MB/s network, and 1.2TB storage*
+*TL;DR Each 1% of TQS needs 2.5MB/s network, and 1.2TB storage*
 
 Note that the 2.5MB/s is the **actual data transfer throughput** needed between EigenDA Disperser and Node (i.e. not the network bandwidth on paper), in order for the Node to keep up signing. Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization of the disperser.
 
-The following table summarizes requirements based on TQS for your convenience:
+For reference, the following tables summarize requirements based on TQS:
 
 <table>
   <tr>
