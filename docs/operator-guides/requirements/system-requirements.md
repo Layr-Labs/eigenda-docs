@@ -35,7 +35,7 @@ For reference, the following tables summarize requirements based on TQS:
 
 <table>
   <tr>
-   <td><strong>TotalQuorumStake (%)</strong>
+   <td><strong>Total Quorum Stake (%)</strong>
    </td>
    <td><strong>Network throughput (MB/s)</strong>
    </td>
@@ -136,7 +136,7 @@ For reference, the following tables summarize requirements based on TQS:
 
 <table>
   <tr>
-   <td><strong>TotalQuorumStake (%)</strong>
+   <td><strong>Total Quorum Stake (%)</strong>
    </td>
    <td><strong>Network throughput (MB/s)</strong>
    </td>
