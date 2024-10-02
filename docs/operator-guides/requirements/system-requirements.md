@@ -23,11 +23,11 @@ The requirements here are designed to support max system throughput of 20MiB/s.
 | Up to 0.2%                     |  4 | 16        |
 | Up to 20%                      |  16 | 64     |
 
-For reference, these requirements generally match the large, xlarge and 4xlarge [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes).
+For reference, these requirements generally match the large, xlarge and 4xlarge in [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes).
 
 ### Network and Storage Requirements
 
-Each 1% of TQS needs 2.5MB/s network, and 1.2TB storage
+*Each 1% of TQS needs 2.5MB/s network, and 1.2TB storage*
 
 Note that the 2.5MB/s is the **actual data transfer throughput** needed between EigenDA Disperser and Node (i.e. not the network bandwidth on paper), in order for the Node to keep up signing. Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization of the disperser.
 
