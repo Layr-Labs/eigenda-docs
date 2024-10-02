@@ -9,7 +9,7 @@ sidebar_position: 1
 The EigenDA network design dictates that operators with greater stake will
 be asked to store a larger number of blob chunks/shards. As a result, an operator's node requirements are a
 function of the total amount of stake they wield across all quorums, which we
-call 'Total Quorum Stake' (TQS). For example, if an operator Foobar has 3% stake
+call `Total Quorum Stake` (TQS). For example, if an operator Foobar has 3% stake
 on the restaked ETH quorum, and 5% ETH on a staked WETH quorum, then operator
 Foobar's TQS is 8%.
 
@@ -23,7 +23,7 @@ The requirements here are designed to support max system throughput of 20MiB/s.
 | Up to 0.2%                     |  4 | 16        |
 | Up to 20%                      |  16 | 64     |
 
-For reference, these requirements generally match the large, xlarge and 4xlarge in [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes).
+For reference, these requirements generally match the large, xlarge and 4xlarge in [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes). Operators could provision the node following this standardized spec based on their stake percentage.
 
 ### Network and Storage Requirements
 
