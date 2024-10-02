@@ -23,15 +23,15 @@ The requirements here are designed to support max system throughput of 20MiB/s.
 | Up to 0.2%                     |  4 | 16        |
 | Up to 20%                      |  16 | 64     |
 
-For reference, these requirements generally match the large, xlarge and 4xlarge in [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes). Operators could provision the node following this standardized spec based on their stake percentage.
+For reference, these requirements generally match the large, xlarge and 4xlarge in [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes). Operators could provision the node following this standardized node class based on their stake percentage.
 
 ### Network and Storage Requirements
 
 *TL;DR Each 1% of TQS needs 3.5MB/s network, and 1.8TB storage*
 
 Note:
-* The 3.5MB/s is the **actual steady-state data transfer throughput** needed between EigenDA Disperser and Node (i.e. not the network bandwidth on paper), in order for the Node to keep up signing. Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization.
-* Some vendors which advertise on the order of Gbps often only provide this amount of bandwidth in bursts, and support steady-state throughput only at much lower limits. Morever, effective bandwidths may be reduced further by transportation via the public internet over geographic distances.
+* The 3.5MB/s is the **actual steady-state data transfer throughput** needed between EigenDA Disperser and Node (i.e. not the network bandwidth on paper). Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization.
+* Effective bandwidths may be reduced further by transportation via the public internet over geographic distances.
 
 For reference, the following tables summarize requirements based on TQS:
 
