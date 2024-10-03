@@ -25,7 +25,8 @@ sidebar_position: 3
 | Quorum Number | Token |
 | --- | --- |
 | 0 | ETH, LSTs |
-| 1 | EIGEN |
+| 1 | [EIGEN](https://etherscan.io/address/0xec53bF9167f50cDEB3Ae105f56099aaaB9061F83) |
+| 2 | [reALT](https://etherscan.io/address/0xF96798F49936EfB1a56F99Ceae924b6B8359afFb) |
 
 [1]: https://blobs.eigenda.xyz/
 [2]: https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0
