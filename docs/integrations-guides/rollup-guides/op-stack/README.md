@@ -65,10 +65,10 @@ The following env config values should be set accordingly to ensure proper commu
 - `OP_BATCHER_ALTDA_DA_SERVICE=true`
 - `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`
 - `OP_BATCHER_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
-- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=200`
-- `OP_BATCHER_TARGET_NUM_FRAMES=16`
+- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1500`
+- `OP_BATCHER_TARGET_NUM_FRAMES=8`
 
-Our high-throughput integration sends multiple op frames (128KB each) together as one EigenDA blob. To use an entire 16MB blob, set `OP_BATCHER_TARGET_NUM_FRAMES` to `16MB/128KB=125`. Similarly, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` needs to be set to allow submitting enough parallel EigenDA blobs. Blob dispersals on EigenDA currently take 3 mins for batching and 24 mins for Ethereum finality. Setting `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 200 means that op-batcher will be submitting at most 200*16MB=3.2GB of data per 27 min window, for a throughput of ~2MB/sec.
+Our high-throughput integration sends multiple op frames (128KiB each) together as one EigenDA blob. For eg., to send 1MiB blobs, set `OP_BATCHER_TARGET_NUM_FRAMES` to `1MiB/128KiB=8`. Similarly, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` needs to be set to allow submitting enough parallel EigenDA blobs to reach a target throughput. Blob dispersals on EigenDA mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, in a period of 22mins, we would need to send up to 1320 parallel requests. Above, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 1500 to leave some breathing room in case of jitter.
 
 ### Mainnet Keypair Registration
 
