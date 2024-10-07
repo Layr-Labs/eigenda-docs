@@ -27,17 +27,18 @@ For reference, these requirements generally match the large, xlarge and 4xlarge 
 
 ### Network and Storage Requirements
 
-*TL;DR Each 1% of TQS needs 4MB/s network, and 2TB storage*
+*TL;DR Each 1% of TQS needs roughly 4.5MB/s network, and 2.3TB storage*
 
 Note:
-* The 4MB/s is the **actual steady-state data transfer throughput** needed between EigenDA Disperser and Node (i.e. not just the ingress bandwidth of the node). Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization.
+* The 4.5MB/s is the **actual steady-state data transfer throughput** needed between EigenDA Disperser and Node (i.e. not just the ingress bandwidth of the node). Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization.
 * Actual bandwidth may be affected by transportation via the public internet over geographic distances.
+* This doesn't include the resource needed for other services (if any) on the same machine.
 
 For reference, the following tables summarize requirements based on TQS:
 
 <table>
   <tr>
-   <td><strong>TotalQuorumStake (%)</strong>
+   <td><strong>Total Quorum Stake (%)</strong>
    </td>
    <td><strong>Network throughput (MB/s)</strong>
    </td>
@@ -47,89 +48,153 @@ For reference, the following tables summarize requirements based on TQS:
   <tr>
    <td>1
    </td>
-   <td>4
+   <td>4.8
    </td>
-   <td>2,000.00
+   <td>2,322.43
+   </td>
+  </tr>
+  <tr>
+   <td>0.9
+   </td>
+   <td>4.34
+   </td>
+   <td>2,099.87
    </td>
   </tr>
   <tr>
    <td>0.8
    </td>
-   <td>3.2
+   <td>3.88
    </td>
-   <td>1,600.00
+   <td>1,877.30
+   </td>
+  </tr>
+  <tr>
+   <td>0.7
+   </td>
+   <td>3.42
+   </td>
+   <td>1,654.73
    </td>
   </tr>
   <tr>
    <td>0.6
    </td>
-   <td>2.4
+   <td>2.96
    </td>
-   <td>1200
+   <td>1,432.17
+   </td>
+  </tr>
+  <tr>
+   <td>0.5
+   </td>
+   <td>2.5
+   </td>
+   <td>1,209.60
    </td>
   </tr>
   <tr>
    <td>0.4
    </td>
-   <td>1.6
+   <td>2.04
    </td>
-   <td>800
+   <td>987.03
+   </td>
+  </tr>
+  <tr>
+   <td>0.3
+   </td>
+   <td>1.58
+   </td>
+   <td>764.47
    </td>
   </tr>
   <tr>
    <td>0.2
    </td>
-   <td>0.8
+   <td>1.12
    </td>
-   <td>400
+   <td>541.90
    </td>
   </tr>
   <tr>
    <td>0.1
    </td>
-   <td>0.4
+   <td>0.66
    </td>
-   <td>200
+   <td>319.33
+   </td>
+  </tr>
+  <tr>
+   <td>0.09
+   </td>
+   <td>0.614
+   </td>
+   <td>297.08
    </td>
   </tr>
   <tr>
    <td>0.08
    </td>
-   <td>0.32
+   <td>0.568
    </td>
-   <td>160
+   <td>274.82
+   </td>
+  </tr>
+  <tr>
+   <td>0.07
+   </td>
+   <td>0.522
+   </td>
+   <td>252.56
    </td>
   </tr>
   <tr>
    <td>0.06
    </td>
-   <td>0.24
+   <td>0.476
    </td>
-   <td>120
+   <td>230.31
+   </td>
+  </tr>
+  <tr>
+   <td>0.05
+   </td>
+   <td>0.43
+   </td>
+   <td>208.05
    </td>
   </tr>
   <tr>
    <td>0.04
    </td>
-   <td>0.16
+   <td>0.384
    </td>
-   <td>80
+   <td>185.79
+   </td>
+  </tr>
+  <tr>
+   <td>0.03
+   </td>
+   <td>0.338
+   </td>
+   <td>163.54
    </td>
   </tr>
   <tr>
    <td>0.02
    </td>
-   <td>0.08
+   <td>0.292
    </td>
-   <td>40
+   <td>141.28
    </td>
   </tr>
   <tr>
    <td>0.01
    </td>
-   <td>0.04
+   <td>0.246
    </td>
-   <td>20
+   <td>119.02
    </td>
   </tr>
 </table>
@@ -138,7 +203,7 @@ For reference, the following tables summarize requirements based on TQS:
 
 <table>
   <tr>
-   <td><strong>TotalQuorumStake (%)</strong>
+   <td><strong>Total Quorum Stake (%)</strong>
    </td>
    <td><strong>Network throughput (MB/s)</strong>
    </td>
@@ -148,201 +213,201 @@ For reference, the following tables summarize requirements based on TQS:
   <tr>
    <td>1
    </td>
-   <td>4
+   <td>4.8
    </td>
-   <td>2,000.00
+   <td>2,322.43
    </td>
   </tr>
   <tr>
    <td>2
    </td>
-   <td>8
+   <td>9.4
    </td>
-   <td>4,000.00
+   <td>4,548.10
    </td>
   </tr>
   <tr>
    <td>3
    </td>
-   <td>12
+   <td>14
    </td>
-   <td>6,000.00
+   <td>6,773.76
    </td>
   </tr>
   <tr>
    <td>4
    </td>
-   <td>16
+   <td>18.6
    </td>
-   <td>8,000.00
+   <td>8,999.42
    </td>
   </tr>
   <tr>
    <td>5
    </td>
-   <td>20
+   <td>23.2
    </td>
-   <td>10,000.00
+   <td>11,225.09
    </td>
   </tr>
   <tr>
    <td>6
    </td>
-   <td>24
+   <td>27.8
    </td>
-   <td>12,000.00
+   <td>13,450.75
    </td>
   </tr>
   <tr>
    <td>7
    </td>
-   <td>28
+   <td>32.4
    </td>
-   <td>14,000.00
+   <td>15,676.42
    </td>
   </tr>
   <tr>
    <td>8
    </td>
-   <td>32
+   <td>37
    </td>
-   <td>16,000.00
+   <td>17,902.08
    </td>
   </tr>
   <tr>
    <td>9
    </td>
-   <td>36
+   <td>41.6
    </td>
-   <td>18,000.00
+   <td>20,127.74
    </td>
   </tr>
   <tr>
    <td>10
    </td>
-   <td>40
+   <td>46.2
    </td>
-   <td>20,000.00
+   <td>22,353.41
    </td>
   </tr>
   <tr>
    <td>11
    </td>
-   <td>44
+   <td>50.8
    </td>
-   <td>22,000.00
+   <td>24,579.07
    </td>
   </tr>
   <tr>
    <td>12
    </td>
-   <td>48
+   <td>55.4
    </td>
-   <td>24,000.00
+   <td>26,804.74
    </td>
   </tr>
   <tr>
    <td>13
    </td>
-   <td>52
+   <td>60
    </td>
-   <td>26,000.00
+   <td>29,030.40
    </td>
   </tr>
   <tr>
    <td>14
    </td>
-   <td>56
+   <td>64.6
    </td>
-   <td>28,000.00
+   <td>31,256.06
    </td>
   </tr>
   <tr>
    <td>15
    </td>
-   <td>60
+   <td>69.2
    </td>
-   <td>30,000.00
+   <td>33,481.73
    </td>
   </tr>
   <tr>
    <td>16
    </td>
-   <td>64
+   <td>73.8
    </td>
-   <td>32,000.00
+   <td>35,707.39
    </td>
   </tr>
   <tr>
    <td>17
    </td>
-   <td>68
+   <td>78.4
    </td>
-   <td>34,000.00
+   <td>37,933.06
    </td>
   </tr>
   <tr>
    <td>18
    </td>
-   <td>72
+   <td>83
    </td>
-   <td>36,000.00
+   <td>40,158.72
    </td>
   </tr>
   <tr>
    <td>19
    </td>
-   <td>76
+   <td>87.6
    </td>
-   <td>38,000.00
+   <td>42,384.38
    </td>
   </tr>
   <tr>
    <td>20
    </td>
-   <td>80
+   <td>92.2
    </td>
-   <td>40,000.00
+   <td>44,610.05
    </td>
   </tr>
   <tr>
    <td>21
    </td>
-   <td>84
+   <td>96.8
    </td>
-   <td>42,000.00
+   <td>46,835.71
    </td>
   </tr>
   <tr>
    <td>22
    </td>
-   <td>88
+   <td>101.4
    </td>
-   <td>44,000.00
+   <td>49,061.38
    </td>
   </tr>
   <tr>
    <td>23
    </td>
-   <td>92
+   <td>106
    </td>
-   <td>46,000.00
+   <td>51,287.04
    </td>
   </tr>
   <tr>
    <td>24
    </td>
-   <td>96
+   <td>110.6
    </td>
-   <td>48,000.00
+   <td>53,512.70
    </td>
   </tr>
   <tr>
    <td>25
    </td>
-   <td>100
+   <td>115.2
    </td>
-   <td>50,000.00
+   <td>55,738.37
    </td>
   </tr>
 </table>
