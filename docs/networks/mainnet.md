@@ -19,6 +19,7 @@ sidebar_position: 3
 | Batch Confirmation Interval | Every 10 minutes (may vary based on network health) |
 | Max Blob Size | 2 MB |
 | Stake Sync (AVS-Sync) Interval | Every 6 days |
+| Ejection Cooldown Period | 3 days |
 
 ## Quorums
 
