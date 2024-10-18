@@ -33,6 +33,7 @@ Note:
 * The bandwidth numbers here are the **actual steady-state data transfer throughput** needed Node (i.e. not just the ingress bandwidth of the node).
 * Actual bandwidth may be affected by transportation via the public internet over geographic distances.
 * Currently, the Disperser is located in AWS us-east-1, which may be subject to change and moving towards decentralization.
+* The operators with less than 0.05% stake will be provisioning the resource the same as the 0.05% due to the rounding effects.
 * This doesn't include the resource needed for other services (if any) on the same machine.
 
 For reference, the following tables summarize requirements based on TQS:
