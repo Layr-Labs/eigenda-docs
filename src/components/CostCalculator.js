@@ -93,7 +93,8 @@ const CostCalculator = () => {
   const [gasPrice, setGasPrice] = useState(1.419);
   const [ethPrice, setEthPrice] = useState(2700);
   const [daThroughputLog, setDAThroughputLog] = useState(Math.log10(30000));
-  const [rollupFramework, setRollupFramework] = useState("OP Stack");
+  const [rollupFramework, setRollupFramework] = useState('OP Stack');
+  const [maxBatchInterval, setMaxBatchInterval] = useState(3600); // Default to 1 hour
   const [results, setResults] = useState({
     gasNeeded: 0,
     batchPostingPeriod: 0,
@@ -111,7 +112,9 @@ const CostCalculator = () => {
 
   const fetchEthPrice = async () => {
     try {
-      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+      const response = await fetch(
+        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd'
+      );
       if (!response.ok) throw new Error('Failed to fetch ETH price');
       const data = await response.json();
       return data.ethereum.usd;
@@ -123,10 +126,13 @@ const CostCalculator = () => {
 
   const fetchGasPrice = async () => {
     try {
-      const response = await fetch('https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=G9264S2QNFC197AKJC1DFAC4DBPZHHT6MM');
+      const response = await fetch(
+        'https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=G9264S2QNFC197AKJC1DFAC4DBPZHHT6MM'
+      );
       if (!response.ok) throw new Error('Failed to fetch gas price');
       const data = await response.json();
-      if (data.status !== '1') throw new Error(data.message || 'Failed to fetch gas price');
+      if (data.status !== '1')
+        throw new Error(data.message || 'Failed to fetch gas price');
       return parseFloat(data.result.SafeGasPrice);
     } catch (error) {
       console.error('Error fetching gas price:', error);
@@ -139,11 +145,14 @@ const CostCalculator = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const [newEthPrice, newGasPrice] = await Promise.all([fetchEthPrice(), fetchGasPrice()]);
+        const [newEthPrice, newGasPrice] = await Promise.all([
+          fetchEthPrice(),
+          fetchGasPrice(),
+        ]);
         if (newEthPrice) setEthPrice(newEthPrice);
         if (newGasPrice) setGasPrice(newGasPrice);
       } catch (err) {
-        setError("Failed to fetch latest prices. Using default values.");
+        setError('Failed to fetch latest prices. Using default values.');
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -169,11 +178,11 @@ const CostCalculator = () => {
   const calculate = () => {
     const bytes_per_mib = 1048576;
     const eigen_da_blob_ref_len = 1000;
-    var blobSizeMiB, gas_needed;
-    if (rollupFramework === "OP Stack") {
+    let blobSizeMiB, gas_needed;
+    if (rollupFramework === 'OP Stack') {
       gas_needed = 21000 + eigen_da_blob_ref_len * 16;
       blobSizeMiB = 16;
-    } else if (rollupFramework === "Arb Orbit") {
+    } else if (rollupFramework === 'Arb Orbit') {
       gas_needed = 151348;
       blobSizeMiB = 2;
     }
@@ -182,10 +191,17 @@ const CostCalculator = () => {
     const daThroughputBytes = getDAThroughput();
     const eigenDACostPerGiB = 0.015; // ETH per GiB
 
-    const batch_posting_period_seconds = (blobSizeMiB * bytes_per_mib) / daThroughputBytes;
+    const batch_posting_period_seconds =
+      (blobSizeMiB * bytes_per_mib) / daThroughputBytes;
     const gas_total = gas_needed * gasPrice;
     const gas_total_usd = (gas_total / gwei_per_eth) * ethPrice;
-    const batches_per_day = (24 * 60 * 60) / batch_posting_period_seconds;
+
+    const dayLength = 24 * 60 * 60; // seconds in a day
+    const batches_per_day = Math.max(
+      dayLength / maxBatchInterval,
+      dayLength / batch_posting_period_seconds
+    );
+
     const gas_total_daily_usd = batches_per_day * gas_total_usd;
 
     const eigenDACostETH = blobSizeGiB * eigenDACostPerGiB;
@@ -212,7 +228,13 @@ const CostCalculator = () => {
 
   useEffect(() => {
     setResults(calculate());
-  }, [gasPrice, ethPrice, daThroughputLog, rollupFramework]);
+  }, [
+    gasPrice,
+    ethPrice,
+    daThroughputLog,
+    rollupFramework,
+    maxBatchInterval,
+  ]);
 
   const ResultItem = ({ label, value, explanation }) => (
     <div style={styles.resultItem}>
@@ -234,7 +256,9 @@ const CostCalculator = () => {
           <h2 style={styles.inputTitle}>Input Parameters</h2>
           <div style={styles.innerInputSection}>
             <div style={styles.inputGroup}>
-              <label style={styles.label} htmlFor="rollupFramework">Rollup Framework</label>
+              <label style={styles.label} htmlFor="rollupFramework">
+                Rollup Framework
+              </label>
               <select
                 id="rollupFramework"
                 value={rollupFramework}
@@ -246,7 +270,9 @@ const CostCalculator = () => {
               </select>
             </div>
             <div style={styles.inputGroup}>
-              <label style={styles.label} htmlFor="gasPrice">Gas Price (Gwei)</label>
+              <label style={styles.label} htmlFor="gasPrice">
+                Gas Price (Gwei)
+              </label>
               <input
                 id="gasPrice"
                 type="number"
@@ -257,7 +283,9 @@ const CostCalculator = () => {
               />
             </div>
             <div style={styles.inputGroup}>
-              <label style={styles.label} htmlFor="ethPrice">ETH Price (USD)</label>
+              <label style={styles.label} htmlFor="ethPrice">
+                ETH Price (USD)
+              </label>
               <input
                 id="ethPrice"
                 type="number"
@@ -267,7 +295,9 @@ const CostCalculator = () => {
               />
             </div>
             <div style={styles.inputGroup}>
-              <label style={styles.label} htmlFor="daThroughput">DA Throughput</label>
+              <label style={styles.label} htmlFor="daThroughput">
+                DA Throughput
+              </label>
               <input
                 id="daThroughput"
                 type="range"
@@ -278,7 +308,22 @@ const CostCalculator = () => {
                 onChange={(e) => setDAThroughputLog(Number(e.target.value))}
                 style={styles.input}
               />
-              <div style={{ textAlign: 'center', marginTop: '5px' }}>{formatBytes(getDAThroughput())}/second</div>
+              <div style={{ textAlign: 'center', marginTop: '5px' }}>
+                {formatBytes(getDAThroughput())}/second
+              </div>
+            </div>
+            <div style={styles.inputGroup}>
+              <label style={styles.label} htmlFor="maxBatchInterval">
+                Max Batch Interval (seconds)
+              </label>
+              <input
+                id="maxBatchInterval"
+                type="number"
+                value={maxBatchInterval}
+                onChange={(e) => setMaxBatchInterval(Number(e.target.value))}
+                step="1"
+                style={styles.input}
+              />
             </div>
           </div>
         </div>
@@ -288,14 +333,18 @@ const CostCalculator = () => {
           <ResultItem
             label="Gas Needed"
             value={results.gasNeeded.toLocaleString()}
-            explanation={rollupFramework === "OP Stack"
-              ? `Transfer cost (21000) + Cost per calldata byte (16) * Eigen DA blob ref length (1000) = ${results.gasNeeded}`
-              : `Fixed gas cost for Arb Orbit = ${results.gasNeeded}`}
+            explanation={
+              rollupFramework === 'OP Stack'
+                ? `Transfer cost (21000) + Cost per calldata byte (16) * Eigen DA blob ref length (1000) = ${results.gasNeeded}`
+                : `Fixed gas cost for Arb Orbit = ${results.gasNeeded}`
+            }
           />
           <ResultItem
             label="Batch Posting Period"
             value={`${results.batchPostingPeriod.toFixed(2)} seconds`}
-            explanation={`Blob size (16MB) / DA Throughput (${formatBytes(getDAThroughput())}/s) = ${results.batchPostingPeriod.toFixed(2)} seconds`}
+            explanation={`Blob size (${results.blobSizeMiB}MB) / DA Throughput (${formatBytes(
+              getDAThroughput()
+            )}/s) = ${results.batchPostingPeriod.toFixed(2)} seconds`}
           />
           <ResultItem
             label="Gas Total"
@@ -305,27 +354,47 @@ const CostCalculator = () => {
           <ResultItem
             label="Gas cost per batch USD"
             value={`$${results.gasTotalUsd.toFixed(2)}`}
-            explanation={`(Gas Total (${results.gasTotal.toLocaleString()} Gwei) / Gwei per ETH (1000000000)) * ETH Price ($${ethPrice}) = $${results.gasTotalUsd.toFixed(2)}`}
+            explanation={`(Gas Total (${results.gasTotal.toLocaleString()} Gwei) / Gwei per ETH (1000000000)) * ETH Price ($${ethPrice}) = $${results.gasTotalUsd.toFixed(
+              2
+            )}`}
           />
           <ResultItem
             label="EigenDA cost per batch USD"
             value={`$${results.eigenDACostUSD.toFixed(2)}`}
-            explanation={`(Blob size (16MB) / 1GB) * 0.015 ETH/GB * ETH Price ($${ethPrice}) = $${results.eigenDACostUSD.toFixed(2)}`}
+            explanation={`(Blob size (${results.blobSizeMiB}MB) / 1GB) * 0.015 ETH/GB * ETH Price ($${ethPrice}) = $${results.eigenDACostUSD.toFixed(
+              2
+            )}`}
           />
           <ResultItem
             label="Total cost per batch USD"
             value={`$${results.totalCostPerBatchUSD.toFixed(2)}`}
-            explanation={`Gas cost per batch ($${results.gasTotalUsd.toFixed(2)}) + EigenDA cost per batch ($${results.eigenDACostUSD.toFixed(2)}) = $${results.totalCostPerBatchUSD.toFixed(2)}`}
+            explanation={`Gas cost per batch ($${results.gasTotalUsd.toFixed(
+              2
+            )}) + EigenDA cost per batch ($${results.eigenDACostUSD.toFixed(
+              2
+            )}) = $${results.totalCostPerBatchUSD.toFixed(2)}`}
           />
           <ResultItem
             label="Batches Per Day"
             value={results.batchesPerDay.toFixed(2)}
-            explanation={`(24 * 60 * 60) / Batch Posting Period (${results.batchPostingPeriod.toFixed(2)}) = ${results.batchesPerDay.toFixed(2)}`}
+            explanation={`Maximum of (Day Length (86400) / Max Batch Interval (${maxBatchInterval}), Day Length (86400) / Batch Posting Period (${results.batchPostingPeriod.toFixed(
+              2
+            )})) = ${results.batchesPerDay.toFixed(2)}`}
           />
           <ResultItem
             label="Total Daily Cost"
-            value={`$${results.totalDailyCostUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-            explanation={`(Total cost per batch ($${results.totalCostPerBatchUSD.toFixed(2)})) * Batches Per Day (${results.batchesPerDay.toFixed(2)}) = $${results.totalDailyCostUSD.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+            value={`$${results.totalDailyCostUSD.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`}
+            explanation={`(Total cost per batch ($${results.totalCostPerBatchUSD.toFixed(
+              2
+            )})) * Batches Per Day (${results.batchesPerDay.toFixed(
+              2
+            )}) = $${results.totalDailyCostUSD.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`}
           />
         </div>
       </div>
@@ -337,9 +406,14 @@ const CostCalculator = () => {
           <li>OP Stack batch posting gas cost: 21000 + 1000 * 16</li>
           <li>Arb Orbit batch posting gas cost: 151348</li>
           <li>Eigen DA blob ref length: 1000 bytes</li>
-          <li>DA Throughput range: 1 KB/s to 100 MB/s (logarithmic scale)</li>
+          <li>
+            DA Throughput range: 1 KB/s to 100 MB/s (logarithmic scale)
+          </li>
           <li>EigenDA cost: 0.015 ETH/GB</li>
-          <li>Only calculates rollup batch settlement costs, ignoring bridge settlement costs.</li>
+          <li>
+            Only calculates rollup batch settlement costs, ignoring bridge
+            settlement costs.
+          </li>
         </ul>
       </div>
     </div>
