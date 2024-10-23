@@ -16,6 +16,8 @@ sidebar_position: 3
 | --- | --- |
 | Disperser Address | `disperser.eigenda.xyz:443` |
 | Churner Address | `churner.eigenda.xyz:443` |
+| Data API Address | `https://dataapi.eigenda.xyz` |
+| Data API Documentation | [https://dataapi.eigenda.xyz](https://dataapi.eigenda.xyz/api/v1/swagger/index.html#/) |
 | Batch Confirmation Interval | Every 10 minutes (may vary based on network health) |
 | Max Blob Size | 2 MB |
 | Stake Sync (AVS-Sync) Interval | Every 6 days |
