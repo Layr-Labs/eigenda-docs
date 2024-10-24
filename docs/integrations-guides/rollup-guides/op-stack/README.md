@@ -8,7 +8,7 @@ sidebar_position: 2
 components](https://github.com/ethereum-optimism/optimism) that run the [Optimism](https://www.optimism.io/) rollup and can be
 deployed independently to power third-party roll-ups.
 
-By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured talk to a third-party HTTP server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
+By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured to talk to a third-party HTTP proxy server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
 
 To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
@@ -22,7 +22,10 @@ First check out the version of the EigenDA proxy corresponding to the version of
 |------------------|-----------------------|
 | [v1.7.6](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.6)           | [v1.0.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.0.0)                |
 | [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7)           | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0)                |
-| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)
+| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)                |
+| [v1.9.3](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.3)           | TODO(@bxue): make new release                |
+
+The latest v1.9.2 op-stack release does not contain our most recent concurrent batch submission [PR](https://github.com/ethereum-optimism/optimism/pull/11698), hence high-throughput chains will need to use the latest op-challenger v1.1.0 release until the op-stack v1.9.3 release.
 
 ### Deploying OP Stack
 
@@ -34,32 +37,38 @@ In the op-node `rollup.json` configuration the following should be set:
 
 ```json
 {
-  "plasma_config": {
-    "da_challenge_contract_address": "0x0000000000000000000000000000000000000000",
+  "alt_da": {
     "da_commitment_type": "GenericCommitment",
+    "da_challenge_contract_address": "0x0000000000000000000000000000000000000000",
     "da_challenge_window": 300,
     "da_resolve_window": 300
   }
 }
 ```
+Only `da_commitment_type` is important, because eigenDA does not use da challenges.
+
 
 #### op-node CLI configuration
 
 The following env config values should be set to ensure proper communication between op-node and eigenda-proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
-- `OP_NODE_PLASMA_ENABLED=true`
-- `OP_NODE_PLASMA_DA_SERVICE=true`
-- `OP_NODE_PLASMA_VERIFY_ON_READ=false`
-- `OP_NODE_PLASMA_DA_SERVER={EIGENDA_PROXY_URL}`
+- `OP_NODE_ALTDA_ENABLED=true`
+- `OP_NODE_ALTDA_DA_SERVICE=true`
+- `OP_NODE_ALTDA_VERIFY_ON_READ=false`
+- `OP_NODE_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
 
 #### op-batcher CLI configuration
 
 The following env config values should be set accordingly to ensure proper communication between OP Batcher and EigenDA Proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
-- `OP_BATCHER_PLASMA_ENABLED=true`
-- `OP_BATCHER_PLASMA_DA_SERVICE=true`
-- `OP_BATCHER_PLASMA_VERIFY_ON_READ=false`
-- `OP_BATCHER_PLASMA_DA_SERVER={EIGENDA_PROXY_URL}`
+- `OP_BATCHER_ALTDA_ENABLED=true`
+- `OP_BATCHER_ALTDA_DA_SERVICE=true`
+- `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`
+- `OP_BATCHER_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
+- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1500`
+- `OP_BATCHER_TARGET_NUM_FRAMES=8`
+
+Our high-throughput integration sends multiple op frames (128KiB each) together as one EigenDA blob. For eg., to send 1MiB blobs, set `OP_BATCHER_TARGET_NUM_FRAMES` to `1MiB/128KiB=8`. Similarly, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` needs to be set to allow submitting enough parallel EigenDA blobs to reach a target throughput. Blob dispersals on EigenDA mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, in a period of 22mins, we would need to send up to 1320 parallel requests. Above, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 1500 to leave some breathing room in case of jitter.
 
 ### Mainnet Keypair Registration
 
@@ -71,9 +80,9 @@ This setup provides Stage 0 security guarantees without adding an unnecessary tr
 
 ### OP Stack DA Challenge Contract
 
-One new component of the OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to delay a data withholding attack executed by the sequencer or DA network.
+One new component of the OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to prevent a data withholding attack executed by the sequencer or DA network. EigenDA does not make use of the challenge contract because uploading high-throughput bandwidth onto Ethereum is not physically possible.
 
-The EigenDA team has roadmap plans to implement an EigenDA challenge contract along with fault proof support in order to provide full safety/liveness guarantees for OP Stack x EigenDA deployments.
+The EigenDA team has roadmap plans to implement fault proof support for EigenDA cert validity in order to provide full safety/liveness guarantees for OP Stack x EigenDA deployments.
 
 ## Roadmap
 
