@@ -10,6 +10,13 @@ a Rollup Development Kit (RDK) developed by [Offchain
 Labs](https://www.offchainlabs.com/) to enable rollup developers to build
  using the same software that powers *Arbitrum One* and *Arbitrum Nova*.
 
+ ## ETH Layer2 vs Layer3 deployments
+There are differing security implications between L2 and L3 deployments of the Orbit x EigenDA integration. EigenDA bridging is currently only supported on Ethereum, meaning that layer 3s settling to a layer2 can't:
+- Rely on cert verification within the `Sequencer Inbox`
+- Await disperser confirmation via eigenda proxy for accrediting
+
+Currently, we recommend ensuring that the `EIGENDA_PROXY_EIGENDA_ETH_CONFIRMATION_DEPTH` is set closer to ETH finalization (i.e, 64 blocks or two consensus epochs) since a reorg'd EigenDA bridge confirmation tx wouldn't be detectable by the rollup itself. This risk is nonexistent for L2s settling to Ethereum since the inbox's EigenDA certificate tx would read storage states on the `EigenDAServiceManger` which are set by the EigenDA bridge confirmation tx; meaning that a reorg of the EigenDA bridge confirmation tx would result in a reorg of the inbox's EigenDA certificate tx.
+
 ## How to deploy a Rollup Creator integrated with EigenDA
 
 0. Assuming you have yarn and hardhat installed. 
