@@ -65,10 +65,12 @@ The following env config values should be set accordingly to ensure proper commu
 - `OP_BATCHER_ALTDA_DA_SERVICE=true`
 - `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`
 - `OP_BATCHER_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
-- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1500`
-- `OP_BATCHER_TARGET_NUM_FRAMES=8`
+- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=11000`
+- `OP_BATCHER_TARGET_NUM_FRAMES=1`
 
-Our high-throughput integration sends multiple op frames (128KiB each) together as one EigenDA blob. For eg., to send 1MiB blobs, set `OP_BATCHER_TARGET_NUM_FRAMES` to `1MiB/128KiB=8`. Similarly, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` needs to be set to allow submitting enough parallel EigenDA blobs to reach a target throughput. Blob dispersals on EigenDA mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, in a period of 22mins, we would need to send up to 1320 parallel requests. Above, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 1500 to leave some breathing room in case of jitter.
+Our high-throughput integration still sends single frames (128KiB each) as EigenDA blobs, but it's able to send them in parallel. Do make sure to set `OP_BATCHER_TARGET_NUM_FRAMES=1`, to pass this [check](https://github.com/ethereum-optimism/optimism/pull/11698/files#diff-c734d1296b2fd691221b92df3edf09c7533c507a74c2316117745c75c3ad5776R577). To reach a desired throughput, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` can then be set to allow submitting enough parallel EigenDA blobs. Blob dispersals on EigenDA mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, assuming we want to reach a throughput of 1MiB/s, which means 8 requests per second each blocking for possibly up to 22mins, we would need to send up to `8*60*22=10560` parallel requests. Above, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 11_000 to leave some breathing room in case of jitter.
+
+The current settings don't make full use of EigenDA's large blobs capability, and force us to send small 128KiB blobs. We have an upstream [PR](https://github.com/ethereum-optimism/optimism/pull/12400) to enable multi-frame blobs to be constructed. The above settings could then be changed to `OP_BATCHER_TARGET_NUM_FRAMES=8` and `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1375` to send the same throughput but via 1MiB blobs (submitting larger blobs is currently not permitted by the op-node's derivation pipeline).
 
 ### Mainnet Keypair Registration
 
