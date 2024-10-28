@@ -18,12 +18,12 @@ To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/
 
 First check out the version of the EigenDA proxy corresponding to the version of OP Stack you are deploying, and follow their `README.md` in that version:
 
-| OP Stack Version | Compatible EigenDA Proxy Version |
-|------------------|-----------------------|
-| [v1.7.6](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.6)           | [v1.0.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.0.0)                |
-| [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7)           | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0)                |
-| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0)           | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0)                |
-| [v1.9.3](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.3)           | TODO(@bxue): make new release                |
+| OP Stack Version                                                            | Compatible EigenDA Proxy Version                                         |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [v1.7.6](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.6) | [v1.0.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.0.0) |
+| [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7) | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0) |
+| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0) | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0) |
+| [v1.9.3](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.3) | [v1.5.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.5.0) |
 
 The latest v1.9.2 op-stack release does not contain our most recent concurrent batch submission [PR](https://github.com/ethereum-optimism/optimism/pull/11698), hence high-throughput chains will need to use the latest op-challenger v1.1.0 release until the op-stack v1.9.3 release.
 
