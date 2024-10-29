@@ -9,18 +9,16 @@ title: Quick Start
 
 **Prerequisites:**
 
-- Open a linux terminal.
+- Open a Linux terminal.
 - [Install grpccurl for your environment](https://github.com/fullstorydev/grpcurl#installation).
-- Download the eigenda repository and change your current working directory. The
-included Protobuf definitions will be required:
+- Download the EigenDA repository and change your current working directory.
 
 ```
-gh repo clone Layr-Labs/eigenda
-cd eigenda 
+git clone https://github.com/Layr-Labs/eigenda.git
+cd eigenda
 ```
 
 **Step 1: Build EigenDA Utils**
-
 The next step requires the `kzgpad` utility, which you can build with the following:
 
 ```
@@ -34,13 +32,7 @@ Invoke the Disperser/DisperseBlob endpoint.
 Example request:
 
 ```
-# Download the EigenDA repo via gh client or wget
-$ gh repo clone Layr-Labs/eigenda
-# Change your working directory to the eigenda folder in order to point to the
-# protobuf defintions correctly
-$ cd eigenda
-
-$ grpcurl \
+grpcurl \
   -import-path ./api/proto \
   -proto ./api/proto/disperser/disperser.proto \
   -d '{"data": "'$(tools/kzgpad/bin/kzgpad -e hello)'"}' \
@@ -54,9 +46,9 @@ correctly stored and dispersed to the EigenDA network. The GetBlobStatus service
 will return a value via the BlobStatus enumerated type.
 
 Best practice is for users to poll the GetBlobStatus service to monitor status
-of the Blobs as needed. Rollups may Polling once every 5-10 seconds to monitor
+of the Blobs as needed. Rollups may poll once every 5-10 seconds to monitor
 the status of a blob until it has successfully dispersed on the network with
-status of CONFIRMED. Confirmation can take up to a few minutes after the blob
+status of `CONFIRMED`. Confirmation can take up to a few minutes after the blob
 has been initially sent to the disperser, depending on network conditions.
 
 Example request:
@@ -65,7 +57,7 @@ Example request:
 # Update the value of INSERT_REQUEST_ID with the result of your disperse call
 # above
 
-$ grpcurl \
+grpcurl \
   -import-path ./api/proto \
   -proto ./api/proto/disperser/disperser.proto \
   -d '{"request_id": "INSERT_REQUEST_ID"}' \
@@ -74,17 +66,16 @@ $ grpcurl \
 
 **Step 4: Retrieve a blob**
 
-Option A: invoke the Disperser/RetrieveBlob rpc endpoint. This is a recommended
+Option A: invoke the Disperser/RetrieveBlob RPC endpoint. This is a recommended
 function for anyone that would like to inspect a stored blob.
 
 Example request:
 
 ```
-
 # Note the value for batch_header_hash can be obtained from the result of your
 # call to GetBlobStatus via info.blob_verification_proof.batch_metadata.batch_header_hash.
 
-$ grpcurl \
+grpcurl \
   -import-path ./api/proto \
   -proto ./api/proto/disperser/disperser.proto \
   -d '{"batch_header_hash": "INSERT_VALUE", "blob_index":"INSERT_VALUE"}' \
