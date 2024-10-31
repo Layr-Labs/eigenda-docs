@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: EigenDA Overview
+slug: /
 ---
 
 EigenDA is a hyper scalable data availability store built for Ethereum rollups.

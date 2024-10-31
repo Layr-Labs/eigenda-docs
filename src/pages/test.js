@@ -29,7 +29,7 @@ function Home() {
             <div className="row cards__container">
 
               <Card
-                to="overview"
+                to=""
                 header={{
                   label: "Overview"
                 }}

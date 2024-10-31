@@ -46,11 +46,11 @@ const config = {
         redirects: [
           {
             from: "/eigenda-guides/eigenda-overview/",
-            to: "/overview/",
+            to: "/",
           },
           {
             from: "/eigenda/overview/",
-            to: "/overview/",
+            to: "/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/",
@@ -218,7 +218,7 @@ const config = {
           rehypePlugins: [katex],
           showLastUpdateTime: false
         },
-
+        blog: false,
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
