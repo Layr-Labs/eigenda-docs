@@ -48,7 +48,7 @@ This is because your operator doesn't have enough stake to run EigenDA. Please r
 RegisterOperator","file":"/app/core/eth/tx.go","line":207},"msg":"Failed to register operator","component":"Transactor","err":"execution reverted: RegistryCoordinator._registerOperator: operator cannot reregister yet"}
 ```
 
-The cooldown for reregistering following ejection is 7 days on mainnet and 1 day on testnet. Try reregistering following the cooldown period. 
+The cooldown for reregistering following ejection is 3 days on mainnet and 1 day on testnet. Try reregistering following the cooldown period. 
 
 ##### failed to read or decrypt the BLS/ECDSA private key
 
