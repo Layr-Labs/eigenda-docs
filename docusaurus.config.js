@@ -70,19 +70,19 @@ const config = {
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/system-performance-and-customization",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda/system-performance-and-customization",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda/performance-metrics",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/blob-explorer",
@@ -166,19 +166,19 @@ const config = {
           },
           {
             from: "/eigenda/rollup-guides/api-error-codes",
-            to: "/integrations-guides/dispersal/api-documentation/error-codes",
+            to: "/api/v1/disperser/error-codes",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/api-documentation/error-codes",
-            to: "/integrations-guides/dispersal/api-documentation/error-codes",
+            to: "/api/v1/disperser/error-codes",
           },
           {
             from: "/eigenda/rollup-guides/blob-encoding",
-            to: "/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+            to: "/api/v1/disperser/blob-serialization-requirements",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
-            to: "/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+            to: "/api/v1/disperser/blob-serialization-requirements",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/disperser-golang-grpc-client",
