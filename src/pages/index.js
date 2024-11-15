@@ -31,7 +31,7 @@ function Home() {
               <Card
                 to="overview"
                 header={{
-                  label: "Overview"
+                  label: "About EigenDA"
                 }}
                 body={{
                   label: "Start your journey with an overview of the EigenDA protocol"
@@ -39,19 +39,9 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/dispersal/api-documentation/overview"
+                to="integrations-guides/dispersal/quick-start"
                 header={{
-                  label: "Learn: Network API Reference"
-                }}
-                body={{
-                  label: "These pages document the details of how to integrate with EigenDA"
-                }}
-              />
-
-              <Card
-                to="quick-start"
-                header={{
-                  label: "Disperse your first blob"
+                  label: "Quick Start"
                 }}
                 body={{
                   label: "Learn how EigenDA works by dispersing and retrieving a blob on the command line"
@@ -59,9 +49,19 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/rollup-guides/op-stack/"
+                to="operator-guides/overview"
                 header={{
-                  label: "Launch an OP Stack Rollup"
+                  label: "Operator Guides"
+                }}
+                body={{
+                  label: "Look here for docs on spinning up an EigenDA node"
+                }}
+              />
+
+              <Card
+                to="integrations-guides/rollup-guides/integrations-overview"
+                header={{
+                  label: "Integrations Guides"
                 }}
                 body={{
                   label: "Ready to launch a rollup on EigenDA? Get started here"
@@ -69,14 +69,15 @@ function Home() {
               />
 
               <Card
-                to="operator-guides/overview"
+                to="api/v1/disperser/overview"
                 header={{
-                  label: "Run an EigenDA node"
+                  label: "API Reference"
                 }}
                 body={{
-                  label: "Look here for docs on spinning up an EigenDA node"
+                  label: "These pages document the details of how to integrate with EigenDA"
                 }}
               />
+
 
               <Card
                 to="https://forms.gle/CMSJTxQPXfG5HTQQ7"
