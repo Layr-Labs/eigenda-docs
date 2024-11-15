@@ -212,6 +212,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
           breadcrumbs: true,
           routeBasePath: "/",
           remarkPlugins: [math],
@@ -247,19 +248,19 @@ const config = {
       navbar: {
         title: "EigenDA Docs",
         logo: {
-          alt: "EigenLayer Logo",
+          alt: "EigenDA Logo",
           src: "img/eigenda-logo.png",
         },
         items: [
           {
-            to: "https://docs.eigenlayer.xyz",
-            label: "EigenLayer Docs",
-            position: "right",
+            to: "overview",
+            label: "Docs",
+            position: "left",
           },
           {
-            to: "status",
-            label: "Status",
-            position: "right",
+            to: "api/v1/disperser/overview",
+            label: "API Docs",
+            position: "left",
           },
           {
             href: "https://github.com/Layr-Labs",
@@ -324,6 +325,7 @@ const config = {
       },
       docs: {
         sidebar: {
+          autoCollapseCategories: true,
           hideable: true,
         },
       },
