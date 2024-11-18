@@ -101,6 +101,9 @@ const config = {
             to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
+            from: "/eigenda-guides/eigenda-rollup-user-guides/op-stack-+-eigenda-user-guide/",
+          },
+          {
             from: "/eigenda/integrations-guides/rollup-guides/op-stack",
             to: "/integrations-guides/rollup-guides/op-stack",
           },

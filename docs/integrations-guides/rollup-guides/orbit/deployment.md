@@ -12,7 +12,7 @@ Labs](https://www.offchainlabs.com/) to enable rollup developers to build
 
 
  ## ETH Layer2 vs Layer3 deployments
-Layer3s using Arbitrum with EigenDA are a [M0 integration](../integrations-overview.md#trusted-verification-strategy-m0-m0) unlike Layer2s which are [M1](../integrations-overview.md#l2-inbox-certificate-verification-strategy-m1-m1). This means both degraded security and throughput when currently using L3s with EigenDA. 
+Layer3s using Arbitrum with EigenDA are a M0 integration unlike Layer2s which are M1. This means both degraded security and throughput when currently using L3s with EigenDA. Please advise our Integrations [Overview](./integrations-guides/rollup-guides/integrations-overview.md) for a more comprehensive overview of different EigenDA rollup stages.
 
 EigenDA bridging is currently only supported on Ethereum, meaning that layer 3s settling to a layer2 can't:
 - Rely on cert verification within the `Sequencer Inbox` contract
