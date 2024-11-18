@@ -64,9 +64,3 @@ Computing the length as part of the preimage hash is necessary for removing a tr
 
 - [Extended](https://github.com/Layr-Labs/nitro-contracts/blob/3318395f2f428c126b7963a33e91cad16ae30510/src/osp/OneStepProverHostIo.sol#L320-L407) `OneStepProverHostIO.sol` to perform bn254 kzg pairing verifications for an opening proof provided by a challenger
 - [Added](https://github.com/Layr-Labs/nitro-contracts/blob/3318395f2f428c126b7963a33e91cad16ae30510/test/foundry/KZGbn254.t.sol) forge tests to assert the correctness of proof verification logic
-
-## Peripheral Stack 
-
-### [Orbit SDK](https://github.com/Layr-Labs/eigenda-orbit-sdk)
-
-### [Orbit Setup Script](https://github.com/Layr-Labs/eigenda-orbit-setup-script)
