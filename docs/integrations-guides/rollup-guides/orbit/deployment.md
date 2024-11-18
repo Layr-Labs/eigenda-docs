@@ -12,7 +12,7 @@ Labs](https://www.offchainlabs.com/) to enable rollup developers to build
 
 
  ## ETH Layer2 vs Layer3 deployments
-Layer3s using Arbitrum with EigenDA are a M0 integration unlike Layer2s which are M1. This means both degraded security and throughput when currently using L3s with EigenDA. Please advise our Integrations [Overview](./integrations-guides/rollup-guides/integrations-overview.md) for a more comprehensive overview of different EigenDA rollup stages.
+Layer3s using Arbitrum with EigenDA are a M0 integration unlike Layer2s which are M1. This means both degraded security and throughput when currently using L3s with EigenDA. Please advise our Integrations [Overview](../integrations-overview.md) for a more comprehensive overview of different EigenDA rollup stages.
 
 EigenDA bridging is currently only supported on Ethereum, meaning that layer 3s settling to a layer2 can't:
 - Rely on cert verification within the `Sequencer Inbox` contract
@@ -61,7 +61,7 @@ While you can interact with the deployed Rollup creator directly, we recommend u
 6. Go to the next page and follow the instructions there to set up a nitro sequencer using the downloaded config files to power the rollup. If you've completed these steps successfully, you are now running an Arbitrum Orbit rollup that uses EigenDA!
 
 ## Token Bridge
-The Arbitrum token bridge can be enabled to support L1 <-> L2 bridging of ERC-20 assets. Since the token bridge is a wrapper on-top of the existing L1 <-> L2 native bridge, there are no changes necessary to enable it. Additionally, the [existing](https://docs.arbitrum.io/build-decentralized-apps/reference/contract-addresses#token-bridge-smart-contracts) token bridge creators maintained by Offchain labs can be leveraged to deploy token bridges on-top of existing inboxes integrated EigenDA.
+The Arbitrum token bridge can be enabled to support L1 to/from L2 bridging of ERC-20 assets. Since the token bridge is a wrapper on-top of the existing L1 to/from L2 native bridge, there are no changes necessary to enable it. Additionally, the [existing](https://docs.arbitrum.io/build-decentralized-apps/reference/contract-addresses#token-bridge-smart-contracts) token bridge creators maintained by Offchain labs can be leveraged to deploy token bridges on-top of existing inboxes integrated EigenDA.
 
 
 ### Troubleshooting
