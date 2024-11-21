@@ -218,11 +218,6 @@ const config = {
           rehypePlugins: [katex],
           showLastUpdateTime: false
         },
-        blog: {
-          blogTitle: "EigenDA Status",
-          postsPerPage: "ALL",
-          routeBasePath: "/status",
-        },
 
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -254,11 +249,6 @@ const config = {
           {
             to: "https://docs.eigenlayer.xyz",
             label: "EigenLayer Docs",
-            position: "right",
-          },
-          {
-            to: "status",
-            label: "Status",
             position: "right",
           },
           {
