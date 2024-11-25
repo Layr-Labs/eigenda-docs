@@ -70,19 +70,19 @@ const config = {
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/system-performance-and-customization",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda/system-performance-and-customization",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda/performance-metrics",
-            to: "/integrations-guides/dispersal/api-documentation/metering-and-rate-limits",
+            to: "/api/v1/disperser/metering-and-rate-limits",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/blob-explorer",
@@ -166,19 +166,19 @@ const config = {
           },
           {
             from: "/eigenda/rollup-guides/api-error-codes",
-            to: "/integrations-guides/dispersal/api-documentation/error-codes",
+            to: "/api/v1/disperser/error-codes",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/api-documentation/error-codes",
-            to: "/integrations-guides/dispersal/api-documentation/error-codes",
+            to: "/api/v1/disperser/error-codes",
           },
           {
             from: "/eigenda/rollup-guides/blob-encoding",
-            to: "/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+            to: "/api/v1/disperser/blob-serialization-requirements",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
-            to: "/integrations-guides/dispersal/api-documentation/blob-serialization-requirements",
+            to: "/api/v1/disperser/blob-serialization-requirements",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/disperser-golang-grpc-client",
@@ -212,6 +212,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
           breadcrumbs: true,
           routeBasePath: "/",
           remarkPlugins: [math],
@@ -247,19 +248,19 @@ const config = {
       navbar: {
         title: "EigenDA Docs",
         logo: {
-          alt: "EigenLayer Logo",
+          alt: "EigenDA Logo",
           src: "img/eigenda-logo.png",
         },
         items: [
           {
-            to: "https://docs.eigenlayer.xyz",
-            label: "EigenLayer Docs",
-            position: "right",
+            to: "overview",
+            label: "Docs",
+            position: "left",
           },
           {
-            to: "status",
-            label: "Status",
-            position: "right",
+            to: "api/v1/disperser/overview",
+            label: "API Docs",
+            position: "left",
           },
           {
             href: "https://github.com/Layr-Labs",
@@ -324,6 +325,7 @@ const config = {
       },
       docs: {
         sidebar: {
+          autoCollapseCategories: true,
           hideable: true,
         },
       },
