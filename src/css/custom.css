@@ -112,8 +112,3 @@ html[data-theme="dark"] .header--github-link:before {
 .card__header h3 {
   color: #1A0C6D;
 }
-
-.sidebar-separator {
-  margin: 1rem 0.5rem 1rem 0;
-  border-bottom: 1px solid #4e4f4f;
-}
