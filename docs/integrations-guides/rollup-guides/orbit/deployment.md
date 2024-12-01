@@ -1,8 +1,8 @@
 ---
-title: Deployment Overview
+title: Deploying a new chain
 ---
 
-# Arbitrum Orbit Deployment Overview
+# Arbitrum Orbit Deployment
 
 [Arbitrum
 Orbit](https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction) is
@@ -10,24 +10,12 @@ a Rollup Development Kit (RDK) developed by [Offchain
 Labs](https://www.offchainlabs.com/) to enable rollup developers to build
  using the same software that powers *Arbitrum One* and *Arbitrum Nova*.
 
-
- ## ETH Layer2 vs Layer3 deployments
-Layer3s using Arbitrum with EigenDA are a M0 integration unlike Layer2s which are M1. This means both degraded security and throughput when currently using L3s with EigenDA. Please advise our Integrations [Overview](../integrations-overview.md) for a more comprehensive overview of different EigenDA rollup stages.
-
-EigenDA bridging is currently only supported on Ethereum, meaning that layer 3s settling to a layer2 can't:
-- Rely on cert verification within the `Sequencer Inbox` contract
-- Await disperser confirmations via eigenda proxy for accrediting batches
-
-Currently for L3 deployments, we recommend ensuring that `EIGENDA_PROXY_EIGENDA_ETH_CONFIRMATION_DEPTH` is set closer to ETH finalization (i.e, 64 blocks or two consensus epochs) since a reorg'd EigenDA bridge confirmation tx wouldn't be detectable by the rollup itself. This risk is nonexistent for L2s settling to Ethereum since the inbox's EigenDA certificate tx would read storage states on the `EigenDAServiceManger` which are set by the EigenDA bridge confirmation tx; meaning that a reorg of the EigenDA bridge confirmation tx would result in a reorg of the inbox's EigenDA certificate tx.
-
-If you wish to support higher throughput L3s with reduced risk, you can configure your EigenDA proxy instance with secondary storage fallbacks. This would at least ensure that if the blob certificate were to be invalidated the data would still be partially available. This would compromise the trust model of the rollup given an honest verifier node could when syncing from a confirmed chain head could halt in the event of a reorg'd since it wouldn't have access to the sequencer's secondary store.
-
 ## EigenDA Proxy
-Arbitrum nodes communicate with EigenDA via the proxy for secure communication and low code overhead. More information can be found [here](./../../dispersal/clients/eigenda-proxy.md). An instance of proxy **must** be spun-up to use this integration. In your node config, this would look something like:
+
+Arbitrum nodes communicate with EigenDA via the proxy for secure communication and low code overhead. More information can be found [here](./../../dispersal/clients/eigenda-proxy.md). An instance of proxy **must** be spun-up to use this integration. In your node config, this would look like:
 ```
 "eigen-da": {"enable": true,"rpc": "http://eigenda_proxy:4242"}
 ```
-
 
 ## How to deploy a Rollup Creator integrated with EigenDA
 
@@ -44,7 +32,7 @@ yarn hardhat run scripts/local-deployment/deployCreator.ts
 
 The script will take a few minutes to complete as it prints out the addresses of the deployed contracts along the way. Lastly, the script will write the deployed contracts to the `CREATOR_DEPLOYMENT_INFO` file you specified. Upon completion, your rollup creator factory is ready to use to deploy new chains. 
 
-## How to deploy a Rollup on Testnet
+## How to deploy a Rollup on Testnet using our UI
 
 While you can interact with the deployed Rollup creator directly, we recommend using the [EigenDA x Orbit chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendly UX and easy-to-use configs. Currently, the only supported testnets are Ethereum Holesky and Arbitrum Sepolia.
 
@@ -61,6 +49,7 @@ While you can interact with the deployed Rollup creator directly, we recommend u
 6. Go to the next page and follow the instructions there to set up a nitro sequencer using the downloaded config files to power the rollup. If you've completed these steps successfully, you are now running an Arbitrum Orbit rollup that uses EigenDA!
 
 ## Token Bridge
+
 The Arbitrum token bridge can be enabled to support L1 to/from L2 bridging of ERC-20 assets. Since the token bridge is a wrapper on-top of the existing L1 to/from L2 native bridge, there are no changes necessary to enable it. Additionally, the [existing](https://docs.arbitrum.io/build-decentralized-apps/reference/contract-addresses#token-bridge-smart-contracts) token bridge creators maintained by Offchain labs can be leveraged to deploy token bridges on-top of existing inboxes integrated EigenDA.
 
 
