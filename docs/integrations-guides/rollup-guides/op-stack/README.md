@@ -6,9 +6,9 @@ sidebar_position: 2
 
 [OP Stack](https://stack.optimism.io/) is the set of [software
 components](https://github.com/ethereum-optimism/optimism) that run the [Optimism](https://www.optimism.io/) rollup and can be
-deployed independently to power third-party roll-ups.
+deployed independently to power third-party rollups.
 
-By default, OP Stack sequencers write batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, OP Stack sequencers and full nodes are configured to talk to a third-party HTTP proxy server for writing and reading tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these system interactions work.
+By default, the OP Stack sequencer's [op-batcher](https://github.com/ethereum-optimism/optimism/tree/develop/op-batcher) writes batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, the op-batcher and op-nodes (validators) are configured to talk to a third-party HTTP proxy server for writing (op-batcher) and reading (op-node) tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these systems interact.
 
 To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
@@ -24,8 +24,11 @@ First check out the version of the EigenDA proxy corresponding to the version of
 | [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7) | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0) |
 | [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0) | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0) |
 | [v1.9.3](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.3) | [v1.5.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.5.0) |
+| [v1.9.4](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.4) | [v1.6.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.6.0) |
 
 The v1.9.3 op-stack release contains our concurrent batch submission [PR](https://github.com/ethereum-optimism/optimism/pull/11698) which is required for high-throughput EigenDA deployments.
+
+:warning: PSA: High throughput rollups should not update to the [holocene hardfork](https://docs.optimism.io/builders/notices/holocene-changes#for-node-operators)! The new strict batch ordering rules (see [here](https://docs.optimism.io/builders/notices/holocene-changes) and [here](https://specs.optimism.io/protocol/holocene/derivation.html)) broke our concurrent blob submission flow. If you are forced to upgrade, due to following the superchain for eg., make sure to set MAX_CONCURRENT_DA_REQUESTS=1. This will unfortunately reduce your throughput. We have a fix [PR](https://github.com/ethereum-optimism/optimism/pull/13169) that is in the process of getting reviewed.
 
 ### Deploying OP Stack
 
