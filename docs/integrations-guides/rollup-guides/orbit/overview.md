@@ -50,6 +50,7 @@ Many modifications were made to successfully support fraud proofs and secure bat
 - Increased `maxDecompressedLen` batch encoding [limit](https://github.com/Layr-Labs/nitro/blob/ca4415e1d9041423e085bb873da43e4342f47499/arbstate/inbox.go#L48) to support 40mib batches post-compression 
 
 #### [Nitro Contracts](https://github.com/Layr-Labs/nitro-contracts)
+
 - Extended [`SequencerInbox.sol`](https://github.com/Layr-Labs/nitro-contracts/blob/3318395f2f428c126b7963a33e91cad16ae30510/src/bridge/SequencerInbox.sol) to support new entry-point function for processing eigenda batch types (i.e, `addSequencerL2BatchFromEigenDA`)
     - Verifies certificates against stateful dependency `RollupManager.sol` contract which handles communication with `EigenDAServiceManager.sol`
     - Updated data hash computation where `hash = keccak256(msgHeader, bytePrefixFlag, abi.Pack(commitment.X, commitment.Y, blob.len()))`
