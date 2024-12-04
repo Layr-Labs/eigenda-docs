@@ -58,7 +58,7 @@ Currently, the batch poster defaults to a maximum of `16mib` when dispersing bat
 
 **Enabling Failover**
 
-To remove a trust assumption on the liveness of EigenDA for the liveness of the rollup, we've extended the Arbitrum Nitro batch poster's logic to support opt-in failover to other DA destinations (e.g, AnyTrust, 4844, calldata) in the event of indicated service unavailability from EigenDA. This logic is disabled by default but can be enabled by making the following update to your batch poster config with the following field:
+To remove a trust assumption on the liveness of EigenDA for the liveness of the rollup, we've extended the Arbitrum Nitro batch poster's logic to support opt-in failover to other DA destinations (e.g, AnyTrust, EIP-4844, calldata) in the event of indicated service unavailability from EigenDA. This logic is disabled by default but can be enabled by making the following update to your batch poster config with the following field:
 ```
     "node": {
         ...

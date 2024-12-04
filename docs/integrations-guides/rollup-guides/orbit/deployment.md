@@ -36,7 +36,7 @@ The script will take a few minutes to complete as it prints out the addresses of
 
 ## How to deploy a Rollup on Testnet using our UI
 
-While you can interact with the deployed Rollup creator directly, we recommend using our [chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendlier devx and easy-to-use configs. Currently, the only supported testnets are:
+While you can interact with the deployed Rollup creator directly, we recommend using our [orbit chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendlier devx and easy-to-use configs. Currently, the only supported testnets are:
 - Ethereum Holesky
 - Arbitrum Sepolia
 
