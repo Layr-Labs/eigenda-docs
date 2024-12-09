@@ -3,23 +3,25 @@ title: Technical overview
 ---
 # Overview
 
-Defined below is a technical breakdown of the key changes we've made to securely enable fraud proofs and high throughput for Arbitrum with EigenDA.
+Defined below is a technical breakdown of the key changes we've made to securely enable fraud proofs and high throughput for Arbitrum with EigenDA. This also goes over some key caveats and features. 
 
-### Runbook
+## Runbook
 
 Core Arbitrum is a highly complicated composition of many software repositories and programming languages. To better demystify key system flows, we've developed an operational developer [runbook](https://eigen-labs.notion.site/Arbitrum-x-EigenDA-Developer-Runbook-12466062c1a7495ebc1d803169c37644?pvs=4) which describes core testing and system procedures.
 
-## ETH Layer2 vs Layer3 deployments
+## ETH L2 vs L3 deployments
 
-Layer3s using Arbitrum with EigenDA are a M0 integration unlike Layer2s which are M1. This means both degraded security and throughput when currently using L3s with EigenDA. Please advise our Integrations [Overview](../integrations-overview.md) for a more comprehensive overview of different EigenDA rollup stages.
+L2s using Arbitrum with EigenDA are a M0 integration unlike L3s which are M1. This means both degraded security and throughput when currently using L3s with EigenDA. Please advise our Integrations [Overview](../integrations-overview.md) for a more comprehensive overview of different EigenDA rollup stages.
 
-EigenDA bridging is currently only supported on Ethereum, meaning that layer 3s settling to a layer2 can't:
+EigenDA bridging is currently only supported on Ethereum, meaning that L3s settling to a L2 can't:
 - Rely on cert verification within the `Sequencer Inbox` contract
 - Await disperser confirmations via eigenda proxy for accrediting batches
 
-Currently for L3 deployments, we recommend ensuring that `EIGENDA_PROXY_EIGENDA_ETH_CONFIRMATION_DEPTH` is set closer to ETH finalization (i.e, 64 blocks or two consensus epochs) since a reorg'd EigenDA bridge confirmation tx wouldn't be detectable by the rollup itself. This risk is nonexistent for L2s settling to Ethereum since the inbox's EigenDA certificate tx would read storage states on the `EigenDAServiceManger` which are set by the EigenDA bridge confirmation tx; meaning that a reorg of the EigenDA bridge confirmation tx would result in a reorg of the inbox's EigenDA certificate tx.
+Currently for L3 deployments, we recommend ensuring that:
 
-If you wish to support higher throughput L3s with reduced risk, you can configure your EigenDA proxy instance with secondary storage fallbacks. This would at least ensure that if the blob certificate were to be invalidated the data would still be partially available. This would compromise the trust model of the rollup given an honest verifier node could when syncing from a confirmed chain head could halt in the event of a reorg'd since it wouldn't have access to the sequencer's secondary store.
+- `EIGENDA_PROXY_EIGENDA_ETH_CONFIRMATION_DEPTH` is set closer to ETH finalization (i.e, 64 blocks or two consensus epochs) since a reorg'd EigenDA bridge confirmation tx wouldn't be detectable by the rollup itself. This risk is nonexistent for L2s settling to Ethereum since the inbox's EigenDA certificate tx would read storage states on the `EigenDAServiceManger` which are set by the EigenDA bridge confirmation tx; meaning that a reorg of the EigenDA bridge confirmation tx would result in a reorg of the inbox's EigenDA certificate tx.
+
+- If you wish to support higher throughput L3s with reduced risk, you can configure your EigenDA proxy instance with secondary storage fallbacks. This would at least ensure that if the blob certificate were to be invalidated the data would still be partially available. This would compromise the trust model of the rollup given an honest verifier node could when syncing from a confirmed chain head could halt in the event of a reorg'd since it wouldn't have access to the sequencer's secondary store.
 
 ### System Testing
 
@@ -34,6 +36,42 @@ For replicating EigenDA interactions in a local testing environment, we utilize 
 
 [EigenDA Proxy](https://github.com/Layr-Labs/eigenda-proxy) is used for secure and optimized communication between the rollup and the EigenDA disperser. Arbitrum uses the [*Simple Commitment Mode*](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#simple-commitment-mode) for client/server interaction and representing DA certificates. Read more about EigenDA Proxy and its respective security features [here](./../../dispersal/clients/eigenda-proxy.md).
 
+### Posting batches to EigenDA
+
+Please ensure that changes made to batch poster configs are globally applied across all your batch poster instances. If not, there could be inconsistencies that arise due to deviations in collective processing logic. To learn more about the Arbitrum batch poster please advise our following overview [spec](https://hackmd.io/@epociask/ByHk6x_TC).
+
+**Adjusting maximum batch size**
+
+Currently, the batch poster defaults to a maximum of `16mib` when dispersing batches to EigenDA. This can be adjusted to a lower threshold directly within the batch poster section of your node config:
+
+```
+    "node": {
+        ...
+        "batch-poster": {
+            "enable": true,
+            ...
+            "max-eigenda-batch-size": 12_000_000, // 12 MB
+        }
+    }
+```
+
+
+**Enabling Failover**
+
+To remove a trust assumption on the liveness of EigenDA for the liveness of the rollup, we've extended the Arbitrum Nitro batch poster's logic to support opt-in failover to other DA destinations (e.g, AnyTrust, EIP-4844, calldata) in the event of indicated service unavailability from EigenDA. This logic is disabled by default but can be enabled by making the following update to your batch poster config with the following field:
+```
+    "node": {
+        ...
+        "batch-poster": {
+            "enable": true,
+            ...
+            "enable-eigenda-failover": true, 
+        }
+    }
+```
+
+To learn more about our Arbitrum failover design methodology, please advise the following [spec](https://hackmd.io/@epociask/SJUyIZlZkx).
+
 # Diff Overview 
 
 Many modifications were made to successfully support fraud proofs and secure batch posting. The following is an in-depth summary which describes the key changes made to the core Arbitrum stack to enable secure compatibility with EigenDA.
@@ -44,6 +82,7 @@ Many modifications were made to successfully support fraud proofs and secure bat
 
 - [Extended](https://github.com/Layr-Labs/nitro/blob/e8981ff2f09720b6627e751d8bd3146277c7a01b/arbnode/batch_poster.go#L113) batch poster to take in an `eigenDAWriter` struct that writes blobs to DA via eigenda-proxy
     - [Embed](https://github.com/Layr-Labs/nitro/blob/e8981ff2f09720b6627e751d8bd3146277c7a01b/arbnode/batch_poster.go#L1030-L1075) ABI calldata for tx submissions to `SequencerInbox`
+    - [Provide](https://github.com/Layr-Labs/nitro/pull/46) programmatic failover feature to use other DA destinations when EigenDA is unavailable.
 - [Extended](https://github.com/Layr-Labs/nitro/blob/e8981ff2f09720b6627e751d8bd3146277c7a01b/arbnode/sequencer_inbox.go#L174-L211) inbox message derivation to support type processing for an eigenda batch type (i.e, `0xed` prefix)
 - [Compute](https://github.com/Layr-Labs/nitro/blob/e8981ff2f09720b6627e751d8bd3146277c7a01b/eigenda/types.go#L126-L140) `batchHeaderHash` locally using `batchHeader` fields when querying blobs from eigenda proxy
 - [Updated](https://github.com/Layr-Labs/nitro/blob/e8981ff2f09720b6627e751d8bd3146277c7a01b/arbnode/batch_poster.go#L155-L156) batch poster config to support 16Mib batches when using eigenda

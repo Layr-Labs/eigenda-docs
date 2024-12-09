@@ -12,20 +12,22 @@ Labs](https://www.offchainlabs.com/) to enable rollup developers to build
 
 ## EigenDA Proxy
 
-Arbitrum nodes communicate with EigenDA via the proxy for secure communication and low code overhead. More information can be found [here](./../../dispersal/clients/eigenda-proxy.md). An instance of proxy **must** be spun-up to use this integration. In your node config, this would look like:
+Arbitrum nodes communicate with EigenDA via the proxy for secure communication and low code overhead. More information can be found [here](./../../dispersal/clients/eigenda-proxy.md). An instance of proxy **must** be spun-up to use this integration. In your node config, this will look like:
 ```
 "eigen-da": {"enable": true,"rpc": "http://eigenda_proxy:4242"}
 ```
 
 ## How to deploy a Rollup Creator integrated with EigenDA
 
-0. Assuming you have yarn and hardhat installed. 
+1. Assuming you have yarn and hardhat installed. 
 
-1. Download the nitro contracts source [code](https://github.com/Layr-Labs/nitro-contracts) from the EigenDA fork using latest stable version.
+2. Download the nitro contracts source [code](https://github.com/Layr-Labs/nitro-contracts) from the EigenDA fork using latest stable version.
 
-2. Specify required environment variables: `DEPLOYER_PRIVKEY`, `PARENT_CHAIN_RPC`, and `EIGENDA_ROLLUP_MANAGER_ADDRESS`. Optionally, you can also specify `MAX_DATA_SIZE`, `FEE_TOKEN_ADDRESS`, and `CREATOR_DEPLOYMENT_INFO`. If the `EIGENDA_ROLLUP_MANAGER_ADDRESS` is unspecified, then one will be deployed automatically based on the parent chain context. 
+3. Specify required environment variables: `DEPLOYER_PRIVKEY`, `PARENT_CHAIN_RPC`, and `EIGENDA_ROLLUP_MANAGER_ADDRESS`. Optionally, you can also specify `MAX_DATA_SIZE`, `FEE_TOKEN_ADDRESS`, and `CREATOR_DEPLOYMENT_INFO`. 
 
-3. Run the rollup creator deployment script that deploys all necessary contracts and sets up the rollup creator template.
+    **If the `EIGENDA_ROLLUP_MANAGER_ADDRESS` is unspecified, then one will be deployed automatically based on the parent chain context.**
+
+4. Run the rollup creator deployment script that deploys all necessary contracts and sets up the rollup creator template.
 ```
 yarn hardhat run scripts/local-deployment/deployCreator.ts
 ```
@@ -34,7 +36,11 @@ The script will take a few minutes to complete as it prints out the addresses of
 
 ## How to deploy a Rollup on Testnet using our UI
 
-While you can interact with the deployed Rollup creator directly, we recommend using the [EigenDA x Orbit chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendly UX and easy-to-use configs. Currently, the only supported testnets are Ethereum Holesky and Arbitrum Sepolia.
+While you can interact with the deployed Rollup creator directly, we recommend using our [orbit chain deployment portal](https://orbit.eigenda.xyz/) to deploy a rollup for a friendlier devx and easy-to-use configs. Currently, the only supported testnets are:
+- Ethereum Holesky
+- Arbitrum Sepolia
+
+### Steps
 
 1. Start by clicking the button "Launch on holesky testnet" and connect a wallet using your preferred wallet provider. 
 
