@@ -17,7 +17,7 @@ sidebar_position: 3
 | Disperser Address | `disperser.eigenda.xyz:443` |
 | Churner Address | `churner.eigenda.xyz:443` |
 | Batch Confirmation Interval | Every 10 minutes (may vary based on network health) |
-| Max Blob Size | 2 MB |
+| Max Blob Size | 16 MB |
 | Stake Sync (AVS-Sync) Interval | Every 6 days |
 | Ejection Cooldown Period | 3 days |
 
