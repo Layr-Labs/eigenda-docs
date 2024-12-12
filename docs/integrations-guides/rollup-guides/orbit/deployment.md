@@ -10,8 +10,6 @@ a Rollup Development Kit (RDK) developed by [Offchain
 Labs](https://www.offchainlabs.com/) to enable rollup developers to build
  using the same software that powers *Arbitrum One* and *Arbitrum Nova*.
 
-## EigenDA Proxy
-
 Arbitrum nodes communicate with EigenDA via the proxy for secure communication and low code overhead. More information can be found [here](./../../dispersal/clients/eigenda-proxy.md). An instance of proxy **must** be spun-up to use this integration. In your node config, this will look like:
 ```
 "eigen-da": {"enable": true,"rpc": "http://eigenda_proxy:4242"}
