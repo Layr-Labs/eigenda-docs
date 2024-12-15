@@ -4,13 +4,13 @@ source ./ci-scripts/run_with_status.sh
 
 REPO_TOP_LEVEL=$(git rev-parse --show-toplevel)
 
-# Fetch the latest state of origin/main
-run_with_status "Fetching origin" git fetch origin main
+# Fetch the latest state of origin/master
+run_with_status "Fetching origin" git fetch origin master
 
-# Find the merge-base of the current branch and origin/main
-MERGE_BASE=$(git merge-base origin/main @)
+# Find the merge-base of the current branch and origin/master
+MERGE_BASE=$(git merge-base origin/master @)
 
-# echo "Merge base of origin/main and $CURRENT_BRANCH is $MERGE_BASE"
+# echo "Merge base of origin/master and $CURRENT_BRANCH is $MERGE_BASE"
 
 # Generate a random worktree path
 WORKTREE_PATH="/tmp/pr_worktree_$(date +%Y%m%d%H%M%S)_$RANDOM"
