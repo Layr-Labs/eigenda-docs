@@ -19,6 +19,14 @@ gh repo clone Layr-Labs/eigenda
 cd eigenda 
 ```
 
+**V2 specific requirement**
+
+If you are dispersing to EigenDA V2, payments is required by default. You will need to request EignDA team to set a reservation for you, or permissionlessly deposit tokens into the payment vault contract for the account you want to use.
+
+To deposit tokens, you can use call `depositOnDemand` on the payment vault contract, providing the account you want to use, and the amount of tokens you want to deposit.
+
+Please note that ondemand payments does not guarantee the blob will be dispersed; given that there is sufficient deposited funds, the dispersal request will only be accepted if global ratelimit is allowed; if the disperal failed because there was not enough signatures, the paid amount will not be refunded. 
+
 **Step 1: Build EigenDA Utils**
 
 The next step requires the `kzgpad` utility, which you can build with the following:

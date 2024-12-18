@@ -1,0 +1,129 @@
+---
+title: Payments
+sidebar_position: 4
+---
+
+# Payments
+
+EigenDA's payment system is currently centralized and coupled with the disperser. This document describes key components, use cases, design principles, and the system architecture. The aim is to facilitate reservation and on-demand payments for data dispersal, ensuring scalability and flexibility for users and operators. 
+
+The system supports two payment methods:
+- **Reservation Payments**: Pre-paid throughput guaranteed services for a fixed time period, preferential for users with consistent and predictable data dispersal needs.
+- **On-Demand Payments**: Pre-paid services without throughput guarantees, allowing flexibility with data dispersal based on network conditions.
+
+The system leverages a centralized disperser to handle accounting, metering, and validation of incoming payment requests. This initial approach assumes a trust model where participants trust the disperser for accurate metering and accounting.
+
+
+## How Payments Work
+### Involved Parties
+- **Users**: Negotiate reservations with the EigenDA team and/or permissionlesslydeposit tokens for on-demand payments.
+- **Disperser Clients**: Users runs a client instance to submit data for dispersal and manages payments.
+- **Disperser Server**: The central entity responsible for processing payments and dispersing data.
+- **Payment Vault**: Onchain smart contract for managing reservations and on-demand payments.
+- **EigenDA Governance**: The EigenDA governance wallet manages the payment vault global parameters and reservations.
+
+
+### Reservations
+
+A reservation is defined on-chain, and is used to reserve a specific amount of throughput for a client, represented by a wallet address. The reservation is defined by a limit per period (`symbolsPerSecond`), start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`). All reservations shares global parameters including the reservation interval (`reservationBinInterval`) and minimum number of symbols per dispersal (`minNumSymbols`).
+
+Symbols per second and the reservation period interval defines the maximum number of symbols that can be dispersed in a single reservation period. A disperser client attaches a reservation period index in the payment header to indicate which reservation period the request belongs to. The disperser server accounts for both delay in receival and reservation overflows. If the requests exceeds the allowed delay period or reservation overflows, then the request will be rejected. Once a reservation period is over, the disperser server and client will start considering a new reservation period. If the reservation limit is hit before the period ends, the client will switch to on-demand payments if it is available, or wait for the next reservation period.
+
+
+### On-Demand Payments
+
+A on-demand payment can be created by depositing tokens into the payment vault contract for a particular account, in which the contract stores the total payment deposited to that account (`cumulativePayment`). All on-demand payments shares global parameters including the global symbols per second (`globalSymbolsPerBin`), global rate interval (`globalRateBinInterval`), minimum number of symbols per dispersal (`minNumSymbols`), and the price per symbol (`pricePerSymbol`).
+
+When a disperser client uses the on-demand payment method, the client will calculate the payment amount that is limited by `pricePerSymbol`, `minNumSymbols`, the size of the data to disperse, and the previously sent request. The disperser server take into account of the requests being received out of order and maintain the usages within a global rate limit. If the payment is not enough to cover the request or not valid with respect to previously received requests, or the dispersal is hitting global rate limit, the request will be rejected.
+
+
+### Disperser Client requirements
+
+A user may choose to implement their own accountant for the disperser client to use, or use the one implemented by EigenDA, which statelessly tracks the payment states. 
+
+By interacting with the disperser server, the client trusts the disperser server to provide correct on-chain and off-chain payment information upon initialization.
+
+To use the EigenDA's disperser client, as described above, the user will need either negotiate a reservation with the EigenDA team, or permissionlessly deposit tokens into the payment vault contract for the account they want to use. They will supply the corresponding private key to the client, which will be used to sign the blob dispersal requests.
+
+
+#### System Architecture Diagrams
+
+
+```mermaid
+erDiagram
+    DISPERSER
+
+    PAYMENT_VAULT_CONTRACT
+
+    BLOB_HEADER
+
+    PAYMENT_HEADER
+    
+		
+    CLIENT
+
+    %% Relationships
+    BLOB_HEADER }|--|| DISPERSER : "receive"
+    BLOB_HEADER ||--|| PAYMENT_HEADER : "contain"
+
+    DISPERSER ||--o| DISPERSER : "validate header"
+
+    DISPERSER ||--|| PAYMENT_VAULT_CONTRACT : "periodic polls"
+
+    DISPERSER ||--|{ Meterer : "usage tracking"
+
+    DISPERSER ||--o| CLIENT : "dispersal response"
+    BLOB_HEADER ||--o| CLIENT : "dispersal request"
+```
+
+Disperser client send a dispersal request containing payment header to the disperser, which will be verified by the disperser's meterer. If the payment is valid, the disperser will disperse the data and update the offchain payment state. The meterer maintains the payment state in the offchain state, and syncs to the payment contract onchain periodically. Currently, the meterer only reads from the on-chain payment contract, and does not make any state changes to the payment contract. Clients can query the disperser for their own offchain state for payment and usage information.
+
+
+```mermaid
+stateDiagram
+
+    state PaymentSetup {
+        EigenDAGovernance --> PaymentVault : set global parameters
+        EigenDAGovernance --> PaymentVault : set reservations
+        Client --> PaymentVault : permissionlessly deposit tokens
+    }
+    
+        ClientRequest --> PaymentVault: Read state
+    state ClientRequest {
+        [*] --> Accountant: disperal request
+        Accountant --> PaymentHeader: reservation or on-demand
+        PaymentHeader --> BlobHeader : Fill in Payment
+        ClientSigner --> BlobHeader : Signs
+        PaymentHeader --> Accountant : Update local view
+        BlobHeader --> [*] : Send Dispersal request
+    }
+
+    ClientRequest --> Disperser : client's blob header request
+    Disperser --> DisperserCheck
+    
+    DisperserCheck --> PaymentVault: Read state
+    state DisperserCheck {
+        [*] --> ValidateRequest
+        ValidateRequest --> RequestAuthenticated : Payment Authenticated
+        ValidateRequest --> [*] : Invalid Authentication
+        RequestAuthenticated --> [*]: Process payments
+    }
+
+
+		
+    
+    DisperserCheck --> ClientUpdate: Response
+
+    state ClientUpdate {
+        [*] --> Nothing: SuccessResponse
+        [*] --> RollbackAndRetry : Rate-limit Failure
+        [*] --> RollbackUpdateAndRetry : InsufficientService
+    }
+```
+
+Client can query the disperser for their own offchain payment state, which includes the cumulative payment and the bin usages. Clients' accountant will priortize using reservations before using on-demand payments.
+
+ A client has their specific reservation parameters set on-chain, including timestamp validity, and bin limit; all reservations adhere to the same reservation bin interval. The disperser will track at least 4 bins per reservation, starting from the previous bin to the bin after next bin. The previous bin is used in case of request latency, and the bin after next bin is used to allow for reasonable overflows. 
+ 
+ If a client's reservation bin is full, the client can either wait for the next reservation period, or switch to on-demand payments. Our implementation of disperser client will automatically switch to on-demand payments when the reservation bin is full. The cumulative payment is incremented by the number of symbols in the blob times the price per symbol. Disperser will check the dispersal requests' cumulative payment against the local payment state, such that the partition of deposted tokens holds with respect to symbols per requests even if the requests arrived out of order. If the cumulative payment exceeds the client's on-chain deposit, cannot fit with the existing payment partitions, or hits the global rate limit, the request will be rejected.
+
