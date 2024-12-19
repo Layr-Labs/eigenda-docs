@@ -10,6 +10,11 @@ module.exports = {
             label: 'Overview',
         },
         {
+            type: 'doc',
+            id: 'payments',
+            label: 'Payments',
+        },
+        {
             type: 'html',
             value: '<div class="sidebar-separator"></div>',
         },
