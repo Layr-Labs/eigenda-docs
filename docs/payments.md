@@ -29,6 +29,8 @@ A reservation is defined on-chain, and is used to reserve a specific amount of t
 
 Symbols per second and the reservation period interval defines the maximum number of symbols that can be dispersed in a single reservation period. A disperser client attaches a reservation period index in the payment header to indicate which reservation period the request belongs to. The disperser server accounts for both delay in receival and reservation overflows. If the requests exceeds the allowed delay period or reservation overflows, then the request will be rejected. Once a reservation period is over, the disperser server and client will start considering a new reservation period. If the reservation limit is hit before the period ends, the client will switch to on-demand payments if it is available, or wait for the next reservation period.
 
+As a default, EigenDA team will set reservation period interval to be 5 minutes, and minimum number of symbols per dispersal to be 4096 symbols (This is the size of a 128 KiB blob including metadata). As a user, consider sending requests with respect to these two parameters and your particular reservation's limited symbols per second. If you have a reservation with 100 symbols per second, the disperser will allow for 1 MiB of data to be dispersed every 5 minutes.
+
 
 ### On-Demand Payments
 
@@ -36,6 +38,7 @@ A on-demand payment can be created by depositing tokens into the payment vault c
 
 When a disperser client uses the on-demand payment method, the client will calculate the payment amount that is limited by `pricePerSymbol`, `minNumSymbols`, the size of the data to disperse, and the previously sent request. The disperser server take into account of the requests being received out of order and maintain the usages within a global rate limit. If the payment is not enough to cover the request or not valid with respect to previously received requests, or the dispersal is hitting global rate limit, the request will be rejected.
 
+Initially, EigenDA team will set the price per symbol to be 0.4470 gwei, aiming for the price of `0.015ETH/GB`, or `2000gwei/128Kib` dispersal. We limit the global on-demand rate to be 131072 symbols per second and 30 second rate intervals; this allows for ~4 MiB of data to be dispersed every second on average, and the maximum single spike of dispersal to be ~120MiB over 30 seconds.
 
 ### Disperser Client requirements
 
