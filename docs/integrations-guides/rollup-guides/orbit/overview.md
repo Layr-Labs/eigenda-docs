@@ -70,6 +70,13 @@ To remove a trust assumption on the liveness of EigenDA for the liveness of the 
     }
 ```
 
+**NOTE:** 4844 failover is implemented and audited but untested via E2E system tests since there are no existing tests in vanilla Arbitrum that programmatically assert the end-to-end correctness of 4844. Please use at your own risk, if you'd like to disable 4844 in-favor of calldata DA, add the following field to your `dangerous` sub-config via node config:
+```
+    "dangerous": {
+        "disable-blob-reader": true,
+    },
+```
+
 To learn more about our Arbitrum failover design methodology, please advise the following [spec](https://hackmd.io/@epociask/SJUyIZlZkx).
 
 # Diff Overview 
