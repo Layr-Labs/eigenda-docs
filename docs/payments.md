@@ -25,16 +25,47 @@ The system leverages a centralized disperser to handle accounting, metering, and
 
 ### Reservations
 
-A reservation is defined on-chain, and is used to reserve a specific amount of throughput for a client, represented by a wallet address. The reservation is defined by a limit per period (`symbolsPerSecond`), start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`). All reservations shares global parameters including the reservation interval (`reservationBinInterval`) and minimum number of symbols per dispersal (`minNumSymbols`).
+A reservation is defined on-chain, and is used to reserve a specific amount of throughput for a client, represented by a wallet address. The reservation is defined by a limit per period (`symbolsPerSecond`), start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`). All reservations shares global parameters including the reservation interval (`reservationPeriodInterval`) and minimum number of symbols per dispersal (`minNumSymbols`).
 
-Symbols per second and the reservation period interval defines the maximum number of symbols that can be dispersed in a single reservation period. A disperser client attaches a reservation period index in the payment header to indicate which reservation period the request belongs to. The disperser server accounts for both delay in receival and reservation overflows. If the requests exceeds the allowed delay period or reservation overflows, then the request will be rejected. Once a reservation period is over, the disperser server and client will start considering a new reservation period. If the reservation limit is hit before the period ends, the client will switch to on-demand payments if it is available, or wait for the next reservation period.
+Symbols per second and the reservation period interval defines the maximum number of symbols that can be dispersed in a single reservation period. A symbol is defined as 32 bytes, and is measured by the length of the erasure coded blob. A disperser client attaches a reservation period index in the payment header to indicate which reservation period the request belongs to. The disperser server accounts for both delay in receival and reservation overflows. If the requests exceeds the allowed delay period or reservation overflows, then the request will be rejected. Once a reservation period is over, the disperser server and client will start considering a new reservation period. If the reservation limit is hit before the period ends, the client will switch to on-demand payments if it is available, or wait for the next reservation period.
 
-As a default, EigenDA team will set reservation period interval to be 5 minutes, and minimum number of symbols per dispersal to be 4096 symbols (This is the size of a 128 KiB blob including metadata). As a user, consider sending requests with respect to these two parameters and your particular reservation's limited symbols per second. If you have a reservation with 100 symbols per second, the disperser will allow for 1 MiB of data to be dispersed every 5 minutes.
+As a default, EigenDA team will set reservation period interval to be 5 minutes, and minimum number of symbols per dispersal to be 4096 symbols (This is the size of a 128 KiB blob including metadata). As a user, consider sending requests with respect to these two parameters and your particular reservation's limited symbols per second. If you have a reservation with 100 symbols per second, the disperser will allow for 1 MiB of data to be dispersed every 5 minutes. If you would like to adjust your reservation limit, please contact the EigenDA team.
 
+
+Below we provide a timeline of the reservation lifecycle.
+
+```mermaid
+timeline
+title Reservation Lifecycle
+
+section Before Reservation
+Initialization: EigenDA sets on-chain reservation with ratelimit and active timestamps. 
+: User sends data. Reservation not active -> Rejected/fallback.
+
+section Reservation Active
+
+Period 1    : startTimestamp -> Reservation active.
+                        : User sends data. Within limit -> Dispersal OK.
+                        : Overflow attempt -> Within overflow limit -> OK.
+
+Period 2    : User sends data. Within regular limit -> OK.
+            : User sends data. Overflow attempt -> exceeds overflow limit -> Reject.
+            : User sends data -> Reject.
+
+Period 3    : User sends data. Continue usage measurement from overflow bin at Period 1.
+
+Period 4    : User sends data. Within limit -> OK.
+
+section After Reservation End
+ Post-expiry 
+ : User sends data -> Rejected/fallback.
+ : Contact EigenDA team to update validity timestamps
+
+```
 
 ### On-Demand Payments
 
-A on-demand payment can be created by depositing tokens into the payment vault contract for a particular account, in which the contract stores the total payment deposited to that account (`cumulativePayment`). All on-demand payments shares global parameters including the global symbols per second (`globalSymbolsPerBin`), global rate interval (`globalRateBinInterval`), minimum number of symbols per dispersal (`minNumSymbols`), and the price per symbol (`pricePerSymbol`).
+A on-demand payment can be created by depositing tokens into the payment vault contract for a particular account, in which the contract stores the total payment deposited to that account (`cumulativePayment`). All on-demand payments shares global parameters including the global symbols per second (`globalSymbolsPerSecond`), global rate interval (`globalRatePeriodInterval`), minimum number of symbols per dispersal (`minNumSymbols`), and the price per symbol (`pricePerSymbol`).
 
 When a disperser client uses the on-demand payment method, the client will calculate the payment amount that is limited by `pricePerSymbol`, `minNumSymbols`, the size of the data to disperse, and the previously sent request. The disperser server take into account of the requests being received out of order and maintain the usages within a global rate limit. If the payment is not enough to cover the request or not valid with respect to previously received requests, or the dispersal is hitting global rate limit, the request will be rejected.
 
@@ -124,9 +155,9 @@ stateDiagram
     }
 ```
 
-Client can query the disperser for their own offchain payment state, which includes the cumulative payment and the bin usages. Clients' accountant will priortize using reservations before using on-demand payments.
+Client can query the disperser for their own offchain payment state, which includes the cumulative payment and the recent period usages. Clients' accountant will priortize using reservations before using on-demand payments.
 
- A client has their specific reservation parameters set on-chain, including timestamp validity, and bin limit; all reservations adhere to the same reservation bin interval. The disperser will track at least 4 bins per reservation, starting from the previous bin to the bin after next bin. The previous bin is used in case of request latency, and the bin after next bin is used to allow for reasonable overflows. 
+ A client has their specific reservation parameters set on-chain, including timestamp validity, and period limit; all reservations adhere to the same reservation period interval. The disperser will track at least 4 periods per reservation, starting from the previous period to the period after next period. The previous period is used in case of request latency, and the period after next period is used to allow for reasonable overflows. 
  
- If a client's reservation bin is full, the client can either wait for the next reservation period, or switch to on-demand payments. Our implementation of disperser client will automatically switch to on-demand payments when the reservation bin is full. The cumulative payment is incremented by the number of symbols in the blob times the price per symbol. Disperser will check the dispersal requests' cumulative payment against the local payment state, such that the partition of deposted tokens holds with respect to symbols per requests even if the requests arrived out of order. If the cumulative payment exceeds the client's on-chain deposit, cannot fit with the existing payment partitions, or hits the global rate limit, the request will be rejected.
+ If a client used up the available symbols per a reservation period, the client can either wait for the next reservation period, or switch to on-demand payments. Our implementation of disperser client will automatically switch to on-demand payments when the reservation period's usage is depleted. The cumulative payment is incremented by the number of symbols in the blob times the price per symbol. Disperser will check the dispersal requests' cumulative payment against the local payment state, such that the partition of deposted tokens holds with respect to symbols per requests even if the requests arrived out of order. If the cumulative payment exceeds the client's on-chain deposit, cannot fit with the existing payment partitions, or hits the global rate limit, the request will be rejected.
 
