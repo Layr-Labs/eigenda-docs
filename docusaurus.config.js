@@ -182,11 +182,11 @@ const config = {
           },
           {
             from: "/eigenda/integrations-guides/dispersal/disperser-golang-grpc-client",
-            to: "/integrations-guides/dispersal/clients/golang-client",
+            to: "/integrations-guides/dispersal/v1/clients/golang-client",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/clients/golang-client",
-            to: "/integrations-guides/dispersal/clients/golang-client",
+            to: "/integrations-guides/dispersal/v1/clients/golang-client",
           },
         ],
         createRedirects(existingPath) {

@@ -10,7 +10,7 @@ deployed independently to power third-party rollups.
 
 By default, the OP Stack sequencer's [op-batcher](https://github.com/ethereum-optimism/optimism/tree/develop/op-batcher) writes batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, the op-batcher and op-nodes (validators) are configured to talk to a third-party HTTP proxy server for writing (op-batcher) and reading (op-node) tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these systems interact.
 
-To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
+To implement this server spec, EigenDA provides [EigenDA Proxy](../../dispersal/v1/clients/eigenda-proxy.md) which is ran as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
 ## Deploying
 
@@ -81,7 +81,7 @@ When you are ready to onboard your rollup to mainnet you can fill out the follow
 
 ## Security Guarantees
 
-This setup provides Stage 0 security guarantees without adding an unnecessary trust assumption on the EigenDA disperser. The EigenDA Proxy [docs page](../../dispersal/clients/eigenda-proxy.md) and [repo readme](https://github.com/Layr-Labs/eigenda-proxy/blob/main/README.md) explain how this is achieved.
+This setup provides Stage 0 security guarantees without adding an unnecessary trust assumption on the EigenDA disperser. The EigenDA Proxy [docs page](../../dispersal/v1/clients/eigenda-proxy.md) and [repo readme](https://github.com/Layr-Labs/eigenda-proxy/blob/main/README.md) explain how this is achieved.
 
 ### OP Stack DA Challenge Contract
 
