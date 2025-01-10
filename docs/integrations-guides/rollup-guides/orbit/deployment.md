@@ -34,7 +34,7 @@ yarn hardhat run scripts/local-deployment/deployCreator.ts
 
 The script will take a few minutes to complete as it prints out the addresses of the deployed contracts along the way. Lastly, the script will write the deployed contracts to the `CREATOR_DEPLOYMENT_INFO` file you specified. Upon completion, your rollup creator factory is ready to use to deploy new chains. 
 
-## How to deploy a Rollup using our Rollup Creators
+## How to deploy a Rollup using pre-deployed Rollup Creators
 We support rollup creators using EigenDA contracts and blob verifiers on the following networks:
 
 | version | network | rollup creator address | blob verifier (EIGENDA_ROLLUP_MANAGER) address |
@@ -44,6 +44,7 @@ We support rollup creators using EigenDA contracts and blob verifiers on the fol
 | v2.1.0  | Arbitrum Mainnet | [0x8c83b9c670E90A4fAbf19E6fCb267caf12644a87](https://arbiscan.io/address/0x8c83b9c670E90A4fAbf19E6fCb267caf12644a87#code) | [0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5](https://arbiscan.io/address/0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5#code) |
 | v2.1.0  | Arbitrum Sepolia | [0x4264420318Ba09C29dbbe402b3f16Ee13903a031](https://sepolia.arbiscan.io/address/0x4264420318Ba09C29dbbe402b3f16Ee13903a031#code) | [0x5ce8b81e0E8271bA8Dd33190a8aC2960f9917Ef9](https://sepolia.arbiscan.io/address/0x5ce8b81e0E8271bA8Dd33190a8aC2960f9917Ef9#code) |
 | v2.1.0  | Base Mainnet     | [0xaFa98453F1f3B1Ea7629e67621a29B7Be4AC225A](https://basescan.org/address/0xafa98453f1f3b1ea7629e67621a29b7be4ac225a#code) | [0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5](https://basescan.org/address/0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5#code) |
+| v2.1.0  | Base Sepolia     | [0xfc2a0CD44A6CB0b72d5a7F8Db2C044F62db50781](https://sepolia.basescan.org/address/0xfc2a0CD44A6CB0b72d5a7F8Db2C044F62db50781) | [0xA0735f425792eCcDA1b8f50ceB36B05635c77D63](https://sepolia.basescan.org/address/0xa0735f425792eccda1b8f50ceb36b05635c77d63)
 
 ### Procedure 
 
