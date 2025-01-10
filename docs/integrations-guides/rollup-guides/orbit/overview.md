@@ -86,3 +86,4 @@ Many core Arbitrum repositories were forked to securely enable EigenDA. Please a
 - [nitro](https://layr-labs.github.io/nitro/)
 - [nitro-contracts](https://layr-labs.github.io/nitro-contracts/)
 - [nitro-testnode](https://layr-labs.github.io/nitro-testnode/)
+- [nitro-go-ethereum](https://layr-labs.github.io/nitro-go-ethereum/)
