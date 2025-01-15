@@ -53,6 +53,10 @@ const config = {
             to: "/overview/",
           },
           {
+            from: "/eigenda/overview/payments/",
+            to: "/payments/",
+          },
+          {
             from: "/eigenda-guides/eigenda-rollup-user-guides/",
             to: "/integrations-guides/rollup-guides/",
           },
