@@ -3,19 +3,31 @@ sidebar_position: 1
 title: Golang Client
 ---
 
-# EigenDA Payment and Blob Dispersal Guide
-This guide walks through the process of setting up payments and dispersing blobs using EigenDA.
+# EigenDA Payment and Data Dispersal Guide
+This guide walks through the process of setting up payments and dispersing data using EigenDA on Holesky.
 
 ## On Demand Data Dispersal
 ### On-chain setup
+:::info Prerequisites
+- ETH on the Ethereum Holesky testnet
+- [Foundry](https://book.getfoundry.sh/getting-started/installation) installed
+- RPC URL for Holesky
+- Private key for transactions
+:::
+
 To disperse to the network you will need a balance to pull from. If you would like to learn more about EigenDA's Payment Module, check the reference *here (insert ref to Payments)*.
 
-To start make sure you have ETH on the Ethereum Holesky testnet, we'll deposit into the payment vault and then any other DA requests charges will be pulled from here. 
+To start make sure you have ETH on the Ethereum Holesky testnet, we'll deposit into the payment vault and then any other EigenDA requests charges will be pulled from here. 
 
-To start we will deposit into the payment vault using `Foundry's` `cast`. If you have not installed Foundry, follow their install commands [here](https://book.getfoundry.sh/getting-started/installation). 
+To start we will deposit into the payment vault using `Foundry's` `cast`. 
+:::note Installation
+If you have not installed Foundry, follow their install commands [here](https://book.getfoundry.sh/getting-started/installation). 
+:::
 
-This will deposit 1 ETH into the Payment Vault on Holesky.
-
+This will deposit 1 ETH into the Payment Vault on Holesky:
+:::note Deposits
+Calculate the amount of data needed to send, funds deposited into the payment vault are non-refundable.
+:::
 
 ```bash
 cast send --rpc-url <YOUR_RPC_URL> \
@@ -23,25 +35,26 @@ cast send --rpc-url <YOUR_RPC_URL> \
  0x3660d586f792320a1364637715ca7e9439daa2c7 \
  "depositOnDemand(address)" \
 <YOUR_ADDRESS> \
- --value 100000000000000000
+ --value 1000000000000000000
 ```
-Now that we have the account setup for on-demand payments, let's disperse data.
+Now that we have the account setup for on-demand payments, let's send data to EigenDA.
 
 ## Dispersing Data
 ### Setup
 To disperse a data, we'll start by setting up our `Disperser Client` to interact with the EigenDA disperser.
 
-Let's start by setting up a project directory
+1. Create a project directory
 ```bash
 mkdir v2disperse
 cd v2disperse
 ```
-Setup your environment by setting your private key in a `.env` file with the `EIGENDA_AUTH_PK` value set to your private key for the account dispersing data. 
+2. Environment Variable setup 
+
 ```bash
-echo "EIGENDA_AUTH_PK=your_private_key_here" > .env
+echo "EIGENDA_AUTH_PK=<YOUR_PRIVATE_KEY>" > .env
 ```
 
-We'll be working out of a `main.go` file
+3. Create the main file:
 ```bash
 touch main.go
 ```
@@ -63,11 +76,8 @@ import (
 ``` 
 
 #### 2. Create Disperser Client
-<!-- Notes -->
-<!-- This should be the same account as you deposited using -->
-<!-- Each request will be  -->
 :::note
-Your signer should be the same address you deposited from
+Your `signer` should be the same address you deposited from
 :::
 ```Golang
 signer := authv2.NewLocalBlobRequestSigner(authKey)
@@ -89,17 +99,23 @@ ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
 defer cancel()
 ```
 
-#### 4. Data to Send
+#### 4. Prepare Data to Send
 ```Golang
 bytesToSend := []byte("Hello, World!")
 bytesToSend = codec.ConvertByPaddingEmptyByte(bytesToSend)
 quorums := []uint8{0, 1}
 ```
-#### 5. Dispersing Data
+#### 5. Sending Data
 Call `DisperseBlob()` to send your data to EigenDA
 ```Golang
 status, request_id, err := disp.DisperseBlob(ctx, bytesToSend, 0, quorums, 0)
 if err != nil {
 	panic(err)
 }
+```
+
+#### 6. Check a Blob status
+Call `GetBlobStatus()` to interact with the data
+```Golang
+blobStatus, err = disp.GetBlobStatus(ctx, request_id)
 ```
