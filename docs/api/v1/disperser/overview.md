@@ -10,7 +10,7 @@ The source of truth for the Disperser API spec is [disperser.proto](https://gith
 
 <!-- TODO: Update to point to master, not a specific commit -->
 
-Eigen Labs hosts one disperser endpoint for each EigenDA network. These endpoints are documented in respective network pages [indexed here](../../../networks/README.md).
+Eigen Labs hosts one disperser endpoint for each EigenDA network. These endpoints are documented in respective network pages for [mainnet](../../../networks/mainnet.md) and [Holesky](../../../networks/holesky.md).
 
 The EigenDA Disperser exposes 4 endpoints:
 
