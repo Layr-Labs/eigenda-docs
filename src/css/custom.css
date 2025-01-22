@@ -47,8 +47,18 @@ html[data-theme="dark"] .header--github-link:before {
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-menu-color-active: #648fe4;
-  --ifm-color-primary: #346ddb;
+  --eigenda-main: #1a0c6d;
+
+  --eigenda-main-700: #1f26e2;
+
+  --eigenda-background: #f7efde;
+  --eigenda-accent-mustard: #ffb800;
+  --eigenda-accent-sky: #cadfff;
+  --eigenda-accent-sky-300: #421fe2;
+  --eigenda-accent-sky-100: #e8e9ff;
+
+  --ifm-menu-color-active: var(--eigenda-accent-sky);
+  --ifm-color-primary: var(--eigenda-main);
   --ifm-color-primary-dark: #29784c;
   --ifm-color-primary-darker: #277148;
   --ifm-color-primary-darkest: #205d3b;
@@ -57,9 +67,7 @@ html[data-theme="dark"] .header--github-link:before {
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-  --ifm-heading-font-family: "ABC Repro";
-  --ifm-font-color-base: #1a0c6d;
-  --ifm-font-family-base: "IBM Plex Mono", system-ui, -apple-system, Segoe UI,
+  --ifm-font-family-base: "ABC Repro", system-ui, -apple-system, Segoe UI,
     Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
     "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
@@ -70,16 +78,38 @@ html[data-theme="dark"] .header--github-link:before {
   --ifm-font-weight-normal: 400;
   --ifm-font-weight-semibold: 500;
 
-  --ifm-footer-background-color: #1a0c6d;
+  --ifm-font-color-base: var(--eigenda-main);
+  --ifm-footer-background-color: var(--eigenda-main);
+  --ifm-hover-overlay: var(--eigenda-accent-sky-100);
+  --ifm-menu-color-active: var(--eigenda-main-700);
+  --ifm-menu-color: var(--eigenda-accent-sky-300);
 
-  --ifm-hover-overlay: #f7efde;
-  --ifm-menu-color-active: #1a0c6d;
+  --ifm-toc-link-color: var(--eigenda-main);
+  --ifm-toc-lin-color-active: var(--eigenda-main-700)
+
+  --ifm-link-color: var(--eigenda-main-700);
+}
+
+.table-of-contents__link:hover, .table-of-contents__link:hover code, .table-of-contents__link--active, .table-of-contents__link--active code {
+  color: var(--eigenda-main-700);
+}
+
+.table-of-contents,
+.theme-doc-sidebar-container,
+.breadcrumbs__link {
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.theme-doc-sidebar-container {
+  margin-left: 36px;
+  margin-top: 0 !important;
+  border-right: 0 !important;
 }
 
 .footer {
-  --ifm-footer-background-color: #1a0c6d;
-  --ifm-footer-color: #cadfff;
-  --ifm-color-secondary: #cadfff;
+  --ifm-footer-background-color: var(--eigenda-main);
+  --ifm-footer-color: var(--eigenda-accent-sky);
+  --ifm-color-secondary: var(--eigenda-accent-sky);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -133,10 +163,15 @@ html[data-theme="dark"] .header--github-link:before {
 }
 
 .card__header h3 {
-  color: #1a0c6d;
+  color: var(--eigenda-main);
 }
 
 .sidebar-separator {
   margin: 1rem 0.5rem 1rem 0;
-  border-bottom: 1px solid #4e4f4f;
+  border-bottom: 1px solid var(--eigenda-accent-sky);
+}
+
+.menu__link--sublist-caret::after,
+.menu__caret:before {
+  opacity: 0.3 !important;
 }
