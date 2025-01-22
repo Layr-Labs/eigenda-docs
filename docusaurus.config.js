@@ -86,15 +86,15 @@ const config = {
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/blob-explorer",
-            to: "/networks/",
+            to: "/networks/mainnet",
           },
           {
             from: "/eigenda/networks/",
-            to: "/networks/",
+            to: "/networks/mainnet",
           },
           {
             from: "/eigenda/blob-explorer",
-            to: "/networks/",
+            to: "/networks/mainnet",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/op-stack-+-eigenda-user-guide",
