@@ -1,16 +1,22 @@
-# Website
+# EigenDA Docs
 
-This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
+This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
 ### Installation
 
-```
+```bash
 yarn
+```
+
+If yarn isn't installed yet, [run the following command](https://yarnpkg.com/getting-started/install) first:
+
+```bash
+corepack enable
 ```
 
 ### Local Development
 
-```
+```bash
 yarn start
 ```
 
@@ -18,9 +24,9 @@ This command starts a local development server and opens up a browser window. Mo
 
 ### Build
 
-```
+```bash
 yarn build
-// to test out the fully built site
+# to test out the fully built site
 yarn serve
 ```
 
@@ -30,13 +36,13 @@ This command generates static content into the `build` directory and can be serv
 
 Using SSH:
 
-```
+```bash
 USE_SSH=true yarn deploy
 ```
 
 Not using SSH:
 
-```
+```bash
 GIT_USER=<Your GitHub username> yarn deploy
 ```
 
