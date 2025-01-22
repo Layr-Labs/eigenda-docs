@@ -28,7 +28,7 @@ const config = {
   onBrokenMarkdownLinks: "throw",
 
   markdown: {
-    mermaid: true
+    mermaid: true,
   },
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -212,12 +212,12 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
           breadcrumbs: true,
           routeBasePath: "/",
           remarkPlugins: [math],
           rehypePlugins: [katex],
-          showLastUpdateTime: false
+          showLastUpdateTime: false,
         },
         blog: {
           blogTitle: "EigenDA Status",
@@ -230,7 +230,7 @@ const config = {
         },
 
         gtag: {
-          trackingID: 'G-Z1L4DWRVCZ',
+          trackingID: "G-Z1L4DWRVCZ",
           anonymizeIP: true,
         },
       }),
@@ -240,10 +240,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/eigenda-logo.png',
+      image: "img/eigenda-logo.png",
 
       colorMode: {
-        respectPrefersColorScheme: true,
+        disableSwitch: true,
+        defaultMode: "light",
       },
       navbar: {
         title: "EigenDA Docs",
@@ -326,7 +327,7 @@ const config = {
       docs: {
         sidebar: {
           autoCollapseCategories: true,
-          hideable: true,
+          hideable: false,
         },
       },
       prism: {
@@ -338,7 +339,7 @@ const config = {
   scripts: [
     // Object format.
     {
-      src: '/js/intercom.js',
+      src: "/js/intercom.js",
       async: true,
     },
   ],
@@ -356,7 +357,7 @@ const config = {
         docsRouteBasePath: "/",
       }),
     ],
-    '@docusaurus/theme-mermaid'
+    "@docusaurus/theme-mermaid",
   ],
 };
 
