@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const { themes } = require("prism-react-renderer");
 const lightCodeTheme = themes.github;
-const darkCodeTheme = themes.dracula;
 const math = require("remark-math");
 const katex = require("rehype-katex");
 
@@ -332,8 +331,7 @@ const config = {
       },
       prism: {
         theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-        additionalLanguages: ["bash"],
+        additionalLanguages: ["bash", "protobuf", "solidity"],
       },
     }),
   scripts: [
