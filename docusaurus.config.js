@@ -38,6 +38,26 @@ const config = {
     locales: ["en"],
   },
 
+  headTags: [
+    {
+      tagName: "link",
+      attributes: {
+        rel: "icon",
+        type: "image/png",
+        href: "/img/favicon-96x96.png",
+        sizes: "96x96",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/img/favicon.svg",
+      },
+    },
+  ],
+
   plugins: [
     [
       "@docusaurus/plugin-client-redirects",
@@ -239,17 +259,20 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: "img/eigenda-logo.png",
+      image: "img/eigenda-logo.svg",
 
       colorMode: {
         disableSwitch: true,
         defaultMode: "light",
       },
       navbar: {
-        title: "EigenDA Docs",
+        // title: "Docs",
         logo: {
           alt: "EigenDA Logo",
-          src: "img/eigenda-logo.png",
+          src: "img/eigenda-logo.svg",
+          style: {
+            marginLeft: 32,
+          },
         },
         items: [
           {
