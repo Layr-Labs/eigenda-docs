@@ -16,7 +16,7 @@ function Card({ to, header, body, externalIcon = false }) {
     <div className={clsx("col col--4 ", styles.feature)}>
       <Link className="navbar__link card" to={to}>
         <div className="card__header">
-          <h3>
+          <h2>
             {header.label}
             {externalIcon && (
               <svg
@@ -32,12 +32,10 @@ function Card({ to, header, body, externalIcon = false }) {
                 ></path>
               </svg>
             )}
-          </h3>
+          </h2>
         </div>
         <div className="card__body">
-          <p>
-            {body.label}
-          </p>
+          <p>{body.label}</p>
         </div>
       </Link>
     </div>
