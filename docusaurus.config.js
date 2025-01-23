@@ -344,7 +344,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Layr Labs`,
+        copyright: `Copyright © ${new Date().getFullYear()} <a href="https://www.eigenlabs.org">Layr Labs</a>`,
       },
       docs: {
         sidebar: {
