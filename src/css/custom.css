@@ -47,6 +47,8 @@
   --eigenda-main-darker: #160a5b;
   --eigenda-main-lighter: #313cf6;
 
+  --eigenda-main-less-saturated: #8181a8;
+
   --eigenda-background: #f7efde;
   --eigenda-accent-mustard: #ffb800;
   --eigenda-accent-sky: #cadfff;
@@ -87,7 +89,40 @@
   --ifm-toc-lin-color-active: var(--eigenda-main-lighter)
 
   --ifm-link-color: var(--eigenda-main-lighter);
-  --ifm-color-content-secondary: var(--eigenda-accent-sky-400);
+  --ifm-color-content-secondary: var(--eigenda-main-less-saturated);
+
+  --ifm-global-radius: 0;
+
+  --ifm-alert-shadow: none;
+  --ifm-code-shadow: none;
+
+  --ifm-tabs-color: var(--eigenda-main-less-saturated);
+  --ifm-breadcrumb-border-radius: 0.25em;
+
+  --ifm-blockquote-color: var(--eigenda-main);
+  --ifm-blockquote-border-color: var(--eigenda-accent-sky-500);
+}
+.breadcrumbs__item--active .breadcrumbs__link {
+  font-weight:bolder;
+}
+
+.theme-code-block {
+  box-shadow: none !important;
+}
+
+.alert--warning {
+    /* --ifm-alert-background-color-highlight: var(--eigenda-background); */
+  --ifm-alert-foreground-color: var(--eigenda-main);
+  --ifm-alert-border-color: var(--eigenda-accent-mustard);
+  --ifm-alert-background-color: var(--eigenda-background);
+  
+}
+
+.alert--info {
+    /* --ifm-alert-background-color-highlight: var(--eigenda-background); */
+  --ifm-alert-foreground-color: var(--eigenda-main);
+  --ifm-alert-border-color: var(--eigenda-accent-sky);
+  --ifm-alert-background-color: var(--eigenda-accent-sky-100);
 }
 
 .navbar {
@@ -117,6 +152,7 @@
 .breadcrumbs__link,
 .navbar-sidebar {
   font-family: var(--ifm-font-family-monospace);
+  --ifm-toc-border-color: transparent;
 }
 
 @media (max-width: 996px) {
@@ -127,15 +163,24 @@
 }
 
 .theme-doc-sidebar-container {
-  margin-left: 32px;
+  padding-left: 32px;
   margin-top: 0 !important;
   border-right: 0 !important;
+}
+
+.theme-doc-sidebar-menu {
+  padding-bottom: 32px;
 }
 
 .footer {
   --ifm-footer-background-color: var(--eigenda-main);
   --ifm-footer-color: var(--eigenda-accent-sky);
   --ifm-color-secondary: var(--eigenda-accent-sky);
+  font-family: var(--ifm-font-family-monospace);
+
+  --ifm-link-color: var(--eigenda-accent-sky);
+  --ifm-link-hover-color: var(--eigenda-accent-sky-100);
+  --ifm-footer-link-hover-color: var(--eigenda-accent-sky-100);
 }
 
 .cards__container {
@@ -180,9 +225,14 @@
   opacity: 0.3 !important;
 }
 
-h1, h2, h3 {
+h1, h2, h3, h4 {
   color: var(--eigenda-main-darker);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.07em;
+  font-weight: 400;
+}
+
+h1 > strong, h2 > strong, h3 > strong, h4 > strong {
+  font-weight: 400;
 }
 
 .markdown p, .markdown ul, .markdown ol {
@@ -194,10 +244,15 @@ h1, h2, h3 {
 }
 
 .token.keyword {
-  color: var(--eigenda-main) !important;
+  color: var(--eigenda-main-darker) !important;
+  font-weight: bolder;
 }
 .token.comment {
   color: var(--eigenda-accent-sky-500) !important;
+}
+
+.token.plain {
+  color: var(--eigenda-main);
 }
 
 .theme-doc-sidebar-item-link b {
