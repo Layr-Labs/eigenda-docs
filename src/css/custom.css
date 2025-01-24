@@ -19,7 +19,6 @@
   --eigenda-accent-sky-darker: #4782f7;
   --eigenda-accent-sky-lighter: #e7f0ff;
 
-
   --ifm-menu-color-active: var(--eigenda-accent-sky);
   --ifm-color-primary: var(--eigenda-main);
   --ifm-code-font-size: 95%;
@@ -42,7 +41,7 @@
   --ifm-menu-color: var(--eigenda-main);
 
   --ifm-toc-link-color: var(--eigenda-main);
-  --ifm-toc-lin-color-active: var(--eigenda-main-lighter)
+  --ifm-toc-lin-color-active: var(--eigenda-main-lighter);
 
   --ifm-link-color: var(--eigenda-main-lighter);
   --ifm-color-content-secondary: var(--eigenda-main-muted);
@@ -76,13 +75,19 @@
   --ifm-alert-background-color: var(--eigenda-accent-sky-lighter);
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: var(--eigenda-main-darker);
   letter-spacing: -0.05em;
   font-weight: 400;
 }
 
-h1 > strong, h2 > strong, h3 > strong, h4 > strong {
+h1 > strong,
+h2 > strong,
+h3 > strong,
+h4 > strong {
   font-weight: 400;
 }
 
@@ -90,7 +95,9 @@ h1 > strong, h2 > strong, h3 > strong, h4 > strong {
   text-decoration: underline;
 }
 
-.markdown p, .markdown ul, .markdown ol {
+.markdown p,
+.markdown ul,
+.markdown ol {
   letter-spacing: -0.02em;
 }
 
@@ -117,7 +124,7 @@ h1 > strong, h2 > strong, h3 > strong, h4 > strong {
 
 .navbar__search-input::placeholder {
   color: var(--eigenda-main-muted);
-} 
+}
 
 @media (max-width: 996px) {
   .navbar__brand {
@@ -127,7 +134,10 @@ h1 > strong, h2 > strong, h3 > strong, h4 > strong {
   }
 }
 
-.table-of-contents__link:hover, .table-of-contents__link:hover code, .table-of-contents__link--active, .table-of-contents__link--active code {
+.table-of-contents__link:hover,
+.table-of-contents__link:hover code,
+.table-of-contents__link--active,
+.table-of-contents__link--active code {
   color: var(--eigenda-main-darker);
   font-weight: bold;
 }
