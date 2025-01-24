@@ -208,6 +208,10 @@
   transform: translate(0px, -5px);
 }
 
+.card__body {
+  font-family: var(--ifm-font-family-monospace)
+}
+
 .card__header h2 {
   color: var(--eigenda-main);
 }

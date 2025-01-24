@@ -14,7 +14,7 @@ function Card({ to, header, body, externalIcon = false }) {
 
   return (
     <div className={clsx("col col--4 ", styles.feature)}>
-      <Link className="navbar__link card" to={to}>
+      <Link className="card" to={to}>
         <div className="card__header">
           <h2>
             {header.label}
@@ -35,7 +35,7 @@ function Card({ to, header, body, externalIcon = false }) {
           </h2>
         </div>
         <div className="card__body">
-          <p>{body.label}</p>
+          <p>{body.label} →</p>
         </div>
       </Link>
     </div>
