@@ -6,29 +6,22 @@
 
 /* You can override the default Infima variables here. */
 :root {
+  /* From the style guide */
   --eigenda-main: #1a0c6d;
-  --eigenda-main-darker: #160a5b;
-  --eigenda-main-lighter: #313cf6;
-
-  --eigenda-main-less-saturated: #8181a8;
-
   --eigenda-background: #f7efde;
   --eigenda-accent-mustard: #ffb800;
   --eigenda-accent-sky: #cadfff;
-  --eigenda-accent-sky-300: #2258ee; /* not rly 300? */
-  --eigenda-accent-sky-400: #5e9dfc;
-  --eigenda-accent-sky-500: #4782f7;
-  --eigenda-accent-sky-100: #e7f0ff;
+
+  /* Additional colors */
+  --eigenda-main-darker: #160a5b;
+  --eigenda-main-lighter: #313cf6;
+  --eigenda-main-muted: #8181a8;
+  --eigenda-accent-sky-darker: #4782f7;
+  --eigenda-accent-sky-lighter: #e7f0ff;
 
 
   --ifm-menu-color-active: var(--eigenda-accent-sky);
   --ifm-color-primary: var(--eigenda-main);
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
   --ifm-font-family-base: "ABC Repro", system-ui, -apple-system, Segoe UI,
@@ -44,7 +37,7 @@
 
   --ifm-font-color-base: var(--eigenda-main);
   --ifm-footer-background-color: var(--eigenda-main);
-  --ifm-hover-overlay: var(--eigenda-accent-sky-100);
+  --ifm-hover-overlay: var(--eigenda-accent-sky-lighter);
   --ifm-menu-color-active: var(--eigenda-main-darker);
   --ifm-menu-color: var(--eigenda-main);
 
@@ -52,18 +45,18 @@
   --ifm-toc-lin-color-active: var(--eigenda-main-lighter)
 
   --ifm-link-color: var(--eigenda-main-lighter);
-  --ifm-color-content-secondary: var(--eigenda-main-less-saturated);
+  --ifm-color-content-secondary: var(--eigenda-main-muted);
 
   --ifm-global-radius: 0;
 
   --ifm-alert-shadow: none;
   --ifm-code-shadow: none;
 
-  --ifm-tabs-color: var(--eigenda-main-less-saturated);
+  --ifm-tabs-color: var(--eigenda-main-muted);
   --ifm-breadcrumb-border-radius: 0.25em;
 
   --ifm-blockquote-color: var(--eigenda-main);
-  --ifm-blockquote-border-color: var(--eigenda-accent-sky-500);
+  --ifm-blockquote-border-color: var(--eigenda-accent-sky-darker);
 }
 
 .alert--warning {
@@ -75,7 +68,7 @@
 .alert--info {
   --ifm-alert-foreground-color: var(--eigenda-main);
   --ifm-alert-border-color: var(--eigenda-accent-sky);
-  --ifm-alert-background-color: var(--eigenda-accent-sky-100);
+  --ifm-alert-background-color: var(--eigenda-accent-sky-lighter);
 }
 
 h1, h2, h3, h4 {
@@ -180,8 +173,8 @@ h1 > strong, h2 > strong, h3 > strong, h4 > strong {
   --ifm-footer-color: var(--eigenda-accent-sky);
   --ifm-color-secondary: var(--eigenda-accent-sky);
   --ifm-link-color: var(--eigenda-accent-sky);
-  --ifm-link-hover-color: var(--eigenda-accent-sky-100);
-  --ifm-footer-link-hover-color: var(--eigenda-accent-sky-100);
+  --ifm-link-hover-color: var(--eigenda-accent-sky-lighter);
+  --ifm-footer-link-hover-color: var(--eigenda-accent-sky-lighter);
 }
 
 .theme-doc-sidebar-item-link b {
@@ -197,7 +190,7 @@ h1 > strong, h2 > strong, h3 > strong, h4 > strong {
   font-weight: bolder;
 }
 .token.comment {
-  color: var(--eigenda-accent-sky-500) !important;
+  color: var(--eigenda-accent-sky-darker) !important;
 }
 
 .token.plain {
