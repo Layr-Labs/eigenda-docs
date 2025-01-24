@@ -175,6 +175,10 @@
   padding-bottom: 32px;
 }
 
+.pagination-nav__link {
+  font-family: var(--ifm-font-family-monospace);
+}
+
 .footer {
   --ifm-footer-background-color: var(--eigenda-main);
   --ifm-footer-color: var(--eigenda-accent-sky);
