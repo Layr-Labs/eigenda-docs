@@ -51,12 +51,12 @@ cd v2disperse
 2. Environment Variable setup 
 
 ```bash
-echo "EIGENDA_AUTH_PK=<YOUR_PRIVATE_KEY>" > .env
+echo "EIGENDA_AUTH_SK=<YOUR_PRIVATE_KEY>" > .env
 ```
 
 3. Create the main file:
 ```bash
-touch main.go
+go mod init
 ```
 ### Implementation
 #### 1. Import Dependencies
