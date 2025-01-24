@@ -186,38 +186,7 @@
   --ifm-footer-link-hover-color: var(--eigenda-accent-sky-100);
 }
 
-.cards__container {
-  margin: 3em 0;
-}
 
-.card {
-  padding: 1rem;
-  margin-top: 0rem;
-  animation: fadeInUp 400ms backwards;
-  animation-delay: 150ms;
-  transition-property: all;
-  transition-duration: 200ms;
-  align-items: start;
-  height: 100%;
-  border: none;
-  box-shadow: none;
-}
-
-.card a {
-  text-decoration: none;
-}
-
-.card:hover {
-  transform: translate(0px, -5px);
-}
-
-.card__body {
-  font-family: var(--ifm-font-family-monospace)
-}
-
-.card__header h2 {
-  color: var(--eigenda-main);
-}
 
 .sidebar-separator {
   margin: 1rem 0.5rem 1rem 0;

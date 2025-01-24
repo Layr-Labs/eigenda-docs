@@ -1,0 +1,37 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.cardsContainer {
+  margin: 3em 0;
+}
+
+.card {
+  padding: 1rem;
+  margin-top: 0rem;
+  transition-property: all;
+  transition-duration: 200ms;
+  align-items: start;
+  height: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+.card a {
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: translate(0px, -5px);
+}
+
+.cardBody {
+  font-family: var(--ifm-font-family-monospace);
+}
+
+.cardHeader h2 {
+  color: var(--eigenda-main);
+}
