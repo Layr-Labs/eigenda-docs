@@ -57,6 +57,11 @@
 
   --ifm-blockquote-color: var(--eigenda-main);
   --ifm-blockquote-border-color: var(--eigenda-accent-sky-darker);
+
+  --ifm-navbar-search-input-background-color: var(--eigenda-accent-sky-lighter);
+  --ifm-navbar-search-input-color: var(--eigenda-main);
+  --search-local-modal-background: var(--eigenda-accent-sky-lighter);
+  --search-local-modal-shadow: none;
 }
 
 .alert--warning {
@@ -109,6 +114,10 @@ h1 > strong, h2 > strong, h3 > strong, h4 > strong {
 .navbar__link:hover {
   color: var(--eigenda-main-lighter);
 }
+
+.navbar__search-input::placeholder {
+  color: var(--eigenda-main-muted);
+} 
 
 @media (max-width: 996px) {
   .navbar__brand {
