@@ -11,7 +11,7 @@ module.exports = {
     },
     {
       type: "html",
-      value: '<div class="sidebar-separator"></div>',
+      value: '<div class="sidebar-spacer"></div>',
     },
     {
       type: "html",
@@ -23,7 +23,7 @@ module.exports = {
     },
     {
       type: "html",
-      value: '<div class="sidebar-separator"></div>',
+      value: '<div class="sidebar-spacer"></div>',
     },
     {
       type: "html",
@@ -35,7 +35,7 @@ module.exports = {
     },
     {
       type: "html",
-      value: '<div class="sidebar-separator"></div>',
+      value: '<div class="sidebar-spacer"></div>',
     },
     {
       type: "html",
@@ -47,7 +47,7 @@ module.exports = {
     },
     {
       type: "html",
-      value: '<div class="sidebar-separator"></div>',
+      value: '<div class="sidebar-spacer"></div>',
     },
     {
       type: "html",
