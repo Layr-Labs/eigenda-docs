@@ -163,9 +163,12 @@
 }
 
 .theme-doc-sidebar-container {
-  padding-left: 32px;
   margin-top: 0 !important;
   border-right: 0 !important;
+}
+
+.theme-doc-sidebar-container nav {
+  padding-left: 42px;
 }
 
 .theme-doc-sidebar-menu {
