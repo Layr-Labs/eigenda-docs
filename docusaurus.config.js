@@ -292,7 +292,6 @@ const config = {
         defaultMode: "light",
       },
       navbar: {
-        // title: "Docs",
         logo: {
           alt: "EigenDA Logo",
           src: "img/eigenda-logo.svg",
