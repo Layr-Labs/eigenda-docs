@@ -6,7 +6,6 @@ function Home() {
   return (
     <Layout title="Homepage" description="EigenDA Documentation">
       <main className={styles.main}>
-        <br />
         <h1 className={styles.heading}>EigenDA Documentation</h1>
         <section className={styles.features}>
           <div className="container">
