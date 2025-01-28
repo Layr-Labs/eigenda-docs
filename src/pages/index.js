@@ -7,12 +7,10 @@ function Home() {
     <Layout title="Homepage" description="EigenDA Documentation">
       <main className={styles.main}>
         <br />
-        <h1 align="center" title="tagline">
-          EigenDA Documentation
-        </h1>
+        <h1 className={styles.heading}>EigenDA Documentation</h1>
         <section className={styles.features}>
           <div className="container">
-            <div className="row cards__container">
+            <div className="row">
               <Card
                 to="overview"
                 header="About EigenDA"

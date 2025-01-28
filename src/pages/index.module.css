@@ -10,12 +10,6 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
 .buttons {
   display: flex;
   align-items: center;
@@ -26,19 +20,16 @@
   color: blue;
 }
 
-
-
-
 .main {
   margin-bottom: 50px;
   margin-top: 0px;
 }
 
-
 .features {
   display: flex;
   align-items: top;
   width: 100%;
+  margin-top: 48px;
 }
 
 .featureImage {
@@ -48,4 +39,24 @@
 
 .iconExternalIcon {
   margin-left: 0.5em;
+}
+
+.heading {
+  text-align: center;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem;
+  }
+
+  .heading {
+    text-align: left;
+    padding-left: 2rem;
+    padding-right: 1rem;
+  }
+
+  .features {
+    margin-top: 24px;
+  }
 }
