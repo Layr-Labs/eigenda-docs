@@ -156,7 +156,6 @@ h4 > strong {
 }
 
 .theme-doc-sidebar-container {
-  margin-top: 0 !important;
   border-right: 0 !important;
 }
 
@@ -165,7 +164,8 @@ h4 > strong {
 }
 
 .theme-doc-sidebar-menu {
-  padding-bottom: 32px;
+  padding-top: 56px;
+  padding-bottom: 56px;
 }
 
 .menu__link--active {
