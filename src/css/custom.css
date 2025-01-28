@@ -183,6 +183,7 @@ h4 > strong {
 
 .pagination-nav__link {
   font-family: var(--ifm-font-family-monospace);
+  color: var(--eigenda-main);
 }
 
 .footer {
