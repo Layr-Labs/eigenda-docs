@@ -10,6 +10,8 @@
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   margin-top: 0rem;
   transition-property: all;
@@ -18,6 +20,8 @@
   height: 100%;
   border: none;
   box-shadow: none;
+
+  color: var(--eigenda-main);
 }
 
 .card a {
@@ -25,7 +29,7 @@
 }
 
 .card:hover {
-  transform: translate(0px, -5px);
+  color: var(--eigenda-main);
 }
 
 .cardBody {
