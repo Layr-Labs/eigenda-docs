@@ -4,7 +4,6 @@ require("dotenv").config();
 
 const { themes } = require("prism-react-renderer");
 const lightCodeTheme = themes.github;
-const darkCodeTheme = themes.dracula;
 const math = require("remark-math");
 const katex = require("rehype-katex");
 
@@ -28,7 +27,7 @@ const config = {
   onBrokenMarkdownLinks: "throw",
 
   markdown: {
-    mermaid: true
+    mermaid: true,
   },
 
   // Even if you don't use internalization, you can use this field to set useful
@@ -38,6 +37,48 @@ const config = {
     defaultLocale: "en",
     locales: ["en"],
   },
+
+  headTags: [
+    {
+      tagName: "link",
+      attributes: {
+        rel: "icon",
+        type: "image/png",
+        href: "/img/favicon-96x96.png",
+        sizes: "96x96",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/img/favicon.svg",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossorigin: "anonymous",
+      },
+    },
+    {
+      tagName: "link",
+      attributes: {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital@0;1&display=swap&subset=latin-ext",
+      },
+    },
+  ],
 
   plugins: [
     [
@@ -212,12 +253,12 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve("./sidebars.js"),
           breadcrumbs: true,
           routeBasePath: "/",
           remarkPlugins: [math],
           rehypePlugins: [katex],
-          showLastUpdateTime: false
+          showLastUpdateTime: false,
         },
         blog: {
           blogTitle: "EigenDA Status",
@@ -226,11 +267,15 @@ const config = {
         },
 
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: [
+            "./src/css/custom.css",
+            "./src/css/fonts.css",
+            "./src/css/headerGithubLink.css",
+          ],
         },
 
         gtag: {
-          trackingID: 'G-Z1L4DWRVCZ',
+          trackingID: "G-Z1L4DWRVCZ",
           anonymizeIP: true,
         },
       }),
@@ -240,16 +285,19 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/eigenda-logo.png',
+      image: "img/eigenda-logo.svg",
 
       colorMode: {
-        respectPrefersColorScheme: true,
+        disableSwitch: true,
+        defaultMode: "light",
       },
       navbar: {
-        title: "EigenDA Docs",
         logo: {
           alt: "EigenDA Logo",
-          src: "img/eigenda-logo.png",
+          src: "img/eigenda-logo.svg",
+          style: {
+            marginLeft: 32,
+          },
         },
         items: [
           {
@@ -321,24 +369,23 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Layr Labs`,
+        copyright: `Copyright © ${new Date().getFullYear()} <a href="https://www.eigenlabs.org">Layr Labs</a>`,
       },
       docs: {
         sidebar: {
           autoCollapseCategories: true,
-          hideable: true,
+          hideable: false,
         },
       },
       prism: {
         theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-        additionalLanguages: ["bash"],
+        additionalLanguages: ["bash", "protobuf", "solidity"],
       },
     }),
   scripts: [
     // Object format.
     {
-      src: '/js/intercom.js',
+      src: "/js/intercom.js",
       async: true,
     },
   ],
@@ -356,7 +403,7 @@ const config = {
         docsRouteBasePath: "/",
       }),
     ],
-    '@docusaurus/theme-mermaid'
+    "@docusaurus/theme-mermaid",
   ],
 };
 

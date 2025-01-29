@@ -86,8 +86,7 @@ Clients looking to send authenticated traffic to EigenDA mainnet or testnet shou
 
 The following is a detailed description of the behavior of the `DisperseBlobAuthenticated()` endpoint. To quickly get started using this endpoint, you can use the golang client described in the quick start guide. 
 
-
-```proto
+```protobuf
 service Disperser {
  rpc DisperseBlobAuthenticated(stream AuthenticatedRequest) returns (stream AuthenticatedReply);
     ...
@@ -111,7 +110,7 @@ message AuthenticatedReply {
 
 1. The client opens a connection to `DisperseBlobAuthenticated()` endpoint, sending a `DisperseBlobRequest` message with the Ethereum address they wish to authenticate with as account_id:
 
-```proto
+```protobuf
 message DisperseBlobRequest {
     bytes data = 1;
     repeated uint32 custom_quorum_numbers = 2;
@@ -124,7 +123,7 @@ message DisperseBlobRequest {
 
 2. The server validates this request, sending back a challenge string in the form of a `BlobAuthHeader`:
 
-```proto
+```protobuf
 message BlobAuthHeader {
     uint32 challenge_parameter = 1;
 }
@@ -132,7 +131,7 @@ message BlobAuthHeader {
 
 3. The client ECDSA signs the challenge parameter bytes with the private key associated with the Ethereum address they sent in step 1, returning this to the server in an `AuthenticationData` message:
 
-```proto
+```protobuf
 message AuthenticationData {
     bytes authentication_data = 1;
 }
@@ -140,7 +139,7 @@ message AuthenticationData {
 
 4. The server validates the returned challenge. If the signature of the challenge verifies against the public key of the Ethereum address that was specified in step 1, then the request is granted, and the blob is dispersed. The server returns a `DisperseBlobReply` conforming to the following schema:
 
-```proto
+```protobuf
 message DisperseBlobReply {
     BlobStatus result = 1;
     bytes request_id = 2;
@@ -166,7 +165,7 @@ This endpoint returns the dispersal status and metadata associated with a given 
 
 Since the BlobInfo type has many nested sub-structs, it's easier to describe its schema by annotating an example:
 
-```json
+```javascript
 {
   "status":  "CONFIRMED", // means that the blob's batch metadata has been registered in the EigenDA manager contract, but the block in which it was registered has not yet finalized.
   "info":  {
