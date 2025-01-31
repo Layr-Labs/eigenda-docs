@@ -7,9 +7,9 @@ sidebar_position: 2
 
 The Payments system streamlines user interactions with the EigenDA, offering clear, flexible options for managing network bandwidth. With the payments update, EigenDA will support two flexible payment modalities:
 
-1. **Pay per Blob**: Users can make pre-paid payments for occasional usage without time limitations or throughput guarantees. Charges are applied only when the request is successfully processed, providing flexibility for users with dynamic bandwidth requirements.
+1. **On-demand payments**: Users can make pre-paid payments for occasional usage without time limitations or throughput guarantees, and payments are recored per blob dispersal request. Charges are applied only when the request is successfully validated by the disperser server, providing flexibility for users with dynamic bandwidth requirements. 
 
-2. **Reserved Bandwidth**: Users can reserve bandwidth for a fixed time period by pre-paying for system capacity, ensuring consistent and reliable throughput at discounted prices.
+2. **Reservations**: Users can reserve bandwidth for a fixed time period by pre-paying for system capacity, ensuring consistent and reliable throughput at discounted prices.
 
 The system supports transparent pricing and metering through a centralized disperser, which handles both accounting and metering. The current design assumes trust in the disperser to allow efficient allocation and distribution of bandwidth.
 
@@ -17,15 +17,15 @@ The system supports transparent pricing and metering through a centralized dispe
 
 The overall goal of the payments upgrade is to introduce flexible payment modalities to EigenDA in a manner that can be gracefully extended in order to support permissionless dispersal to the EigenDA validator network.
 
-### Pay Per Blob
+### On-Demand Payments
 
-Pay per Blob payments allow users to make occasional, pre-paid payments without specific time limitations or throughput guarantees. This approach is ideal for users with unpredictable bandwidth needs. Through the `PaymentVault` contract, users can deposit funds via the `depositOnDemand` function. Charges are only applied once the dispersal request is successfully processed, offering a flexible and efficient solution for dynamic usage patterns.
+On-demand payments allow users to make occasional, pre-paid payments and get charged per blob request, without specific time limitations or throughput guarantees. This approach is ideal for users with unpredictable bandwidth needs. Through the `PaymentVault` contract, users can deposit funds via the `depositOnDemand` function. Charges are only applied once the dispersal request is successfully processed, offering a flexible and efficient solution for dynamic usage patterns.
 
 Users can retrieve their current on-demand balance from the disperser, enabling users to monitor their available funds effectively and plan for future bandwidth usage.
 
-### Reserved Bandwidth
+### Reservations 
 
-Reserved payments provide customers with consistent bandwidth over a defined period. The EigenDA `PaymentVault` contract maintains a record of existing reservations, with each reservation specifying the bandwidth allowance, period of applicability, etc.
+Reservations provide customers with consistent bandwidth over a defined period. The EigenDA `PaymentVault` contract maintains a record of existing reservations, with each reservation specifying the bandwidth allowance, period of applicability, etc.
 
 Once a reservation is created onchain, it can be updated through the `setReservation` function in the contract. This function is called by EigenDA governance to manage and maintain reservations for users.
 
