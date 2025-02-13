@@ -102,17 +102,17 @@ Example: Initially, EigenDA team will set the price per symbol to be `0.4470gwei
 
 ### Reserved Usage (Reservations)
 
-Here we repeat the `PaymentMetadata` created by the disperser client for every dispersal request. Note here that reservation payments utilizes the `ReservationPeriod` field for metering reservation usage.
+Here we repeat the `PaymentMetadata` created by the disperser client for every dispersal request. Note here that reservation payments utilizes the `Timestamp` field for metering reservation usage.
 
 ```go
 // PaymentMetadata represents the payment information for a blob
 type PaymentMetadata struct {
   // AccountID is the ETH account address for the payer
   AccountID string
-  // Timestamp represents the nanosecond of the dispersal request creation
-  // ! this field is not used for on-demand payments
+  // Timestamp is the timestamp of the request, in units of nanoseconds
   Timestamp int64
-  // CumulativePayment is the amount of payment cumulated for all previous and current dispersal
+  // CumulativePayment is the number of payment has cumulatived for all previous and current dispersal
+  // ! this field is not used for reservations
   CumulativePayment *big.Int
 }
 ```
@@ -124,9 +124,9 @@ Users would reserve some usage by setting a reservation onchain. It creates dedi
 struct Reservation {
   // Number of symbols reserved per second
   uint64 symbolsPerSecond; 
-  // timestamp of when reservation begins
+  // timestamp of when reservation begins (In seconds)
   uint64 startTimestamp;
-  // timestamp of when reservation ends
+  // timestamp of when reservation ends (In seconds)
   uint64 endTimestamp;
   // quorum numbers in an ordered bytes array, allow for custom quorums
   bytes quorumNumbers;
