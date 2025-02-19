@@ -57,13 +57,11 @@ Requests created by the disperser client contain a `BlobHeader`, which contains 
 type PaymentMetadata struct {
   // AccountID is the ETH account address for the payer
   AccountID string
-  // ReservationPeriod is the period to account for the dispersal usage
+  // Timestamp represents the nanosecond of the dispersal request creation
   // ! this field is not used for on-demand payments
-  ReservationPeriod uint32
+  Timestamp int64
   // CumulativePayment is the amount of payment cumulated for all previous and current dispersal
   CumulativePayment *big.Int
-  // Salt allows the same blob to be dispersed multiple times within the same reservation period
-  Salt uint32
 }
 ```
 
@@ -112,13 +110,11 @@ Here we repeat the `PaymentMetadata` created by the disperser client for every d
 type PaymentMetadata struct {
   // AccountID is the ETH account address for the payer
   AccountID string
-  // ReservationPeriod is the period to account for the dispersal usage
-  ReservationPeriod uint32
-  // CumulativePayment is the number of payment has cumulatived for all previous and current dispersal
-  // ! this field is not used for reservations
+  // Timestamp represents the nanosecond of the dispersal request creation
+  // ! this field is not used for on-demand payments
+  Timestamp int64
+  // CumulativePayment is the amount of payment cumulated for all previous and current dispersal
   CumulativePayment *big.Int
-  // Salt allows the same blob to be dispersed multiple times within the same reservation period
-  Salt uint32
 }
 ```
 
