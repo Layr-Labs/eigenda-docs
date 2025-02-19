@@ -215,7 +215,7 @@ of the L2 VM design works as-is for arbitrating fraud.
 
 <!-- ![M2 chain finalization](/img/eigenda/optimistic-M2-dispersal.png) -->
 
-The V2 integration strategy is similar to the V1 integration strategy, with the
+The integration strategy under Blazar release is similar to the existing integration strategy, with the
 difference that EigenDA certificates are not verified on Ethereum. Instead, they
 are verified within the L2 itself, such that the validity of DA certs is
 enforced by the same fraud proof mechanism that is used with all other L2 state.

@@ -1,68 +1,68 @@
 ---
-title: V2
+title: Blazar
 sidebar_position: 1
 ---
 
 # Executive Summary
 
-EigenDA V2 is a comprehensive network upgrade bringing together variety of architectural updates along with more efficient bridging strategies, in order to make EigenDA more performant, robust, and user-friendly.
+Blazar release is a comprehensive network upgrade bringing together variety of architectural updates along with more efficient bridging strategies, in order to make EigenDA more performant, robust, and user-friendly.
 
-EigenDA V2 will have a massive impact on the system’s core performance parameters:
+Blazar will have a massive impact on the system’s core performance parameters:
 
-**Reduced confirmation latency**. Rollups that upgrade to the recommended integration strategies will see confirmation latencies reduced from several minutes to less than a minute. The near-term goal for EigenDA V2 is confirmation latencies of less than 10 seconds.
+**Reduced confirmation latency**. Rollups that upgrade to the recommended integration strategies will see confirmation latencies reduced from several minutes to less than a minute. The near-term goal for Blazar is confirmation latencies of less than 10 seconds.
 
-**Improved system throughput and stability**. Optimized network utilization in EigenDA V2 is expected to unlock substantial improvements to the capacity and stability of the decentralized EigenDA network.
+**Improved system throughput and stability**. Optimized network utilization in Blazar is expected to unlock substantial improvements to the capacity and stability of the decentralized EigenDA network.
 
-Additionally, EigenDA V2 bundles features such as [consumer payments](./payments.md), which allow for permissionless usage of EigenDA by different applications.
+Additionally, Blazar bundles features such as [consumer payments](./payments.md), which allow for permissionless usage of EigenDA by different applications.
 
 ## Motivation
 
-EigenDA V2 addresses several performance and usability issues identified in the EigenDA core protocol.
+Blazar addresses several performance and usability issues identified in the EigenDA core protocol.
 
 ### Design Goals
 
 #### **Control Plane + Data Plane Separation**
 
-The heart of EigenDA V2's architectural update is a cleaner separation of “data plane” and “control plane” communications within the core protocol:
+The heart of Blazar's architectural update is a cleaner separation of “data plane” and “control plane” communications within the core protocol:
 
 - In the original EigenDA architecture, the disperser sends a payload to the DA nodes consisting of both metadata (blob headers) and data (encoded chunks).
-- In the EigenDA V2 upgrade, the disperser simply sends a batch of blob headers to the DA nodes. Upon validating payment and rate limit information, the DA nodes then request to download the associated data payloads from the disperser.
+- In the Blazar upgrade, the disperser simply sends a batch of blob headers to the DA nodes. Upon validating payment and rate limit information, the DA nodes then request to download the associated data payloads from the disperser.
 
 This separation at the protocol level has a few important benefits for enabling improved performance and expanded features:
 
-**Optimized Data Plane Implementations.** EigenDA V2 makes possible optimized and scalable data plane implementations for various component implementations:
+**Optimized Data Plane Implementations.** Blazar makes possible optimized and scalable data plane implementations for various component implementations:
 
 - The disperser employs a content distribution network composed of specialized “relays” for serving encoded chunks to DA nodes at high volume and low latency.
 - DA Nodes can make use of parallelized requests and other strategies to optimize download performance from the relay CDN. In the future, DA nodes themselves can be optimized to be horizontally scalable for improved performance and robustness.
 
-**DDoS protection for decentralized dispersal.** EigenDA V2 is one of a few final stepping stones toward decentralized dispersal on EigenDA. In the original EigenDA architecture, the push model of coupled data and control plane messages from disperser to DA node presents a DDoS risk for permissionless dispersal; by enabling DA nodes to elect to initiate data plane interactions, EigenDA V2 removes this expensive attack surface, paving the way for a secure decentralized dispersal pattern.
+**DDoS protection for decentralized dispersal.** Blazar is one of a few final stepping stones toward decentralized dispersal on EigenDA. In the original EigenDA architecture, the push model of coupled data and control plane messages from disperser to DA node presents a DDoS risk for permissionless dispersal; by enabling DA nodes to elect to initiate data plane interactions, Blazar removes this expensive attack surface, paving the way for a secure decentralized dispersal pattern.
 
 #### Optimized Confirmation Patterns
 
-EigenDA V2 removes EigenDA's batched bridging pattern, although this feature may be reintroduced in an optimized form in future releases. A majority of EigenDA integrations are building toward a near-term state of independence from pessimistic on-chain confirmation.
+Blazar removes EigenDA's batched bridging pattern, although this feature may be reintroduced in an optimized form in future releases. A majority of EigenDA integrations are building toward a near-term state of independence from pessimistic on-chain confirmation.
 
-Eliminating batched bridging enables EigenDA V2 to transmit data to DA nodes in a steady manner, eliminating bursty traffic that sometimes presents difficulties for node systems, while eliminating a major source of latency present in the original system.
+Eliminating batched bridging enables Blazar to transmit data to DA nodes in a steady manner, eliminating bursty traffic that sometimes presents difficulties for node systems, while eliminating a major source of latency present in the original system.
 
-Because the EigenDA V2 integration strategy internalizes blob confirmation into the rollup logic, integrations no longer need to wait for Ethereum L1 confirmation or finalization times before referencing a blob within a rollup inbox contract—thus eliminating another major source of latency.
+Because the Blazar integration strategy internalizes blob confirmation into the rollup logic, integrations no longer need to wait for Ethereum L1 confirmation or finalization times before referencing a blob within a rollup inbox contract—thus eliminating another major source of latency.
 
 Together, these changes are expected reduce the end-to-end latency of EigenDA from several minutes to several seconds.
 
 #### Other Optimizations
 
-EigenDA V2 includes a refined model for data allocation to DA nodes and blob security verification. This model results primarily in simplified logic and reduced encoding burden for the EigenDA disperser.
+Blazar includes a refined model for data allocation to DA nodes and blob security verification. This model results primarily in simplified logic and reduced encoding burden for the EigenDA disperser.
 
 ## Features & Specification
 
 ### High-Level Design
 
-EigenDA V2 involves updates to the following system components as well as their respective clients:
+Blazar involves updates to the following system components as well as their respective clients:
 
 - Dispersers
 - Validator Nodes
 
 ![image.png](../../static/img/releases/v2-1.png)
 
-In EigenDA V2, the disperser runs a new component known as a Relay, which acts as a server for encoded blob chunks, KZG opening proofs, and unencoded blobs.
+In Blazar, the disperser runs a new component known as a Relay, which acts as a server for encoded blob chunks, KZG opening proofs, and unencoded blobs.
 
 ### Blob lifecycle
 
@@ -374,36 +374,36 @@ interface IEigenDARelayRegistry {
 
 ### Throttles
 
-The V2 upgrade introduces enhanced throttling mechanisms to better manage finite resources like bandwidth, memory, and computational capacity. These updates improve system resilience against traffic surges, whether from malicious activity or organic demand spikes. Throttles are calibrated to avoid impacting typical usage while ensuring critical subsystems remain stable under stress.
+Blazar upgrade introduces enhanced throttling mechanisms to better manage finite resources like bandwidth, memory, and computational capacity. These updates improve system resilience against traffic surges, whether from malicious activity or organic demand spikes. Throttles are calibrated to avoid impacting typical usage while ensuring critical subsystems remain stable under stress.
 
 ### Authenticated Traffic
 
-Authenticated traffic now benefits from resource-aware throttling, which allocates resources more effectively by leveraging cryptographic identity verification. Key protocol components, including the disperser, relays, and DA nodes, now utilize authenticated channels to enhance robustness during high-load scenarios. V2’s updates significantly strengthen these interactions, bolstering the data backbone’s reliability.
+Authenticated traffic now benefits from resource-aware throttling, which allocates resources more effectively by leveraging cryptographic identity verification. Key protocol components, including the disperser, relays, and DA nodes, now utilize authenticated channels to enhance robustness during high-load scenarios. Blazar’s updates significantly strengthen these interactions, bolstering the data backbone’s reliability.
 
 ### Enhanced Security for RPCs
 
-V2 addresses potential denial-of-service risks by introducing authentication for RPCs exposed by DA nodes. This ensures that only callers with valid cryptographic keys can access these RPCs, reducing reliance on external firewalls for security. These changes enhance the platform's security posture and protect against misconfigurations, ensuring more reliable operations.
+Blazar addresses potential denial-of-service risks by introducing authentication for RPCs exposed by DA nodes. This ensures that only callers with valid cryptographic keys can access these RPCs, reducing reliance on external firewalls for security. These changes enhance the platform's security posture and protect against misconfigurations, ensuring more reliable operations.
 
 ## Impact Summary
 
 ### Validator Operator Impact
 
-Operator will need to update their DA validator node software in order to attest blobs dispersed as part of the V2 system. The V2 validator node software is implemented in the same binary as V1, so that operators only need to update their node software version.
+Operator will need to update their DA validator node software in order to attest blobs dispersed as part of the Blazar system. Blazar validator node software is implemented in the same binary as V1, so that operators only need to update their node software version.
 
-V2 bandwidth usage will stay within the parameters of advertised V1 usage, so that existing system requirements specifications remain valid.
+Blazar bandwidth usage will stay within the parameters of advertised V1 usage, so that existing system requirements specifications remain valid.
 
 ### Rollup Stack Impact
 
 Rollups will need to perform the following upgrade actions:
 
-1. **Update data routing**. Deploying a version of https://github.com/Layr-Labs/eigenda-proxy that supports V2 (internally this new release will use the [EigenDA clients V2](https://github.com/Layr-Labs/eigenda/tree/master/api/clients/v2)) will enable use of the V2 endpoints. We will make an announcement once such a release is ready.
-   1. Once you do so, all blob POST request submitted to proxy will be dispersed to the EigenDA V2 disperser, and encoded using a commitment with a [0x1 version byte](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#commitment-schemas) (as opposed to 0x0 for V1).
-   2. GET requests will be [routed](https://github.com/Layr-Labs/eigenda-proxy/blob/44191c1a1b3149d52a80f2fa82690f4a92ac62db/server/routing.go#L22) to the correct V1 or V2 network based on their commitment version byte.
-2. **Implement Secure Verification**. We are in the process of individually updating each rollup stack in order to support secure integration strategies (such as fault proofs or validity proofs) for V2.
+1. **Update data routing**. Deploying a version of https://github.com/Layr-Labs/eigenda-proxy that supports Blazar (internally this new release will use the [EigenDA clients](https://github.com/Layr-Labs/eigenda/tree/master/api/clients/v2)) will enable use of the Blazar endpoints. We will make an announcement once such a release is ready.
+   1. Once you do so, all blob POST request submitted to proxy will be dispersed to the Blazar disperser, and encoded using a commitment with a [0x1 version byte](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#commitment-schemas) (as opposed to 0x0 for V1).
+   2. GET requests will be [routed](https://github.com/Layr-Labs/eigenda-proxy/blob/44191c1a1b3149d52a80f2fa82690f4a92ac62db/server/routing.go#L22) to the correct network based on their commitment version byte.
+2. **Implement Secure Verification**. We are in the process of individually updating each rollup stack in order to support secure integration strategies (such as fault proofs or validity proofs) for Blazar.
 
 ## Action Plan
 
-The V2 protocol will be progressively released to the Holesky testnet and Ethereum mainnet environments according to the following expected timeline. Once V2 validator software has been released on an environment, validator operators will have a period of some number of weeks in order to upgrade their software
+Blazar will be progressively released to the Holesky testnet and Ethereum mainnet environments according to the following expected timeline. Once Blazar validator software has been released on an environment, validator operators will have a period of some number of weeks in order to upgrade their software
 
 | **Environment** | **Targeted release date** | **Eligibility for ejection** |
 | --------------- | ------------------------- | ---------------------------- |
