@@ -1,9 +1,9 @@
 ---
-title: Blazar (v2) Migration
+title: Blazar (V2) Migration
 sidebar_position: 6
 ---
 
-# EigenDA Blazar (v2) Migration
+# EigenDA Blazar (V2) Migration
 
 Operators running v1 will need to define new v2 specific environment variables, expose 2 new ports, and update their socket registration as part of the migration to v2.
 
