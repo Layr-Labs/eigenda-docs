@@ -3,7 +3,7 @@ title: v2 Migration
 sidebar_position: 6
 ---
 
-# EigenDA v2 Migration
+# EigenDA Blazar Migration
 
 Operators running v1 will need to define new v2 specific environment variables, expose 2 new ports, and update their socket registration as part of the migration to v2.
 
@@ -26,7 +26,7 @@ MAIN_SERVICE_IMAGE=ghcr.io/layr-labs/eigenda/opr-node:0.9.0-rc.0
 ```
 
 ### 3. Update socket registration
-EigenDA v2 adds new ports to the socket registration. Socket registration update is required to receive v2 traffic.
+EigenDA Blazar adds new ports to the socket registration. Socket registration update is required to receive v2 traffic.
 
 Ensure that you are using the latest version of the [eigenda-operator-setup](https://github.com/Layr-Labs/eigenda-operator-setup/releases) before updating the socket.
 ```
@@ -60,7 +60,7 @@ This change requires the operator to define the `NODE_BLS_SIGNER_API_KEY` enviro
 Follow the steps from the [cerberus setup guide](https://github.com/Layr-Labs/cerberus?tab=readme-ov-file#remote-signer-implementation-of-cerberus-api) to create an API key.
 
 
-## V2 Environment Variable Reference
+## Environment Variable Reference
 
 ### `EIGENDA_RUNTIME_MODE`
 This environment variable will be used to determine the runtime mode of the EigenDA node.
