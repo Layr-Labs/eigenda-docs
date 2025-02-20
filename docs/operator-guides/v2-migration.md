@@ -1,9 +1,9 @@
 ---
-title: v2 Migration
+title: Blazar (v2) Migration
 sidebar_position: 6
 ---
 
-# EigenDA Blazar Migration
+# EigenDA Blazar (v2) Migration
 
 Operators running v1 will need to define new v2 specific environment variables, expose 2 new ports, and update their socket registration as part of the migration to v2.
 
@@ -52,10 +52,10 @@ Feb 20 19:50:46.760 INF grpc/server_v2.go:140 new StoreChunks request batchHeade
 
 ```
 
-## V2 Remote BLS Signer API Migration
-With the release of `v0.9.0-rc.0`, the the node is upgraded to use the latest [cerberus](https://github.com/Layr-Labs/cerberus) remote BLS signer API.
+## Remote BLS Signer API Migration
+With the release of EigenDA Blazar, the the node has been upgraded to use the latest [cerberus](https://github.com/Layr-Labs/cerberus) remote BLS signer API.
 
-This change requires the operator to define the `NODE_BLS_SIGNER_API_KEY` environment variable within the `.env` file.
+This upgrade requires the operator to define the `NODE_BLS_SIGNER_API_KEY` environment variable within the `.env` file.
 
 Follow the steps from the [cerberus setup guide](https://github.com/Layr-Labs/cerberus?tab=readme-ov-file#remote-signer-implementation-of-cerberus-api) to create an API key.
 
