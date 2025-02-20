@@ -52,6 +52,14 @@ Feb 20 19:50:46.760 INF grpc/server_v2.go:140 new StoreChunks request batchHeade
 
 ```
 
+## V2 Remote BLS Signer API Migration
+With the release of `v0.9.0-rc.0`, the the node is upgraded to use the latest [cerberus](https://github.com/Layr-Labs/cerberus) remote BLS signer API.
+
+This change requires the operator to define the `NODE_BLS_SIGNER_API_KEY` environment variable within the `.env` file.
+
+Follow the steps from the [cerberus setup guide](https://github.com/Layr-Labs/cerberus?tab=readme-ov-file#remote-signer-implementation-of-cerberus-api) to create an API key.
+
+
 ## V2 Environment Variable Reference
 
 ### `EIGENDA_RUNTIME_MODE`
