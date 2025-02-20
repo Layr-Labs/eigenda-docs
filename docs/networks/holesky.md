@@ -9,7 +9,8 @@ The EigenDA Holesky testnet is the current EigenDA testnet. The EigenDA Holesky 
 ## Quick Links
 
 * [AVS Page][2]
-* [Blob Explorer][1]
+* [Blob Explorer V1][1]
+* [Blob Explorer Blazar (V2)][4]
 * [Deployed Contract Addresses][3]
 
 ## Specs
@@ -18,7 +19,7 @@ The EigenDA Holesky testnet is the current EigenDA testnet. The EigenDA Holesky 
 | --- | --- |
 | Disperser Address | `disperser-holesky.eigenda.xyz:443` |
 | Churner Address | `churner-holesky.eigenda.xyz:443` |
-| Batch Confirmation Interval | Every 10 minutes (may vary based on network health) |
+| Batch Confirmation Interval (V1) | Every 10 minutes (may vary based on network health) |
 | Max Blob Size | 16 MiB |
 | Default Blob Dispersal Rate limit | No more than 1 blob every 100 seconds |
 | Default Blob Size Rate Limit | No more than 1.8 MiB every 10 minutes |
@@ -36,3 +37,4 @@ The EigenDA Holesky testnet is the current EigenDA testnet. The EigenDA Holesky 
 [1]: https://blobs-holesky.eigenda.xyz/
 [2]: https://holesky.eigenlayer.xyz/avs/eigenda
 [3]: https://github.com/Layr-Labs/eigenlayer-middleware/?tab=readme-ov-file#current-testnet-deployment
+[4]: https://blobs-v2-testnet-holesky.eigenda.xyz/
