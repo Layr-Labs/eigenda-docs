@@ -229,6 +229,10 @@ const config = {
             from: "/eigenda/integrations-guides/dispersal/clients/golang-client",
             to: "/integrations-guides/dispersal/clients/golang-client",
           },
+          {
+            from: "/releases/v2",
+            to: "/releases/blazar",
+          },
         ],
         createRedirects(existingPath) {
           return undefined; // Return a falsy value: no redirect created
