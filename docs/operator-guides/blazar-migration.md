@@ -7,10 +7,10 @@ sidebar_position: 6
 
 Operators running v1 will need to define new v2 specific environment variables, expose 2 new ports, and update their socket registration as part of the migration to v2.
 
-## Blazar Migration Timeline
+## Testnet Migration Timeline
 We are asking for all testnet operators to migrate to v2 within 2 weeks post Blazar testnet launch (Feb 20, 2025).
 
-V2 ejections will be disabled during the initial Blazar migration period. V1 ejections will continue as normal during migration to Blazar.
+During this period, ejections based on Blazar (V2) signing rates will be paused (ejections based on V1 signing rate will continue to be performed). After this period, operator signing rates will be measured as the worse of V1 and Blazar (V2) signing rate, and will be ejected based on the worse of the two signing rates.
 
 ## Migration Steps
 ### 1. Update `.env` with v2 specific environment variables
