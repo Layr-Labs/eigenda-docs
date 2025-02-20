@@ -1,11 +1,11 @@
 ---
-title: Blazar
+title: Blazar (EigenDA V2)
 sidebar_position: 1
 ---
 
 # Executive Summary
 
-Blazar release is a comprehensive network upgrade bringing together variety of architectural updates along with more efficient bridging strategies, in order to make EigenDA more performant, robust, and user-friendly.
+Blazar (aka EigenDA V2) release is a comprehensive network upgrade bringing together variety of architectural updates along with more efficient bridging strategies, in order to make EigenDA more performant, robust, and user-friendly.
 
 Blazar will have a massive impact on the system’s core performance parameters:
 
