@@ -7,9 +7,9 @@ sidebar_position: 2
 
 The Payments system streamlines user interactions with the EigenDA, offering clear, flexible options for managing network bandwidth. With the payments update, EigenDA will support two flexible payment modalities:
 
-1. **On-demand Usage**: Users can make pre-paid payments for occasional usage without time limitations or throughput guarantees, and payments are recored per blob dispersal request. Charges are applied only when the request is successfully validated by the disperser server, providing flexibility for users with dynamic bandwidth requirements. 
+1. **On-demand Bandwidth**: Users can make pre-paid payments for occasional bandwidth usage without time limitations or throughput guarantees, and payments are recored per blob dispersal request. Charges are applied only when the request is successfully validated by the disperser server, providing flexibility for users with dynamic bandwidth requirements. 
 
-2. **Reserved Usage**: Users can reserve bandwidth for a fixed time period by pre-paying for system capacity, ensuring consistent and reliable throughput at discounted prices.
+2. **Reserved Bandwidth**: Users can reserve bandwidth for a fixed time period by pre-paying for system capacity, ensuring consistent and reliable throughput at discounted prices.
 
 The system supports transparent pricing and metering through a centralized disperser, which handles both accounting and metering. The current design assumes trust in the disperser to allow efficient allocation and distribution of bandwidth.
 
@@ -17,19 +17,19 @@ The system supports transparent pricing and metering through a centralized dispe
 
 The overall goal of the payments upgrade is to introduce flexible payment modalities to EigenDA in a manner that can be gracefully extended in order to support permissionless dispersal to the EigenDA validator network.
 
-### On-Demand Usage
+### On-Demand Bandwidth
 
-On-demand usage allow users to make occasional, pre-paid payments and get charged per blob request, without specific time limitations or throughput guarantees. This approach is ideal for users with unpredictable bandwidth needs. Through the `PaymentVault` contract, users can deposit funds via the `depositOnDemand` function. Charges are only applied once the dispersal request is successfully processed, offering a flexible and efficient solution for dynamic usage patterns.
+On-demand bandwidth allow users to make occasional, pre-paid payments and get charged per blob request, without specific time limitations or throughput guarantees. This approach is ideal for users with unpredictable bandwidth needs. Through the `PaymentVault` contract, users can deposit funds via the `depositOnDemand` function. Charges are only applied once the dispersal request is successfully processed, offering a flexible and efficient solution for dynamic bandwidth usage patterns.
 
 Users can retrieve their current on-demand balance from the disperser, enabling users to monitor their available funds effectively and plan for future bandwidth usage.
 
-### Reserved Usage
+### Reserved Bandwidth
 
-Reserved usage provide customers with consistent bandwidth over a defined period. The EigenDA `PaymentVault` contract maintains a record of existing reservations, with each reservation specifying the bandwidth allowance, period of applicability, etc.
+Reserved bandwidth provide customers with consistent bandwidth over a defined period. The EigenDA `PaymentVault` contract maintains a record of existing reservations, with each reservation specifying the bandwidth allowance, period of applicability, etc.
 
 Once a reservation is created onchain, it can be updated through the `setReservation` function in the contract. This function is called by EigenDA governance to manage and maintain reservations for users.
 
-During a reservation's period of applicability, a user client can send a dispersal request authenticated by an account associated with one of these reservations. Such requests are subject to a simple fixed-bin rate limiting algorithm, which helps manage the network load effectively. The fixed-bin algorithm divides time into discrete periods (called `reservationPeriod`) and assigns a usage limit to each period. During each period, requests are accepted until the period's capacity is exhausted. This approach ensures that the network is not overloaded during any specific period.
+During a reservation's period of applicability, a user client can send a dispersal request authenticated by an account associated with one of these reservations. Such requests are subject to a simple fixed-bin rate limiting algorithm, which helps manage the network load effectively. The fixed-bin algorithm divides time into discrete periods (called `reservationPeriod`) and assigns a bandwidth usage limit to each period. During each period, requests are accepted until the period's capacity is exhausted. This approach ensures that the network is not overloaded during any specific period.
 
 ## High-level Design
 
@@ -48,7 +48,7 @@ To initiate a dispersal, the EigenDA client sends a dispersal request containing
 
 ## Low-level Specification
 
-### On-Demand Usage (On-Demand Payments)
+### On-Demand Bandwidth (On-Demand Payments)
 
 Requests created by the disperser client contain a `BlobHeader`, which contains a `PaymentMetadata`  struct as specified below. 
 
@@ -65,7 +65,7 @@ type PaymentMetadata struct {
 }
 ```
 
-On-demand usages is initiated by depositing tokens into the payment vault contract for a particular account, in which the contract stores the total payment deposited to that account (`totalDeposit`). Users should be mindful in depositing as they cannot withdrawal or request for refunds from the current Payment Vault contract. This amount will be validated against the payment metadata’s `CumulativePayment` field authroized by the user for each blob dispersal request. The network will ensure that the `CumulativePayment` is great enough to cover the usage by the user but still remains with the total amount deposited on chain. 
+On-demand bandwidth users must first deposit tokens into the payment vault contract for a particular account, in which the contract stores the total payment deposited to that account (`totalDeposit`). Users should be mindful in depositing as they cannot withdrawal or request for refunds from the current Payment Vault contract. This amount will be validated against the payment metadata’s `CumulativePayment` field authroized by the user for each blob dispersal request. The network will ensure that the `CumulativePayment` is great enough to cover the bandwidth usage by the user but still remains with the total amount deposited on chain. 
 
 ```solidity
 // On-chain record of on-demand payments
@@ -94,15 +94,15 @@ uint64 _globalRatePeriodInterval
 function depositOnDemand(address _account) external payable;
 ```
 
-When a disperser client disperse blobs with on-demand usage, the client will calculate the payment amount with the blob size and  `pricePerSymbol`, `minNumSymbols`, the size of the data to disperse, and the previously sent request. The disperser server takes into account the requests being received out of order and maintains the usages within a global rate limit. If the payment is not enough to cover the request or not valid with respect to previously received requests, or the dispersal is hitting global rate limit, the request will be rejected.
+When a disperser client disperse blobs with on-demand bandwidth, the client will calculate the payment amount with the blob size and  `pricePerSymbol`, `minNumSymbols`, the size of the data to disperse, and the previously sent request. The disperser server takes into account the requests being received out of order and maintains the bandwidth usages within a global rate limit. If the payment is not enough to cover the request or not valid with respect to previously received requests, or the dispersal is hitting global rate limit, the request will be rejected.
 
 Example: Initially, EigenDA team will set the price per symbol to be `0.4470gwei`, aiming for the price of `0.015ETH/GB`, or `2000gwei/128Kib` blob dispersal. We limit the global on-demand rate to be `131072` symbols per second (`4mb/s`) and 30 second rate intervals; this allows for ~4 MiB of data to be dispersed every second on average, and the maximum single spike of dispersal to be ~120MiB over 30 seconds.
 
 > Note: The Cumulative Payment method is designed with decentralized payments in mind, with the goal to serve highly concurrent dispersal requests across a large validator set. Clients can disperse blobs rapidly while request receivers can handle dispersal payments independently and consistently within the client’s deposited balance, even if the requests were received with different ordering between the validators. 
 
-### Reserved Usage (Reservations)
+### Reserved Bandwidth (Reservations)
 
-Here we repeat the `PaymentMetadata` created by the disperser client for every dispersal request. Note here that reservation payments utilizes the `Timestamp` field for metering reservation usage.
+Here we repeat the `PaymentMetadata` created by the disperser client for every dispersal request. Note here that reservation payments utilizes the `Timestamp` field for metering reservation bandwidth usage.
 
 ```go
 // PaymentMetadata represents the payment information for a blob
@@ -117,7 +117,7 @@ type PaymentMetadata struct {
 }
 ```
 
-Users would reserve some usage by setting a reservation onchain. It creates dedicated bandwidth for the user client. The reservation definition contains the reserved amount (`symbolsPerSecond`), reservation start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`) that will be used for payment distribution in the future. At the time of this writing, the reservation can only be set by the EigenDA governance, so an user would need to contact the EigenDA team to set up a reservation.
+Users would reserve some bandwidth by setting a reservation onchain, to signal offchain disperser to reserve dedicated bandwidth for the user client. The reservation definition contains the reserved amount (`symbolsPerSecond`), reservation start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`) that will be used for payment distribution in the future. At the time of this writing, the reservation can only be set by the EigenDA governance, so an user would need to contact the EigenDA team to set up a reservation.
 
 ```go
 // On-chain record of reservations
@@ -174,7 +174,7 @@ Period 1    : startTimestamp -> Reservation active.
 Period 2    : User sends data. Within regular limit -> OK.
             : User sends data. Overflow attempt -> exceeds overflow limit -> Reject.
             : User sends data -> Reject.
-Period 3    : User sends data. Continue usage measurement from overflow bin at Period 1.
+Period 3    : User sends data. Continue bandwidth usage measurement from overflow bin at Period 1.
 Period 4    : User sends data. Within limit -> OK.
 section After Reservation End
  Post-expiry
