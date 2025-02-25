@@ -34,32 +34,9 @@ yarn hardhat run scripts/local-deployment/deployCreator.ts
 
 The script will take a few minutes to complete as it prints out the addresses of the deployed contracts along the way. Lastly, the script will write the deployed contracts to the `CREATOR_DEPLOYMENT_INFO` file you specified. Upon completion, your rollup creator factory is ready to use to deploy new chains. 
 
-## How to deploy a Rollup using pre-deployed Rollup Creators
-We support rollup creators using EigenDA contracts and blob verifiers on the following networks:
+# Disclaimer
 
-| version | network | rollup creator address | blob verifier (EIGENDA_ROLLUP_MANAGER) address |
-|---------|---------|---------|-----------|
-| v2.1.0  | Ethereum Mainnet | [0xAf5F13b5aB7a5da24f8b2808a032296Ef3476AF6](https://etherscan.io/address/0xAf5F13b5aB7a5da24f8b2808a032296Ef3476AF6#code) | [0x187fb3c0664c5d49ce1f051af913fcadbcd7bb3f](https://etherscan.io/address/0x187fb3c0664c5d49ce1f051af913fcadbcd7bb3f#code) |
-| v2.1.0  | Ethereum Holesky | [0x4449adCcad953ce8feB2FD50707B17f876bBDEf4](https://holesky.etherscan.io/address/0x4449adCcad953ce8feB2FD50707B17f876bBDEf4#code) | [0x19354e59F89B3B8D5A77494e81433ceDB093699A](https://holesky.etherscan.io/address/0x19354e59F89B3B8D5A77494e81433ceDB093699A#code) |
-| v2.1.0  | Arbitrum Mainnet | [0x8c83b9c670E90A4fAbf19E6fCb267caf12644a87](https://arbiscan.io/address/0x8c83b9c670E90A4fAbf19E6fCb267caf12644a87#code) | [0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5](https://arbiscan.io/address/0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5#code) |
-| v2.1.0  | Arbitrum Sepolia | [0x4264420318Ba09C29dbbe402b3f16Ee13903a031](https://sepolia.arbiscan.io/address/0x4264420318Ba09C29dbbe402b3f16Ee13903a031#code) | [0x5ce8b81e0E8271bA8Dd33190a8aC2960f9917Ef9](https://sepolia.arbiscan.io/address/0x5ce8b81e0E8271bA8Dd33190a8aC2960f9917Ef9#code) |
-| v2.1.0  | Base Mainnet     | [0xaFa98453F1f3B1Ea7629e67621a29B7Be4AC225A](https://basescan.org/address/0xafa98453f1f3b1ea7629e67621a29b7be4ac225a#code) | [0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5](https://basescan.org/address/0x4a6e6833dc8748aa3e6d6a68aae9b7b40afbb3d5#code) |
-| v2.1.0  | Base Sepolia     | [0xe4493af3d320f372e5E123e86d0eC067FaBDf8D9](https://sepolia.basescan.org/address/0xe4493af3d320f372e5E123e86d0eC067FaBDf8D9) | [0xA0735f425792eCcDA1b8f50ceB36B05635c77D63](https://sepolia.basescan.org/address/0xa0735f425792eccda1b8f50ceb36b05635c77d63)
-
-### Procedure 
-
-1. Assuming you have yarn and hardhat installed. 
-
-2. Download the nitro contracts source [code](https://github.com/Layr-Labs/nitro-contracts) from the EigenDA fork using latest stable version.
-
-3. Specify required environment variables: `DEPLOYER_PRIVKEY`, `PARENT_CHAIN_RPC`, (optional)`FEE_TOKEN_ADDRESS`, `ROLLUP_CREATOR`, `EIGENDA_ROLLUP_MANAGER`.
-
-4. Run the rollup creation script that deploys all necessary system contracts via the pre-deployed rollup creator.
-
-```
-yarn hardhat run scripts/local-deployment/createRollup.ts
-```
-
+The Ethereum Pectra upgrade introduces [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702), enabling EOAs to execute arbitrary bytecode in-place. This breaks origin based invariants (e.g, `tx.origin == msg.sender()`) on many smart contracts including older versions of nitro-contracts. We **do not** advise using nitro-contracts@[v2.1.0](https://github.com/Layr-Labs/nitro-contracts/releases/tag/v2.1.0) in production. The EigenDA team will be cutting a followup v2.1.3 release with EIP-7702 patches sometime in the immediate future.
 
 ### Deploy using our hosted Rollup Creators
 The Orbit [documentation](https://docs.arbitrum.io/launch-orbit-chain/how-tos/orbit-sdk-deploying-rollup-chain) provides a comprehensive overview for how one can trigger new chain deployments using already deployed rollup creators. If you'd like to leverage the orbit-sdk please use our fork [here](https://github.com/Layr-Labs/eigenda-orbit-sdk).
