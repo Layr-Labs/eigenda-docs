@@ -36,7 +36,7 @@ The script will take a few minutes to complete as it prints out the addresses of
 
 # Disclaimer
 
-The Ethereum Pectra upgrade introduces [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702), enabling EOAs to execute arbitrary bytecode in-place. This breaks origin based invariants (e.g, `tx.origin == msg.sender()`) on many smart contracts including older versions of nitro-contracts. We **do not** advise using nitro-contracts@[v2.1.0](https://github.com/Layr-Labs/nitro-contracts/releases/tag/v2.1.0) in production. The EigenDA team will be cutting a followup v2.1.3 release with EIP-7702 patches sometime in the immediate future.
+The Ethereum Pectra upgrade introduces [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702), enabling EOAs to execute arbitrary bytecode in-place. This breaks origin based invariants (e.g, `tx.origin == msg.sender()`) on many smart contracts including older versions of nitro-contracts when the upgrade goes live March 2025. We **do not** advise using nitro-contracts@[v2.1.0](https://github.com/Layr-Labs/nitro-contracts/releases/tag/v2.1.0) in production. The EigenDA team will be cutting a followup v2.1.3 release with EIP-7702 patches sometime in the immediate future.
 
 ### Deploy using our hosted Rollup Creators
 The Orbit [documentation](https://docs.arbitrum.io/launch-orbit-chain/how-tos/orbit-sdk-deploying-rollup-chain) provides a comprehensive overview for how one can trigger new chain deployments using already deployed rollup creators. If you'd like to leverage the orbit-sdk please use our fork [here](https://github.com/Layr-Labs/eigenda-orbit-sdk).
