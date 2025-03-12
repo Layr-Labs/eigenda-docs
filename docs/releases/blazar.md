@@ -407,6 +407,6 @@ Blazar will be progressively released to the Holesky testnet and Ethereum mainne
 
 |     **Environment**    | **Targeted release date** | **Eligibility for ejection** |
 | ---------------------- | ------------------------- | ---------------------------- |
-| Testnet (V0.9.0-rc.0)  | Feb 20                    | April 3                      |
+| Testnet (V0.9.0-rc.0)  | February 20               | April 3                      |
 | Testnet (V0.9.0-rc.1)  | March 20                  | April 3                      |
 | Mainnet                | TBD                       | TBD                          |
