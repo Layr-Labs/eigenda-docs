@@ -35,7 +35,7 @@ While competitors secure workloads exclusively with their own sidechain tokens, 
 
 For Ethereum-based L2s, this security approach is advantageous for several reasons: 
 
-- EigenDA feeds back into the Ethereum ecosystem by allowing Ethereum stakers to earn additional yield by restaking through EigenLayer and earning EigenDA rewards in exchange for helping secure the EigenDA protocol (As of November 2024, EigenDA has 4.3M ETH staked, or billions of dollars of economic security, at launch) This means that EigenDA helps support the economics of Ethereum as more activity migrates to Layer 2 chains.
+- EigenDA feeds back into the Ethereum ecosystem by allowing Ethereum stakers to earn additional yield by restaking through EigenLayer and earning EigenDA rewards in exchange for helping secure the EigenDA protocol (As of March 2025, EigenDA has 4.3M ETH staked, or billions of dollars of economic security, at launch) This means that EigenDA helps support the economics of Ethereum as more activity migrates to Layer 2 chains.
 - Because EigenDA natively uses Ethereum as a settlement layer and for operator set management, EigenDA provides enhanced security for L2s that also settle to Ethereum since these L2s do not need to rely on another chain’s bridge for safety or liveness.
 - EigenDA has unique censorship resistance properties which make it particularly suited to based rollups in Ethereum which are particularly sensitive to censorship attacks from an alternative DA solution. In particular, while competitors have consensus leaders that can censor transactions, EigenDA’s novel, leader-free design introduces little to no additional censorship vectors (Note: This feature is expected in Q2 2025).
 
@@ -102,8 +102,7 @@ The following table compares EigenDA with some popular alternatives along variou
 |  | EIP-4844 | Celestia | EigenDA (Blazar) |
 | --- | --- | --- | --- |
 | Throughput | 1MB/s | 1MB/s | 15 MB/s |
-| Avg Download Bandwidth
-Requirement per Node | 25 MB/s | 1GB/s | 1 MB/s |
+| Avg Download Bandwidth Requirement per Node | 25 MB/s | 1GB/s | 1 MB/s |
 | Thoughput Scaling | 0.04 | 0.001 | 15 |
 | Overhead (Storage, Download Bandwidth*) | $\mathcal{O}(n)$** | $\mathcal{O}(n)$** | $c=8$ |
 | Latency | 12s | 12s | 5s |
