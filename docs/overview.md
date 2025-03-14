@@ -3,95 +3,112 @@ sidebar_position: 1
 title: EigenDA Overview
 ---
 
-EigenDA is a hyper scalable data availability store built for Ethereum rollups.
-Live on mainnet, with 15MB/s of write throughput. 
+# What is EigenDA?
 
-EigenDA stores rollup transactions until their computed state is
-finalized on the rollup bridge, and is...
+EigenDA is a data availability protocol developed by Eigen Labs and built on EigenLayer, live on mainnet and Holesky testnet.
 
-* **Scalable.** EigenDA write throughput scales linearly with number of
-operators. With 15 MB/s of write throughput today it is the most scalable DA layer with a path to 100 MB/s then GB/s.
+EigenDA is built from the ground up to be optimally scalable and efficient, making it possible to provide DA at throughputs and costs that other solutions cannot approach.
 
-* **Secure.** Operators of EigenDA are registered and stake to participate, imposing an economic cost to misbehavior. EigenDA is secured by [billions of dollars in economic security](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) today.
+## What Makes EigenDA Different?
 
-* **Cost efficient.** Spend cents per MB, not dollars. See our [tiered pricing](https://www.eigenda.xyz/#pricing).
+### The most scalable DA layer
 
-* **Decentralized.** EigenDA is operated by [hundreds of operators](https://app.eigenlayer.xyz/avs/0x870679e138bcdf293b7ff14dd44b70fc97e12fc0) running the EigenDA client. The design is inspired by Danksharding, reducing the overhead for operators and enabling high participation. 
+The blockchain trilemma implies that scalability, security, and decentralization will always be in conflict. Layer 2 rollups challenge the intuition conveyed by this trilemma by showing that the compute function of the blockchain can be taken off-chain and scaled more or less arbitrarily, leaving only a small verification footprint on the blockchain—all without compromising the other two axes of the trilemma. 
 
-* **Built for Ethereum.** EigenDA blob writes are registered with contracts on Ethereum, which natively subject operators to
-certain slashing risks. Ethereum L2s using EigenDA avoid any trust assumption on another chain's light client, which can be fooled by dishonest validator sets.
+EigenDA was born out the realization that this same maneuver is possible for the data availability (DA) function of a blockchain: By moving data availability to a non-blockchain structure, full scalability is possible without any compromise to security or decentralization. 
 
-## How EigenDA Works
+In this way, EigenDA represents the completion of the Layer 2 scaling roadmap for Ethereum. Layer 2 rollups and other patterns such as EigenLayer Actively Validated Services can provide scalability for various forms of computation, while EigenDA provides scalability for DA, such that a full spectrum of applications can be securely verified at Web2 scales. 
 
-The core insight of EigenDA is that the problem of data availability does not
-require independent consensus to solve. In building a decentralized transient
-data store for Ethereum rollups, Ethereum can be used for aspects of
-coordination required, and data storage can be handled by EigenDA operators
-directly.
+EigenDA utilizes an elegant architecture that maintains optimality or near-optimality across the dimensions of performance, security, and cost: 
 
-This approach gives EigenDA the ability to scale linearly. In the context of an
-L1 blockchain, increasing throughput means either increasing block size or
-decreasing block times. Beyond a certain point, increases in scalability come at
-the cost of security or decentralization (see "blockchain trilemma"). One way
-around this trilemma is through an emphasis on L2s, where DA can be moved
-off-chain such that transaction data need not be replicated to every node.
-Instead, only DA metadata and accountability processes are processed on-chain.
-This enables DA to scale with respect to the bandwidth of the operator set.
+- EigenDA obtains *information-theoretically minimal data overhead* via Reed Solomon encoding that is cryptographically verified by KZG polynomial opening proofs.
+- *Security at scale -* Unlike in committee-based sharding schemes, in EigenDA identical data is never stored more than once by nodes; by maximizing redundancy / byte, EigenDA achieves theoretically optimal security properties relative to data storage and transmission costs.
+- *Scalable unit economics -* The total data transmission volume of EigenDA falls within a factor of 10X of the theoretical minimum (given a fully trusted setting), whereas the transmission volume of competitors can grow with the number of validators and full nodes to be more than 100X.
 
-EigenDA works on the basis of three components:
+For more details, see the Optimal DA Sharding section below. 
 
-* Operators
-* The Disperser (untrusted)
-* Retrievers (untrusted)
+### Ethereum-based Security
 
-EigenDA **operators** are third-parties running the EigenDA node software,
-registered in EigenLayer with stake delegated to them. EigenDA operators are
-responsible for storing blobs associated with valid storage requests. Valid
-storage requests are requests where fees are paid and the provided blob chunk
-verifies against the provided KZG commitment and proof. In the case of a
-successful verification the operator stores the blob and signs a message with
-the KZG commitment and the chunk index they hold, and sends it back to the
-disperser. EigenDA operators are collectively trusted – when writing a blob to
-EigenDA clients must choose the exact threshold of stake with which they would
-like their blob to be stored.
+EigenDA’s security approach leverages the depth of ETH plus the forkability of EIGEN, and can be customized to employ the native staking tokens of customers like rollups.
 
-The EigenDA **disperser** is an untrusted service hosted by EigenLabs which is
-responsible for interfacing between EigenDA clients, operators, and contracts.
-EigenDA clients make dispersal requests to the disperser, which Reed-Solomon
-encodes the blob, calculates the encoded blob's KZG commitment, and generates a
-KZG proof for each chunk. Then the disperser sends chunks, KZG commitment, and
-KZG proofs to operators, who return signatures. The disperser then aggregates
-these signatures and uploads it to Ethereum in the form of calldata to the
-EigenDA contract. This step is a necessary precondition for slashing operators
-for misbehavior.
+While competitors secure workloads exclusively with their own sidechain tokens, EigenDA uses restaked ETH while enabling L2s to augment the security of Ethereum with EIGEN and even their own native tokens (via Custom Quorums).
 
-The EigenDA **retriever** is a service that queries EigenDA operators for blob
-chunks, verifies that blob chunks are accurate, and reconstructs the original
-blob for the user. EigenDA hosts a retriever service but client rollups may also
-host their own retriever as a sidecar to their sequencer.
+For Ethereum-based L2s, this security approach is advantageous for several reasons: 
 
-### How Rollups Integrate
+- EigenDA feeds back into the Ethereum ecosystem by allowing Ethereum stakers to earn additional yield by restaking through EigenLayer and earning EigenDA rewards in exchange for helping secure the EigenDA protocol (As of March 2025, EigenDA has 4.3M ETH staked, or billions of dollars of economic security, at launch) This means that EigenDA helps support the economics of Ethereum as more activity migrates to Layer 2 chains.
+- Because EigenDA natively uses Ethereum as a settlement layer and for operator set management, EigenDA provides enhanced security for L2s that also settle to Ethereum since these L2s do not need to rely on another chain’s bridge for safety or liveness.
+- EigenDA has unique censorship resistance properties which make it particularly suited to based rollups in Ethereum which are particularly sensitive to censorship attacks from an alternative DA solution. In particular, while competitors have consensus leaders that can censor transactions, EigenDA’s novel, leader-free design introduces little to no additional censorship vectors (Note: This feature is expected in Q2 2025).
 
-![EigenDA Architecture](/img/eigenda/dispersal-flow-diagram.png)
+### Unparalleled Control
 
-The diagram above shows the basic flow of data through EigenDA:
+As an Actively Validated Service (AVS), EigenDA takes part in EigenLayer’s mission of taking the modular blockchain thesis to its completion by building a complete ecosystem of scalable and customizable verifiable cloud primitives. 
 
-1. The rollup sequencer sends a batch of transactions as a blob to the EigenDA
-disperser sidecar.
-2. The EigenDA disperser sidecar erasure encodes the blob into chunks, generates a KZG
-commitment and multi-reveal proofs for each chunk, and disperses chunks to
-EigenDA Operators, receiving signatures certifying storage in return.
-3. After aggregating the received signatures, the disperser registers the blob
-onchain by sending a transaction to the EigenDA Manager contract with the
-aggregated signature and blob metadata.
-4. The EigenDA Manager contract verifies the aggregated signature with the help
-of the EigenDA Registry contract, and stores the result onchain.
-5. Once the blob has been stored offchain and registered onchain, the
-sequencer posts the EigenDA blob ID to its inbox contract in a transaction. A
-blob ID is no more than 100 bytes long.
-6. Before accepting the blob ID into the rollup's inbox, the inbox contract
-consults the EigenDA manager contract on whether blob was certified available.
-If it was, the blob ID is allowed into the inbox contract. If not, the blob ID
-is discarded.
+In principle, EigenDA represents an Archetype of an AVS which can be forked, modified, and redeployed as needed in order to support value-adding customizations for customers. In practice, due to the inherent simplicity and flexibility of the AVS format, many such customizations are available out-of-the-box. 
 
-For more on how rollups integrate with EigenDA, check out [Integrations Overview](./integrations-guides/rollup-guides/integrations-overview.md).
+**Pay how you want**
+
+- In ETH, EIGEN or your own native token. EigenDA is the only DA protocol which allows this kind of payment flexibility.
+- *Improve cost forecasting -* ****Purchase upfront with reserved bandwidth. While L1 blobs and Celestia are both fee markets, EigenDA offers fixed pricing and bandwidth reservations as opposed to competing with other activity on the network (which can become congested and thus slow/expensive)
+
+**Customize DA security**
+
+- *Custom Quorums -* Stake your rollup’s token to secure EigenDA. EigenDA exclusively offers the ability for Rollups to secure their EigenDA usage with their native token, providing an additional layer of security.
+
+**Unlock liquidity incentives**
+
+- Attract stakers with EigenLayer’s ULIP program.
+
+# How EigenDA Works
+
+## Architecture
+
+The EigenDA architecture consists of several key components: 
+
+- **Validator nodes**: Validator nodes are responsible for attesting to the availability of a blob and making that blob available to retrieval nodes (and eventually light nodes). Validator nodes must be staked in EigenLayer and registered to the EigenDA operator set(s) corresponding to their delegated staked asset(s). Each Validator node validates, stores, and serves only a portion of each blob processed by the protocol.
+- **Dispersers**: Dispersers encode data and pass this data to the Validator nodes. Dispersers must generate proofs for the correctness of the data encoding which are also passed to the Validator nodes. The disperser also aggregates availability attestations from the Validator nodes which can be bridged on-chain to support use-cases such as rollups.
+- **Retrieval nodes**: Retrieval nodes collect data shards from the Validator nodes and decode them to produce the original data content.
+- **Light nodes** (Planned): Light nodes provide observability so that Validator nodes cannot withhold data from retrieval nodes without this withholding being broadly observable.
+
+![EigenDA Architecture](/img/eigenda/eigenda-overview-architecture.png)
+
+
+The EigenDA architecture is heterogeneous in order to allow specialization of each component to its peculiar task. Dispersers can be run as decentralized service providers or as a dedicated side-car for a rollup sequencer or other originator. 
+
+The ability to disperse directly to the network without relying on a consensus leader gives EigenDA unique censorship resistance properties: Where a consensus leader can unilaterally censor in most blockchains, in EigenDA a blob must be rejected by a set of Validator nodes having an amount of stake exceeding the protocol’s liveness threshold in order for the blob to be censored. 
+
+## **Optimal DA sharding**
+
+The central idea of the EigenDA architecture is that not every node needs to store all of the data secured by the system. “Sharding” work among sub-committees or shards of a network in order to improve scalability is a common idea within blockchain systems, yet this is often done in a naive manner which compromises security. 
+
+Because EigenDA is not a blockchain and does not perform tasks, such as VM execution, which operate on the semantic content of data, it can employ an optimized strategy of sharding data via an erasure coding scheme that preserves the security properties of the fully replicated system.
+
+EigenDA makes use of Reed Solomon erasure coding, which provides the information-theoretically optimal reconstruction property that any collection of unique encoded data shards whose total size is at least equal to the size of the original unsharded item can be used to recover that item. 
+
+Each Validator node is given a unique shard having a size proportional to their delegated stake. That is, an operator $i$ with stake percentage $\alpha_i$ is given a shard whose size is a fraction $\alpha_i / \gamma$ of the original data blob, where $\gamma$ is known as the coding rate. The result is that any set of operators collectively having a percentage $\gamma$ of the total delegated stake is able to reconstruct the original blob, as their shard sizes sum to a fraction $\gamma/\gamma = 1$ of the original blob size. 
+
+The coding rate $\gamma$ characterizes the total “overhead” of the system, since the total size of data sent to the operators will be a factor $\sum_i{\alpha_i}/\gamma = 1/\gamma$ of the unencoded data. The coding rate $\gamma$ also relates to the Byzantine safety and liveness thresholds, defined as follows:
+
+- Safety threshold, $\eta_S$: The percentage of stake that an adversary must control to cause a safety failure.
+- Liveness threshold, $\eta_L$: The percentage of stake that an adversary must control to cause a liveness failure.
+
+The protocol must observe $1 - \eta_L - \eta_S \ge \gamma$. This means that with an adversary threshold of 54% and a liveness threshold of 33%, the total data overhead of the system can be less than 8X (See below section for comparison with other systems). 
+
+EigenDA makes use of KZG polynomial commitments and opening proofs generated by the disperser to enable Validator nodes, light nodes, and full nodes to validate the integrity of their shards and the correctness of the Reed Solomon encoding operation. 
+
+# Comparative Analysis
+
+The following table compares EigenDA with some popular alternatives along various dimensions of performance and security. 
+
+|  | EIP-4844 | Celestia | EigenDA (Blazar) |
+| --- | --- | --- | --- |
+| Throughput | 1MB/s | 1MB/s | 15 MB/s |
+| Avg Download Bandwidth Requirement per Node | 25 MB/s | 1GB/s | 1 MB/s |
+| Thoughput Scaling | 0.04 | 0.001 | 15 |
+| Overhead (Storage, Download Bandwidth*) | $\mathcal{O}(n)$** | $\mathcal{O}(n)$** | $c=8$ |
+| Latency | 12s | 12s | 5s |
+| Safety Threshold | 1/3 of ETH Stake | 1/3 of Celestia Stake | 1/3 of ETH restakers + 1/3 of EIGEN stake (+ 1/3 of custom token) |
+
+*For common use cases such as rollups, the properties of the system are upheld by a relatively small number of rollup full nodes which interact with the DA layer. In this case, download bandwidth represents the bottleneck for system performance. Systems such as EIP-4844 and Celestia may utilize upload bandwidth in propagation of data through P2P network, whereas EigenDA only utilizes upload bandwidth for servicing data consumers. 
+
+**Most existing blockchains (such as Ethereum, Celestia, Solana), gossip blocks among all nodes within the network. This means that the total cost of making a block available is equal to the processing cost per node multiplied by the number of nodes; in practice there are also P2P overheads which inflate the processing cost per node.
+
