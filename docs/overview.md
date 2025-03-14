@@ -107,9 +107,7 @@ Requirement per Node | 25 MB/s | 1GB/s | 1 MB/s |
 | Thoughput Scaling | 0.04 | 0.001 | 15 |
 | Overhead (Storage, Download Bandwidth*) | $\mathcal{O}(n)$** | $\mathcal{O}(n)$** | $c=8$ |
 | Latency | 12s | 12s | 5s |
-| Safety Threshold | 1/3 of ETH Stake | 1/3 of Celestia Stake | 1/3 of ETH restakers 
-+ 1/3 of EIGEN stake 
-(+ 1/3 of custom token) |
+| Safety Threshold | 1/3 of ETH Stake | 1/3 of Celestia Stake | 1/3 of ETH restakers + 1/3 of EIGEN stake (+ 1/3 of custom token) |
 
 *For common use cases such as rollups, the properties of the system are upheld by a relatively small number of rollup full nodes which interact with the DA layer. In this case, download bandwidth represents the bottleneck for system performance. Systems such as EIP-4844 and Celestia may utilize upload bandwidth in propagation of data through P2P network, whereas EigenDA only utilizes upload bandwidth for servicing data consumers. 
 
