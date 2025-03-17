@@ -203,7 +203,7 @@ const config = {
           },
           {
             from: "/eigenda/rollup-guides/",
-            to: "/integrations-guides/v1/rollup-guides/",
+            to: "/integrations-guides/v1/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/rollup-guides/api-error-codes",
