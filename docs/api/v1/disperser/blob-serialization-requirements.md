@@ -62,8 +62,8 @@ ERROR:
   Message: rpc error: code = InvalidArgument desc = encountered an error to convert a 32-bytes into a valid field element, please use the correct format where every 32bytes(big-endian) is less than 21888242871839275222246405745257275088548364400416034343698204186575808495617
 ```
 
-The simplest way to resovlve this until we have a dedicated EigenDA CLI is to
-use the `kzgpad` utility documented in the [tutorial](../../../integrations-guides/dispersal/quick-start.md):
+The simplest way to resolve this until we have a dedicated EigenDA CLI is to
+use the `kzgpad` utility documented in the [tutorial](../../../integrations-guides/v1/dispersal/quick-start.md):
 
 ```bash
 $ grpcurl \
