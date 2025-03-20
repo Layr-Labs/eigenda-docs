@@ -21,7 +21,7 @@ pipelines" will also read from proxy as well; either for settling disputes in op
 proofs or for generating zero knowledge proofs attesting to the validity of some batch execution. 
 
 *E.g, In Arbitrum there is a `MakeNode` validator that posts state claims to the parent chain's rollup assertion chain.
-In the event of a challenge, both asserter/challenger players will have to pre-populate their local pre-image stores
+In the event of a challenge, both asserter/challenger players will have to pre-populate their local preimage stores
 with batches read from the proxy to compute the WAVM execution traces that they will bisect over.*
 
 ## Technical Details
