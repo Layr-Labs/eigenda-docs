@@ -1,7 +1,7 @@
 # EigenDA Proxy
 
 ## About
-EigenDA proxy is a sidecar server ran as part of a rollup node cluster for communication with the EigenDA network. 
+EigenDA proxy is a sidecar REST server meant to be run next to a rollup node for communicating with the EigenDA network.
 
 ### Example Rollup interaction diagram
 *Shown below is a high level flow of how proxy is used across a rollup stack by different network roles
