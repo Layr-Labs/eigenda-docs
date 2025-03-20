@@ -11,7 +11,9 @@ See [this page](../../../eigenda-proxy.md) for a high level description of the p
 |  v1.4.1 |        `16mib`          |          `16mib`        |  OP Stack, Orbit   |      v0         |
 
 ## Recommended Config Types
-Different security measures and runtime optimizations can be applied through various proxy configurations. The different configuration flags can be found [here](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#configuration-options). The following recommendations are advised for different rollup node actor types:
+Different security measures and runtime optimizations can be applied through various proxy configurations.
+To view the extensive list of available flags/env-vars to configure a given version of eigenda-proxy, run `eigenda-proxy --help`.
+The following recommendations are advised for different rollup node actor types:
 
 ### Batchers
 Privileged roles that are responsible for submitting rollup batches to EigenDA should have the following presets:
