@@ -22,7 +22,7 @@ proofs or for generating zero knowledge proofs attesting to the validity of some
 
 *E.g, In Arbitrum there is a `MakeNode` validator that posts state claims to the parent chain's rollup assertion chain.
 In the event of a challenge, both asserter/challenger players will have to pre-populate their local preimage stores
-with batches read from the proxy to compute the WAVM execution traces that they will bisect over.*
+with batches read from the proxy to compute the WAVM execution traces necessary for dispute resolution.*
 
 ## Technical Details
 [EigenDA Proxy](https://github.com/Layr-Labs/eigenda-proxy) wraps the high-level EigenDA clients with an HTTP server,
