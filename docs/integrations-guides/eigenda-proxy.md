@@ -5,7 +5,7 @@ EigenDA proxy is a sidecar REST server meant to be run next to a rollup node for
 
 ### Example Rollup interaction diagram
 *Shown below is a high level flow of how proxy is used across a rollup stack by different network roles
-(i.e, sequencer, verifier). Any rollup node using an eigenda integration who wishes to sync directly from the parent
+(i.e, sequencer, verifier). Any rollup node using an eigenda integration who wishes to sync directly from a parent
 chain inbox or a safe head must run this service to do so.*
 
 ![Proxy usage diagram](../../static/img/eigenda/eigenda-proxy-usage-diagram.png)
