@@ -22,7 +22,7 @@ Privileged roles that are responsible for submitting rollup batches to EigenDA s
 ### Bridge Validators
 Validators that are responsible for defending or progressing a child --> parent chain withdraw bridge should be configured with the following:
 - Certificate verification enabled
-- Read fallback configured with a secondary backed to ensure blobs can be read in the event of EigenDA retrieval failure
+- Read fallback configured with a secondary backend to ensure blobs can be read in the event of EigenDA retrieval failure
 
 ### Permissionless Verifiers
 - Certificate verification enabled
