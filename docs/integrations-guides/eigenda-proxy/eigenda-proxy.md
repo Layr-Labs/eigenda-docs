@@ -1,7 +1,7 @@
 # EigenDA Proxy
 
 ## About
-EigenDA proxy is a sidecar server ran as part of a rollup node cluster for communication with the EigenDA network. 
+EigenDA proxy is a sidecar server ran as part of a rollup node cluster for communication with the EigenDA network.
 
 ### Key Releases
 | version | (mainnet) max blob size | (holesky) max blob size | supported stacks   | Cert version(s) |
@@ -22,7 +22,7 @@ Different actors in the rollup topology will have to use proxy for communicating
 - **Rollup Sequencer:** posts batches to proxy and submits accredited DA certificates to batch inbox
 - **Rollup Verifier Nodes:** read batches from proxy to update a local state view (*assuming syncing from parent chain directly)*
 
-- **Prover Nodes:** both rollup types (i.e, optimistic, zero knowledge) will have some way of deriving child chain state from the parent's inbox for the purpose of generating child --> parent bridge withdraw proofs. These "proving pipelines" will also read from proxy as well; either for settling disputes in optimistic rollups with working fraud proofs or for generating zero knowledge proofs attesting to the validity of some batch execution. 
+- **Prover Nodes:** both rollup types (i.e, optimistic, zero knowledge) will have some way of deriving child chain state from the parent's inbox for the purpose of generating child --> parent bridge withdraw proofs. These "proving pipelines" will also read from proxy as well; either for settling disputes in optimistic rollups with working fraud proofs or for generating zero knowledge proofs attesting to the validity of some batch execution.
 
 *E.g, In Arbitrum there is a `MakeNode` validator that posts state claims to the parent chain's rollup assertion chain. In the event of a challenge, both asserter/challenger players will have to pre-populate their local pre-image stores with batches read from the proxy to compute the WAVM execution traces that they will bisect over.*
 
@@ -35,7 +35,7 @@ Different security measures and runtime optimizations can be applied through var
 
 ### Batchers
 Privileged roles that are responsible for submitting rollup batches to EigenDA should have the following presets:
-- Certificate verification enabled. If the rollup (stage = 0) doesn't verify DA certs against the `EigenDAServiceManager` for writing then a `ETH_CONFIRMATION_DEPTH` should be reasonably set (i.e, >= 6). Otherwise, a certificate could be submitted to the sequencer's inbox using an EigenDA blob batch header which is reorged from Ethereum. 
+- Certificate verification enabled. If the rollup (stage = 0) doesn't verify DA certs against the `EigenDAServiceManager` for writing then a `ETH_CONFIRMATION_DEPTH` should be reasonably set (i.e, >= 6). Otherwise, a certificate could be submitted to the sequencer's inbox using an EigenDA blob batch header which is reorged from Ethereum.
 
 ### Bridge Validators
 Validators that are responsible for defending or progressing a child --> parent chain withdraw bridge should be configured with the following:

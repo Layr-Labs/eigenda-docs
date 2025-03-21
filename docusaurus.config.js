@@ -95,19 +95,19 @@ const config = {
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/",
-            to: "/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/eigenda-proxy/",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/",
-            to: "/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/eigenda-proxy/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/building-on-top-of-eigenda",
-            to: "/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/eigenda-proxy/",
           },
           {
             from: "/eigenda/rollup-guides/tutorial",
-            to: "/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/eigenda-proxy/",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/system-performance-and-customization",
@@ -203,7 +203,7 @@ const config = {
           },
           {
             from: "/eigenda/rollup-guides/",
-            to: "/integrations-guides/rollup-guides/",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/rollup-guides/api-error-codes",
@@ -223,11 +223,11 @@ const config = {
           },
           {
             from: "/eigenda/integrations-guides/dispersal/disperser-golang-grpc-client",
-            to: "/integrations-guides/dispersal/clients/golang-client",
+            to: "/integrations-guides/clients/golang-client-v1",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/clients/golang-client",
-            to: "/integrations-guides/dispersal/clients/golang-client",
+            to: "/integrations-guides/clients/golang-client-v1",
           },
           {
             from: "/releases/v2",
