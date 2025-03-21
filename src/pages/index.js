@@ -17,7 +17,7 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/dispersal/quick-start"
+                to="integrations-guides/quick-start"
                 header="Quick Start"
                 body="Learn how EigenDA works by dispersing and retrieving a blob on the command line"
               />
@@ -29,7 +29,7 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/rollup-guides/integrations-overview"
+                to="integrations-guides/eigenda-proxy/"
                 header="Integrations Guides"
                 body="Ready to launch a rollup on EigenDA? Get started here"
               />
