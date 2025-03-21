@@ -4,7 +4,7 @@ sidebar_position: 2
 ---
 # ZKsync and EigenDA
 
-We have implemented an [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/main/core/node/da_clients/src/eigen) following ZKsync's [validium architecture](https://docs.zksync.io/zk-stack/running/validium). Our integration is currently in [stage 1](#stage-1) and we are working towards [stage 2](#stage-2).
+We have implemented an [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/main/core/node/da_clients/src/eigen) following ZKsync's [validium architecture](https://docs.zksync.io/zk-stack/running/validium). Our integration is currently in [Stage 1](#stage-1) and we are working towards [Stage 2](#stage-2).
 
 ## Overview
 
