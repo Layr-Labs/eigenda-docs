@@ -18,7 +18,7 @@ Overall, the [transaction lifecycle](https://docs.zksync.io/zksync-protocol/roll
 ### Stage 1
 > a Validium that only sends the data to the DA layer, but doesn’t verify its inclusion
 
-ZKsync prefers to have their sequencer run as a single binary without sidecars. Therefore, our ZKsync integration does not use the [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md). Rather, we use our rust [eigenda-client](https://github.com/Layr-Labs/eigenda-client-rs). And the [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/f05fffda72393fd86c752e88b7192cc8e0c30b68/core/node/da_clients/src/eigen) wrapper inside the ZKSync-Era repo implements the 2 [required trait](https://docs.zksync.io/zk-stack/running/validium#server-related-details) methods `dispatch_blob` and `get_inclusion_data`.
+ZKsync prefers to have their sequencer run as a single binary without sidecars. Therefore, our ZKsync integration does not use the [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md). Rather, we use our Rust [eigenda-client](https://github.com/Layr-Labs/eigenda-client-rs). And the [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/f05fffda72393fd86c752e88b7192cc8e0c30b68/core/node/da_clients/src/eigen) wrapper inside the ZKSync-Era repo implements the 2 [required trait](https://docs.zksync.io/zk-stack/running/validium#server-related-details) methods `dispatch_blob` and `get_inclusion_data`.
 
 ### Stage 2
 > a Validium that sends the data to the DA layer, and also verifies its inclusion on L1 either by using the verification bridges or zk-proofs directly.
