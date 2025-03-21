@@ -139,43 +139,43 @@ const config = {
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/op-stack-+-eigenda-user-guide",
-            to: "/integrations-guides/v1/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/op-stack",
-            to: "/integrations-guides/v1/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/rollup-guides/op-stack",
-            to: "/integrations-guides/v1/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/op-stack/overview",
-            to: "/integrations-guides/v1/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/op-stack-+-eigenda-user-guide/deploying-op-stack",
-            to: "/integrations-guides/v1/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/op-stack/deployment",
-            to: "/integrations-guides/v1/rollup-guides/op-stack",
+            to: "/integrations-guides/rollup-guides/op-stack",
           },
           {
             from: "/eigenda-guides/integrations-overview",
-            to: "/integrations-guides/v1/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/integrations-guides/rollup-guides/integrations-overview",
-            to: "/integrations-guides/v1/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/integrations-overview",
-            to: "/integrations-guides/v1/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/rollup-guides/integrations-overview",
-            to: "/integrations-guides/v1/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/operator-guides/avs-installation-and-registration/eigenda-operator-guide/",
@@ -203,7 +203,7 @@ const config = {
           },
           {
             from: "/eigenda/rollup-guides/",
-            to: "/integrations-guides/v1/rollup-guides/integrations-overview",
+            to: "/integrations-guides/rollup-guides/integrations-overview",
           },
           {
             from: "/eigenda/rollup-guides/api-error-codes",
@@ -223,11 +223,11 @@ const config = {
           },
           {
             from: "/eigenda/integrations-guides/dispersal/disperser-golang-grpc-client",
-            to: "/integrations-guides/v1/dispersal/clients/golang-client",
+            to: "/integrations-guides/clients/golang-client-v1",
           },
           {
             from: "/eigenda/integrations-guides/dispersal/clients/golang-client",
-            to: "/integrations-guides/v1/dispersal/clients/golang-client",
+            to: "/integrations-guides/clients/golang-client-v1",
           },
           {
             from: "/releases/v2",
