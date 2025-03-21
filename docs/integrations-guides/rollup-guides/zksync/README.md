@@ -1,14 +1,14 @@
 ---
-title: ZKsync Stack
+title: ZK Stack
 sidebar_position: 2
 ---
-# ZKsync and EigenDA
+# ZK Stack and EigenDA
 
-We have implemented an [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/main/core/node/da_clients/src/eigen) following ZKsync's [validium architecture](https://docs.zksync.io/zk-stack/running/validium). Our integration is currently in [Stage 1](#stage-1) and we are working towards [Stage 2](#stage-2).
+We have implemented an [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/main/core/node/da_clients/src/eigen) following ZK Stack's [validium architecture](https://docs.zksync.io/zk-stack/running/validium). Our integration is currently in [Stage 1](#stage-1) and we are working towards [Stage 2](#stage-2).
 
 ## Overview
 
-Unlike most other rollup stacks, ZKsync posts compressed state diffs to EigenDA, as opposed to batches of transactions. For more information as to the motivation for this, as well as technical details, see ZKsync's [Data Availability](https://docs.zksync.io/zksync-protocol/rollup/data-availability) documentation.
+Unlike most other rollup stacks, ZK Stack posts compressed state diffs to EigenDA, as opposed to batches of transactions. For more information as to the motivation for this, as well as technical details, see ZK Stack's [Data Availability](https://docs.zksync.io/zksync-protocol/rollup/data-availability) documentation.
 
 <!-- Image source: https://app.excalidraw.com/s/1XPZRMVbRNH/1fYTKbI9b4H -->
 ![](../../../../static/img/integrations/zksync/batches-vs-state-diffs.png)
@@ -18,12 +18,12 @@ Overall, the [transaction lifecycle](https://docs.zksync.io/zksync-protocol/roll
 ### Stage 1
 > a Validium that only sends the data to the DA layer, but doesn’t verify its inclusion
 
-ZKsync prefers to have their sequencer run as a single binary without sidecars. Therefore, our ZKsync integration does not use the [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md). Rather, we use our Rust [eigenda-client](https://github.com/Layr-Labs/eigenda-client-rs). And the [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/f05fffda72393fd86c752e88b7192cc8e0c30b68/core/node/da_clients/src/eigen) wrapper inside the ZKSync-Era repo implements the 2 [required trait](https://docs.zksync.io/zk-stack/running/validium#server-related-details) methods `dispatch_blob` and `get_inclusion_data`.
+ZK Stack prefers to have their sequencer run as a single binary without sidecars. Therefore, our ZK Stack integration does not use the [EigenDA Proxy](../../dispersal/clients/eigenda-proxy.md). Rather, we use our Rust [eigenda-client](https://github.com/Layr-Labs/eigenda-client-rs). And the [EigenDA Client](https://github.com/matter-labs/zksync-era/tree/f05fffda72393fd86c752e88b7192cc8e0c30b68/core/node/da_clients/src/eigen) wrapper inside the ZKSync-Era repo implements the 2 [required trait](https://docs.zksync.io/zk-stack/running/validium#server-related-details) methods `dispatch_blob` and `get_inclusion_data`.
 
 ### Stage 2
 > a Validium that sends the data to the DA layer, and also verifies its inclusion on L1 either by using the verification bridges or zk-proofs directly.
 
-In the stage 2 model, in order for ZKsync's prover to remain AltDA agnostic, their Validium architecture mandates that a sidecar prover is used to prove the inclusion of the compressed state diffs on EigenDA, to the L1. We use Risc0 for this sidecar prover.
+In the stage 2 model, in order for ZK Stack's prover to remain AltDA agnostic, their Validium architecture mandates that a sidecar prover is used to prove the inclusion of the compressed state diffs on EigenDA, to the L1. We use Risc0 for this sidecar prover.
 
 <!-- Image source: https://app.excalidraw.com/s/1XPZRMVbRNH/9envZ9u54Sl -->
 ![](../../../../static/img/integrations/zksync/secure-integration-architecture.png)
@@ -44,7 +44,7 @@ Follow the steps in the Validium [FAQ](https://docs.zksync.io/zk-stack/running/v
 
 ### Production Deployment
 
-The production deployment should be similar to the local deployment. It will require setting up the [eigenda client](#client-configuration). See ZKsync's [production deployment](https://docs.zksync.io/zk-stack/running/production) docs for more information.
+The production deployment should be similar to the local deployment. It will require setting up the [eigenda client](#client-configuration). See ZK Stack's [production deployment](https://docs.zksync.io/zk-stack/running/production) docs for more information.
 
 ### Client configuration
 
