@@ -315,7 +315,7 @@ const config = {
             position: "left",
           },
           {
-            href: "https://github.com/Layr-Labs",
+            href: "https://github.com/Layr-Labs/eigenda-docs",
             className: "header--github-link",
             "aria-label": "GitHub repository",
             position: "right",
