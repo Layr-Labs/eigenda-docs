@@ -260,8 +260,8 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"),
           breadcrumbs: true,
           routeBasePath: "/",
-          remarkPlugins: [math],
-          rehypePlugins: [katex],
+          remarkPlugins: [math.default],
+          rehypePlugins: [katex.default],
           showLastUpdateTime: false,
         },
         blog: {
