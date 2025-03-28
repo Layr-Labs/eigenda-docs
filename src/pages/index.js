@@ -29,7 +29,7 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/eigenda-proxy/"
+                to="integrations-guides/overview/"
                 header="Integrations Guides"
                 body="Ready to launch a rollup on EigenDA? Get started here"
               />
