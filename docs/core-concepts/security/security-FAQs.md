@@ -57,13 +57,13 @@ As we discussed above, the DAC vs. DAS distinction is not meaningful. EigenDA pr
 
 Most L2-DA solutions classified as DAC suffers from small sizes of committee members and lack of diversity. EigenDA is permission-less and highly decentralized. There remains a limited ability for EigenDA governance to influence operator makeup, but this is being progressively removed.
 
-In EigenDA, the restaked ETH quorum consists of 148 validators, with the top 5 controlling approximately 40% of the total stake. Around \$10B worth of ETH has been re-staked in this quorum. In the quorum where EIGEN is the staked asset, there are 130 validators, with the top 5 holding about 44% of the total stake. Roughly \$500M worth of EIGEN is staked in this quorum.
+As of March 19, 2025, EigenDA's restaked ETH quorum consists of 148 validators, with the top 5 controlling approximately 40% of the total stake. Around \$8.8B worth of ETH has been re-staked in this quorum. In the quorum where EIGEN is the staked asset, there are 130 validators, with the top 5 holding about 44% of the total stake. Roughly \$472M worth of EIGEN is staked in this quorum.
 
 For comparison, Celestia has 100 active validators out of a total of 254. The top 5 validators hold around 29% of the voting power, with approximately \$1.2B worth of TIA staked.
 
 ## What security does restaked ETH provide EigenDA?
 
-Each EigenDA is additionally validated by a quorum of over \$10B of ETH restaked, meaning that a colluding set of operators would need to receive over \$5B* in delegation from ETH re-stakers in order to attack the system.
+Each EigenDA is additionally validated by a quorum of over \$8.8B of ETH restaked, meaning that a colluding set of operators would need to receive over \$4.4B* in delegation from ETH re-stakers in order to attack the system.
 
 ## What does EigenDA use KZG Polynomial Commitments for?
 

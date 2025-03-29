@@ -86,7 +86,7 @@ For the purposes of modeling, we let $m_i$ denote the number of chunks which the
 | **Term** | **Symbol** | **Description** |
 | --- | --- | --- |
 | Max Validator Count |  $n$ | The maximum number of validator nodes participating in the system (currently $n =200$) |
-| Validator Set | $N$ | Set of all the validators. $|N|$ is the total number of validator nodes participating in the system. |
+| Validator Set | $N$ | Set of all the validators. $\|N\|$ is the total number of validator nodes participating in the system. |
 | Total Chunks | $m$ | The total number of chunks after encoding (currently $m=8192$) |
 | Coding Rate | $r$ | The total number of chunks after encoding / total number of chunks before encoding (currently $r=8$) |
 | Percentage of blob per validator  | $\alpha_i$ | $\alpha_i = rm_i/m$, the percentage of chunks required to reconstruct the blob assigned to validator $i$ |
@@ -111,10 +111,10 @@ The assignment logic must satisfy the following properties:
 Let
 
 $$
-m'_i= \left\lceil\eta_i(m- |N|)\right\rceil
+m'_i= \left\lceil\eta_i(m- \|N\|)\right\rceil
 $$
 
-where $|N|$ is the actual number of operators. Note that $\sum_{i} m'_{i} \le   \sum_{i} [\eta_{i} (m-|N|)+1] = m-|N| + |N| = m$. Sort the validator nodes (in a deterministic order), and let $k_i$ be the index of node $i$ within this list.  Let  $m' = \sum_i m’_i$. Finally, let
+where $\|N\|$ is the actual number of operators. Note that $\sum_{i} m'_{i} \le   \sum_{i} [\eta_{i} (m-\|N\|)+1] = m-\|N\| + \|N\| = m$. Sort the validator nodes (in a deterministic order), and let $k_i$ be the index of node $i$ within this list.  Let  $m' = \sum_i m’_i$. Finally, let
 
 $$
 m_i=m'_i + \mathbb{I}_{k_i \le m-m'}
@@ -140,10 +140,10 @@ $$
 \sum_i m_i = \sum_i (m'_i + \mathbb{I}_{k_i \le m - m'}) = m ' + \sum \mathbb{I}_{k_i \le m - m'} = m' + m-m' = m
 $$
 
-1. Reconstruction threshold satisfied. We show that $\alpha_i  \ge \eta_i /\gamma$:
+2. Reconstruction threshold satisfied. We show that $\alpha_i  \ge \eta_i /\gamma$:
 
 $$
-m_i \ge \eta_i(m- |N|) \ge \eta_i(m - m(1-1/r\gamma))=\eta_i m/(r\gamma) 
+m_i \ge \eta_i(m- \|N\|) \ge \eta_i(m - m(1-1/r\gamma))=\eta_i m/(r\gamma) 
 $$
 
 $$
