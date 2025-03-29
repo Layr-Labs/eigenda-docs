@@ -11,7 +11,7 @@ function Home() {
           <div className="container">
             <div className="row">
               <Card
-                to="overview"
+                to="core-concepts/overview"
                 header="About EigenDA"
                 body="Start your journey with an overview of the EigenDA protocol"
               />
