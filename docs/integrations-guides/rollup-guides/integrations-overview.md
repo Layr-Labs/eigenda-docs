@@ -1,68 +1,78 @@
 ---
 sidebar_position: 1
 ---
-# Optimistic Rollup Integration Strategies
+# Secure Integration Overview
 
-There are a few viable design strategies for securely deploying an optimistic rollup with
-EigenDA. This document aims to describe them in detail to provide rollup
+This document aims to outline what a secure EigenDA integration looks like, to provide rollup
 engineers with a strong understanding of how an EigenDA integration would impact
-their tech stack and security model.
+their tech stack and security model. For full details, see the [EigenDA V2 integration spec](https://layr-labs.github.io/eigenda/integration.html#certblobtiming-validation).
 
-For any given rollup there are four main concerns inherent to an integration
+> Note: Each rollup stack uses slightly different terminology to refer to the same ideas.
+> We try to use the most general language possible but might sometimes use stack-specific language for clarity.
+
+For any given rollup there are five main concerns inherent to an integration
 with external DA:
 
 1. **Dispersal.** The rollup batcher must write transaction batches to the DA
 layer, wait for confirmation, and write the resulting DA certificate to the
-rollup inbox.
-2. **Certificate Verification.** Either the rollup inbox contract
+[rollup inbox][glossary-rollup-inbox].
+1. **Certificate Verification.** Either the rollup inbox contract
 or the rollup OS must verify that DA certificate is valid, i.e. that enough
 operators have certified the blob available, before reading the DA cert's data
 from the DA layer. This ensures that a transaction batch referenced by an
 invalid certificate is not executed.
-3. **Retrieval.** Rollup full nodes must retrieve EigenDA blobs as part of the
+   1. **Certificate Punctuality (Timing) Verification.** The certificate must be posted to the batcher inbox within some punctuality window. EigenDA blobs are only available to download for 2 weeks, so this check is necessary to prevent malicious sequencers from posting certificates right before the blob gets deleted.
+1. **Retrieval.** Rollup full nodes must retrieve EigenDA blobs as part of the
 L2 derivation/challenge process. Otherwise they cannot keep up with the state of
 the L2.
-4. **Data Verification.** The rollup's fraud arbitration protocol must be
-capable of verifying that the EigenDA blob data used to generate a state root
+1. **Blob Commitment Verification.** The rollup's fraud arbitration protocol must be
+capable of verifying that every EigenDA blob used to generate a state root
 matches the KZG commitment provided in the EigenDA cert posted to the rollup
 inbox. In doing this verification, the chain ensures that the transaction data
 used to generate the rollup's state root was not manipulated by the
 sequencer/proposer.
 
-Each strategy used to integrate EigenDA can be defined by how these four concerns
-are handled.
+A fully secure integration requires doing the 3 verification checks.
 
-## Trusted Verification Strategy (M0) {#M0}
+|                                 | Dispersal | Retrieval | Cert Verification | Blob Verification | Timing Verification |
+| ------------------------------- | --------- | --------- | ----------------- | ----------------- | ------------------- |
+| Trusted | x         | x         |                   |                   |                     |
+| Fully Secured                   | x         | x         | x                 | x                 | x                   |
 
-![M0 chain finalization](/img/eigenda/optimistic-M0-dispersal.png)
+There are different strategies for implementing each of these checks, with different rollup stacks employing
+different strategies. We outline the different approaches in this document.
 
-The trusted verification strategy does not do certificate or data verification.
-Instead it focuses on dispersal and retrieval for the sake of simplicity, but at
-the cost of security. This is an integration model fit for testnet. Let's walk
-through the lifecycle of an L2 batch:
+## Trusted Integration (Dispersal+Retrieval) {#trusted-integration}
+
+![Insecure Dispersal](../../../static/img/integrations/secure/insecure-dispersal.png)
+
+The trusted integration trusts that the sequencer is verifying certs and 
+posting them to the rollup inbox in a timely fashion. 
+This integration focuses on dispersal and retrieval for the sake of simplicity, 
+but at the cost of security. Let's walk through the lifecycle of an L2 batch:
 
 1. The batcher component of the rollup sequencer prepares an L2 batch, and calls
-the **DisperseBlob()** method on the EigenDA disperser, sending the batch data.
-2. The disperser erasure-encodes the blob into chunks, calculates the KZG
+the **DisperseBlob()** rpc on the EigenDA disperser, sending the batch data.
+1. The disperser erasure-encodes the blob into chunks, calculates the KZG
 commitment, and calculates the KZG proof for each chunk. It then distributes the
 chunks to the EigenDA operator set, where each operator receives a subset of
 the chunks in proportion to its stake. Each operator then stores the chunks its
 received, verifying that each chunk matches its KZG proof and KZG commitment.
 If so, it signs a message certifying that the chunk has been stored and returns
 it to the disperser.
-3. The disperser aggregates the signatures from step 3 into a single BLS
+1. The disperser aggregates the signatures from step 3 into a single BLS
 signature and sends it and some blob metadata to to the EigenDA Manager contract on
 Ethereum. The EigenDA Manager contract on Ethereum is responsible for verifying EigenDA
 certificates, and if they verify, recording that verification in storage.
 Verification consists of ensuring the aggregated signature is valid and is
 based on the current EigenDA operator set. This blob verification status is
 not used in this implementation strategy.
-4. If the sequencer is using the EigenDA disperser, then it shouldn't just trust
+1. If the sequencer is using the EigenDA disperser, then it shouldn't just trust
 the disperser when it says that the blob has successfully been dispersed, it
 should verify by checking onchain. This is important in this integration
 strategy because the rollup inbox does not perform this check. Without this
 check the EigenDA disperser is trusted (in addition to the sequencer).
-5. The batcher then sends a transaction to the rollup inbox contract on
+1. The batcher then sends a transaction to the rollup inbox contract on
 Ethereum with the EigenDA blob id as calldata, which accepts the
 EigenDA blob id.
 
@@ -77,70 +87,64 @@ is disabled, and state roots cannot be challenged. This means the sequencer can
 post whatever state roots they want to the bridge contract and potentially steal
 funds.
 
-## L2 Inbox Certificate Verification Strategy (M1) {#M1}
+## Cert Timeliness Verification
 
-The natural locations for dispersal, retrieval, and data verification logic are
-unambiguous – dispersal logic can only live inside the rollup batcher, retrieval
-logic can only live inside the derivation pipeline, and data verification logic
-can only live inside the fraud proof system. That leaves certificate
-verification logic, which could be placed either in the rollup's inbox contract
-or inside the rollup virtual machine executing off-chain. The question of where
-to place this logic is the key distinguishing factor between the "M1" and
-"M2" integration paths.
+EigenDA blobs are only available to download for 2 weeks, so it is important
+to ensure that the [batcher][glossary-batcher] is not posting EigenDA certs to the rollup inbox after the blob has been deleted. Each securely integrated rollup stack should have a [cert-punctuality-window][glossary-cert-punctuality-window] defined by its derivation pipeline.
+
+## Cert Verification
+
+Cert validity rules are encoded in the EigenDACertVerifier contract. Cert validity can thus be checked
+offchain by making an eth-call, or onchain by calling the respective method. It can also be zk proven via a storage proof. See our [V2 integration spec][spec-cert-validation]. Ultimately though, the L1 chain must be
+convinced that the cert is valid, which can either be done:
+1. Pessimistically
+   1. verify in the [rollup-inbox][glossary-rollup-inbox] contract for every blob (optimistic rollups)
+   2. create a zk proof which is aggregated and submitted along with the state transition correctness proof (zk rollups)
+2. Optimistically: only verify during one step proving if/when a fraud happens (optimistic rollups)
+
+Although the pessimistic implementation is simpler, the optimistic approach is
+often desirable since verification only incurs on-chain costs when the sequencer is
+dishonest.
+
+### Pessimistic Cert Verification
+
+We only describe the inbox verification strategy here as it is mostly straightforward. There are many different ways to get a zk proof of storage, so teams wanting to use this approach should consult their relevant stack's guide.
+
+> Note: this strategy is only possible for rollup stacks whose [rollup-inbox][glossary-rollup-inbox] is a contract (e.g. arbitrum nitro). On the op stack, the batcher inbox is an EOA so it is not possible for it to make calls to the DACertVerifier (lest it uses [eip-7702](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7702.md)).
 
 An instructive way to dive into the L2 inbox certificate verification strategy
 is to follow an L2 transaction from origination to finalization on Ethereum. We
 can further break this down into two stages, L2 chain finalization and L2 bridge
 finalization.
 
-### L2 Chain Finalization
-
-![M1 chain finalization](/img/eigenda/optimistic-M1-dispersal.png)
+**L2 Chain Finalization**
 
 First, L2 chain finalization. An L2 transaction is finalized with respect to the
-L2 chain when the transaction has been sequenced in the L2 inbox contract. When
-this process is complete, any L2 node can say with confidence that the
-transaction is part of the canonical L2 chain and is not subject to a reorg.
-
-For example, if you were selling your car and a buyer paid you by sending you
+L2 chain when the transaction has been included in the [rollup-inbox][glossary-rollup-inbox] 
+in a finalized L1 block. When this process is complete, any L2 node can say with confidence that the
+transaction is part of the canonical L2 chain and is not subject to a reorg. For example, 
+if you were selling your car and a buyer paid you by sending you
 USDC on a secure rollup, it would be important to wait until the transaction had
 reached L2 chain finalization before letting them drive away with your vehicle.
 
-Let's walk through how EigenDA affects this process:
+![M1 chain finalization](../../../static/img/integrations/secure/inbox-verified-dispersal.png)
 
-1. The batcher component of the rollup sequencer prepares an L2 batch of user
-transactions and sends it to the EigenDA disperser.
-2. The disperser erasure-encodes the blob into chunks, calculates the KZG
-commitment, and calculates the KZG proof for each chunk. It then distributes the
-chunks to the EigenDA operator set, where each operator receives a subset of
-the chunks in proportion to its stake. Each operator then stores the chunks its
-received, verifying that each chunk matches its KZG proof and KZG commitment.
-If so, it signs a message certifying that the chunk has been stored and returns
-it to the disperser.
-3. The disperser aggregates the signatures from step 3 into a single BLS
-signature and sends it and some blob metadata to to the EigenDA Manager contract on
-Ethereum. The EigenDA Manager contract on Ethereum is responsible for verifying EigenDA
-certificates, and if they verify, recording that verification in storage.
-Verification consists of ensuring the aggregated signature is valid and is
-based on the current EigenDA operator set. This blob verification status is
-used in step 5.
-4. Once the blob has been confirmed, the batcher sends a transaction to the
-rollup inbox contract on Ethereum with the EigenDA blob certificate as calldata.
+The above diagram is exactly the same as the trusted integration diagram [above](#trusted-integration), with the added 6th step:
+
+4. In order to get a fully secured integration, the batcher should wait until the confirmBatch tx
+ has been finalized onchain before posting the EigenDA cert to the [rollup inbox][glossary-rollup-inbox]. This is needed
+ in order to protect from an L1 chain reorg that would remove/invalidate the eigenDA cert, while leaving the batch in the inbox.
 5. The rollup inbox contract is programmed not to accept the
-EigenDA certificate unless it is valid. To avoid repeating work,
-the rollup inbox contract can make a `verifyBlob()` call on the EigenDA
-contract, passing in the EigenDA certificate. Inside the `verifyBlob()`
-implementation, the EigenDA manager contract checks against its storage whether
-the blob certificate was verified. If so `verifyBlob()` returns `true` and the
-EigenDA certificate is allowed into the inbox.  Otherwise the blob ID is rejected.
+EigenDA certificate unless it is valid. The cert is verified by making a call to the
+`verifyDACert()` function.
 
-At this point the the user's transaction has been confirmed on the rollup. Once
-the weak subjectivity window passes (~13 minutes), the user's transaction can be
+At this point the user's transaction has been confirmed on the rollup. Once
+the weak subjectivity window passes (2 epochs ~= 13 minutes), the user's transaction can be
 considered finalized.
 
-### L2 Bridge Finalization
+**L2 Bridge Finalization**
 
-![M1 bridge finalization](/img/eigenda/optimistic-M1-settlement.png)
+![M1 bridge finalization](../../../static/img/integrations/secure/settlement.png)
 
 L2 bridge finalization is necessary for bridging assets or data from the L2 to
 the L1. Bridge finalization depends on the rollup bridge contract on the L1
@@ -154,17 +158,17 @@ In the absence of fraud, this is a relatively simple process with EigenDA:
 DA cert is valid because otherwise it would have been rejected from the inbox.
 So it uses the EigenDA client to retrieve the EigenDA blob using the EigenDA
 cert.
-2. The full node executes the L2 block as described in the L2 blob against the
+1. The full node executes the L2 block as described in the L2 blob against the
 current L2 state.
-3. If the full node is a proposer/validator, it will post the state root of the
+1. If the full node is a proposer/validator, it will post the state root of the
 L2 state to the rollup bridge contract on Ethereum every few blocks.
-4. If no fraud proof has been submitted within the challenge window (~7 days),
+1. If no fraud proof has been submitted within the challenge window (~7 days),
 then the state root in the rollup bridge contract is considered valid and any
 outbound assets or messages are released by the bridge contract.
 
 In the event of a fraud challenge, the process is more complex. There is a
 second, equivalent state transition function for generating state roots which is
-much slower but also much a more rigorous fraud prove.
+much slower but also a much more rigorous fraud proof.
 
 That process models the L2 state as a virtual machine, complete with an operating
 system, which continuously reads messages from the rollup inbox contract using a
@@ -182,7 +186,9 @@ referenced by the EigenDA cert.
 Let's walk through a scenario where the proposer is dishonest, in order to
 illustrate:
 
-![M1 bridge challenge](/img/eigenda/optimistic-M1-challenge.png)
+![M1 bridge challenge](../../../static/img/integrations/secure/challenger.png)
+
+> Note: this section uses arbitrum nitro opcode language. OP uses [syscall](https://specs.optimism.io/fault-proof/index.html#pre-image-communication) opcodes to communicate with the preimage oracle instead.
 
 1. The proposer encounters an EigenDA cert and rather than reading data from
 EigenDA honestly, decides to read data from elsewhere, not committed to by the
@@ -211,29 +217,35 @@ In order to implement an EigenDA integration with fraud proofs, the underlying
 rollup must support passing KZG commitments to `ReadPreImage` opcode. The rest
 of the L2 VM design works as-is for arbitrating fraud.
 
-## L2 OS Certificate Verification Strategy (M2) {#M2}
+### Optimistic Cert Verification
 
-<!-- ![M2 chain finalization](/img/eigenda/optimistic-M2-dispersal.png) -->
-
-The integration strategy under Blazar release is similar to the existing integration strategy, with the
-difference that EigenDA certificates are not verified on Ethereum. Instead, they
-are verified within the L2 itself, such that the validity of DA certs is
-enforced by the same fraud proof mechanism that is used with all other L2 state.
+The integration strategy under the V2 [Blazar](../../releases/blazar.md) release is similar to the 
+existing integration strategy, with the
+difference that EigenDA certificates are only verified on Ethereum if needed by the dispute game.
+This requires the certs to be verified within the L2 State Transition Function (STF).
 In this mode, a rollup batcher may submit invalid EigenDA certs to the rollup
-inbox, such that L2 nodes interpret these invalid DA certs and discard them. If
-a rollup proposer submits a state root based on data referenced by an EigenDA
+inbox, because L2 nodes interpret these invalid DA certs and discard them. If
+a rollup proposer submits a state root based on data referenced by an invalid EigenDA
 cert, it is possible to successfully challenge that state root.
 
-This integration strategy depends on the ability of the L2 OS to validate
+This integration strategy depends on the ability of the L2 STF to validate
 EigenDA certs, which requires an authenticated view into the current EigenDA
-operator set. Specifically, the L2 OS must have access to L1 state roots, so
+operator set. Specifically, the L2 STF must have access to L1 state roots, so
 that Eigenlayer contract storage proofs may be verified.
 
-## Analysis
+## Blob Commitment Verification
 
-Although the rollup inbox implementation is simpler, the L2 OS implementation is
-more desirable since it avoids adding validity constraints to batch updates,
-which would incur significant signature verification gas costs regardless of
-whether the sequencer is honest. When placed within the rollup OS, DA
-certificate verification only incurs on-chain costs when the sequencer is
-dishonest.
+A rollup must check that the EigenDA blob it received from EigenDA matches the KZG commitments in the cert. For full validation rules, see the [spec][spec-blob-validation].
+
+There are a few different strategies possible for this:
+1. Recompute the KZG commitment and check it against the one in the cert. Straightforward but requires having the SRS points.
+2. Have someone provide an opening proof for the KZG commitment. See this [issue](https://github.com/Layr-Labs/eigenda/issues/1037) for full details.
+3. For some zk rollups, the commitment posted onchain is of a different kind, and thus requires [proving equivalence](https://notes.ethereum.org/@dankrad/kzg_commitments_in_proofs#The-trick).
+
+<!-- Link References -->
+[glossary-rollup-inbox]: ./glossary.md#rollup-inbox
+[glossary-batcher]: ./glossary.md#rollup-batcher
+[glossary-cert-punctuality-window]: ./glossary.md#cert-punctuality-window
+
+[spec-cert-validation]: https://layr-labs.github.io/eigenda/integration.html#cert-validation
+[spec-blob-validation]: https://layr-labs.github.io/eigenda/integration.html#blob-validation
