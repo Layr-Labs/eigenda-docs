@@ -88,7 +88,7 @@ is disabled, and state roots cannot be challenged. This means the sequencer can
 post whatever state roots they want to the bridge contract and potentially steal
 funds.
 
-## 1.2. Cert Timeliness Verification
+## 1.2. Cert Punctuality Verification
 
 EigenDA blobs are only available to download for 2 weeks, so it is important
 to ensure that the [batcher][glossary-batcher] is not posting EigenDA certs to the rollup inbox after the blob has been deleted. Each securely integrated rollup stack should have a [cert-punctuality-window][glossary-cert-punctuality-window] defined by its derivation pipeline.
