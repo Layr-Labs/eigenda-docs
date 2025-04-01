@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 ---
-# 1. Secure Integration Overview
+# Secure Integration Overview
 
 This document aims to outline what a secure EigenDA integration looks like, to provide rollup
 engineers with a strong understanding of how an EigenDA integration would impact
