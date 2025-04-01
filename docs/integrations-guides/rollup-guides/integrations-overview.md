@@ -111,7 +111,7 @@ dishonest.
 
 We only describe the inbox verification strategy here as it is mostly straightforward. There are many different ways to get a zk proof of storage, so teams wanting to use this approach should consult their relevant stack's guide.
 
-> Note: this strategy is only possible for rollup stacks whose [rollup-inbox][glossary-rollup-inbox] is a contract (e.g. arbitrum nitro). On the op stack, the batcher inbox is an EOA so it is not possible for it to make calls to the DACertVerifier (lest it uses [eip-7702](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7702.md)).
+> Note: this strategy is only possible for rollup stacks whose [rollup-inbox][glossary-rollup-inbox] is a contract (e.g. arbitrum nitro). On the op stack, the batcher inbox is an EOA so it is not possible for it to make calls to the DACertVerifier (unless [eip-7702](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7702.md) is used).
 
 An instructive way to dive into the L2 inbox certificate verification strategy
 is to follow an L2 transaction from origination to finalization on Ethereum. We
