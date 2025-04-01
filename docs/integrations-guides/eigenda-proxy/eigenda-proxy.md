@@ -32,7 +32,7 @@ Different actors in the rollup topology will have to use proxy for communicating
 
 
 ## Recommended Config Types
-Different security measures and runtime optimizations can be applied through various proxy configurations. The different configuration flags can be found [here](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#configuration-options). The following recommendations are advised for different rollup node actor types:
+Different security measures and runtime optimizations can be applied through various proxy configurations. The different configuration flags can be found [here](https://github.com/Layr-Labs/eigenda-proxy/blob/main/docs/help_out.txt). The following recommendations are advised for different rollup node actor types:
 
 ### Batchers
 Privileged roles that are responsible for submitting rollup batches to EigenDA should have the following presets:
