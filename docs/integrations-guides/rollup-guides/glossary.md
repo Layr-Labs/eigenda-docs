@@ -15,7 +15,7 @@ A cert is considered valid when it is included onchain before the cert's [Refere
 RBN < cert.L1InclusionBlock < RBN+CPW 
 ```
 
-A default CPW of 12 hours is recommended. For OP specifically, this number should be at least as large as the [sequencerWindowSize](https://docs.optimism.io/operators/chain-operators/configuration/rollup#sequencerwindowsize).
+A default CPW of 12 hours (3600 blocks on ethereum mainnet) is recommended. For OP specifically, this number should be at least as large as the [sequencerWindowSize](https://docs.optimism.io/operators/chain-operators/configuration/rollup#sequencerwindowsize).
 
 ## Rollup Batcher
 
