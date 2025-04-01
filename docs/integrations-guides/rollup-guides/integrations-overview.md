@@ -130,7 +130,7 @@ reached L2 chain finalization before letting them drive away with your vehicle.
 
 ![M1 chain finalization](../../../static/img/integrations/secure/inbox-verified-dispersal.png)
 
-The above diagram is exactly the same as the trusted integration diagram [above](#trusted-integration), with the added 6th step:
+The above diagram is the same as the trusted integration diagram [above](#trusted-integration), with two slight modifications:
 
 4. In order to get a fully secured integration, the batcher should wait until the confirmBatch tx
     has been finalized onchain before posting the EigenDA cert to the [rollup inbox][glossary-rollup-inbox]. This is needed
