@@ -43,7 +43,7 @@ A fully secure integration requires doing the 3 verification checks.
 There are different strategies for implementing each of these checks, with different rollup stacks employing
 different strategies. We outline the different approaches in this document.
 
-## 1.1. Trusted Integration (Dispersal+Retrieval) {#trusted-integration}
+## Trusted Integration (Dispersal+Retrieval) {#trusted-integration}
 
 ![Insecure Dispersal](../../../static/img/integrations/secure/insecure-dispersal.png)
 
@@ -88,12 +88,12 @@ is disabled, and state roots cannot be challenged. This means the sequencer can
 post whatever state roots they want to the bridge contract and potentially steal
 funds.
 
-## 1.2. Cert Punctuality Verification
+## Cert Punctuality Verification
 
 EigenDA blobs are only available to download for 2 weeks, so it is important
 to ensure that the [batcher][glossary-batcher] is not posting EigenDA certs to the rollup inbox after the blob has been deleted. Each securely integrated rollup stack should have a [cert-punctuality-window][glossary-cert-punctuality-window] defined by its derivation pipeline.
 
-## 1.3. Cert Verification
+## Cert Verification
 
 Cert validity rules are encoded in the EigenDACertVerifier contract. Cert validity can thus be checked
 offchain by making an eth-call, or onchain by calling the respective method. It can also be zk proven via a storage proof. See our [V2 integration spec][spec-cert-validation]. Ultimately though, the L1 chain must be
@@ -107,7 +107,7 @@ Although the pessimistic implementation is simpler, the optimistic approach is
 often desirable since verification only incurs on-chain costs when the sequencer is
 dishonest.
 
-### 1.3.1. Pessimistic Cert Verification
+### Pessimistic Cert Verification
 
 We only describe the inbox verification strategy here as it is mostly straightforward. There are many different ways to get a zk proof of storage, so teams wanting to use this approach should consult their relevant stack's guide.
 
@@ -218,7 +218,7 @@ In order to implement an EigenDA integration with fraud proofs, the underlying
 rollup must support passing KZG commitments to `ReadPreImage` opcode. The rest
 of the L2 VM design works as-is for arbitrating fraud.
 
-### 1.3.2. Optimistic Cert Verification
+### Optimistic Cert Verification
 
 The integration strategy under the V2 [Blazar](../../releases/blazar.md) release is similar to the 
 existing integration strategy, with the
@@ -234,7 +234,7 @@ EigenDA certs, which requires an authenticated view into the current EigenDA
 operator set. Specifically, the L2 STF must have access to L1 state roots, so
 that Eigenlayer contract storage proofs may be verified.
 
-## 1.4. Blob Commitment Verification
+## Blob Commitment Verification
 
 A rollup must check that the EigenDA blob it received from EigenDA matches the KZG commitments in the cert. For full validation rules, see the [spec][spec-blob-validation].
 
