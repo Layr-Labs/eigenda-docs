@@ -4,37 +4,60 @@ sidebar_position: 2
 
 # OP Stack and EigenDA
 
-[OP Stack](https://stack.optimism.io/) is the set of [software
-components](https://github.com/ethereum-optimism/optimism) that run the [Optimism](https://www.optimism.io/) rollup and can be
+[OP Stack](https://github.com/ethereum-optimism/optimism) is the set of software
+components that run the [Optimism](https://l2beat.com/scaling/projects/op-mainnet) rollup and can be
 deployed independently to power third-party rollups.
 
 By default, the OP Stack sequencer's [op-batcher](https://github.com/ethereum-optimism/optimism/tree/develop/op-batcher) writes batches to Ethereum in the form of calldata or 4844 blobs to commit to the transactions included in the canonical L2 chain. In Alt-DA mode, the op-batcher and op-nodes (validators) are configured to talk to a third-party HTTP proxy server for writing (op-batcher) and reading (op-node) tx batches to and from DA. Optimism's Alt-DA [spec](https://specs.optimism.io/experimental/alt-da.html) contains a more in-depth breakdown of how these systems interact.
 
 To implement this server spec, EigenDA provides [EigenDA Proxy](../../eigenda-proxy/eigenda-proxy.md) which is run as a dependency alongside OP Stack sequencers and full nodes to securely communicate with the EigenDA disperser.
 
+## Our OP Fork
+
+We currently maintain a [fork](https://github.com/Layr-Labs/optimism) of the OP Stack to provide [3 features](https://github.com/Layr-Labs/optimism?tab=readme-ov-file#fork-features) missing from the upstream OP Stack:
+1. Performance: we enable high-throughput rollups via parallel blob submissions (see [Release 2](https://github.com/Layr-Labs/optimism/releases/tag/op-node%2Fv1.11.1-eigenda.2))
+2. Liveness: we provide failover to Ethereum calldata if EigenDA is unavailable (see [Release 1](https://github.com/Layr-Labs/optimism/releases/tag/op-node%2Fv1.11.1-eigenda.1))
+3. Safety: we are working on a fully secure integration, using our [hokulea](https://github.com/Layr-Labs/hokulea) extension to op's [rust derivation pipeline](https://github.com/op-rs/kona)
+
+## Kurtosis Devnet
+
+For a quick start to explore an eigenda-powered op rollup, we [extended](https://github.com/Layr-Labs/optimism/tree/eigenda-develop/kurtosis-devnet) op's kurtosis-devnet. Start by cloning the repo and cd'ing to the correct directory:
+```bash
+git clone git@github.com:Layr-Labs/optimism.git
+cd optimism/kurtosis-devnet
+```
+Then take a look at the different just commands related to our devnet:
+```bash
+$ just --list
+  [...] # other commands
+  [eigenda]
+  eigenda-devnet-add-tx-fuzzer ENCLAVE_NAME="eigenda-devnet" *ARGS=""
+  eigenda-devnet-clean ENCLAVE_NAME="eigenda-devnet"
+  eigenda-devnet-configs ENCLAVE_NAME="eigenda-devnet"
+  eigenda-devnet-failback ENCLAVE_NAME="eigenda-devnet"
+  eigenda-devnet-failover ENCLAVE_NAME="eigenda-devnet" # to failover to ethDA. Use `eigenda-devnet-failback` to revert.
+  eigenda-devnet-grafana ENCLAVE_NAME="eigenda-devnet"
+  eigenda-devnet-restart-batcher ENCLAVE_NAME="eigenda-devnet" # Restart batcher with new flags or image.
+  eigenda-devnet-start VALUES_FILE="eigenda-template-values/memstore-concurrent-large-blobs.json" ENCLAVE_PREFIX="eigenda" # We also start a tx-fuzzer separately, since the optimism-package doesn't currently have that configurable as part of its package.
+  eigenda-devnet-sync-status ENCLAVE_NAME="eigenda-devnet"
+  eigenda-devnet-test-holesky *ARGS=""               # Take a look at how CI does it in .github/workflows/kurtosis-devnet.yml .
+  eigenda-devnet-test-memstore *ARGS=""              # meaning with a config file in eigenda-template-values/memstore-* .
+```
+
+You can run `just eigenda-devnet-start` to start a devnet which will spin-up an [eigenda-proxy](../../eigenda-proxy/eigenda-proxy.md) in memstore mode, simulating EigenDA. To interact with the actual EigenDA [holesky](../../../networks/holesky.md) testnet, you can run `just eigenda-devnet-start "eigenda-template-values/holesky-concurrent-small-blobs.json"`. You will need to fill in the two missing secret values in that [config file](https://github.com/Layr-Labs/optimism/blob/e1d636081550caacae42d88b79404899f0e45888/kurtosis-devnet/eigenda-template-values/holesky-concurrent-small-blobs.json): `eigenda-proxy.secrets.eigenda.signer-private-key-hex` and `eigenda-proxy.secrets.eigenda.eth-rpc`. Feel free to modify any other values, or even modify the kurtosis eigenda [template file](https://github.com/Layr-Labs/optimism/blob/e1d636081550caacae42d88b79404899f0e45888/kurtosis-devnet/eigenda.yaml) directly if needed.
+
 ## Deploying
+
+Deploy your OP Stack according to the official OP [deployment docs](https://docs.optimism.io/builders/chain-operators/tutorials/create-l2-rollup). Our fork currently only modifies the op-batcher and op-node, so make sure to also read the instructions below to deploy those.
 
 ### Deploying EigenDA Proxy
 
-First check out the version of the EigenDA proxy corresponding to the version of OP Stack you are deploying, and follow their `README.md` in that version:
+We push docker images to our [ghcr registry](https://github.com/Layr-Labs/eigenda-proxy/pkgs/container/eigenda-proxy) on every [release](https://github.com/Layr-Labs/eigenda-proxy/releases).
 
-| OP Stack Version                                                            | Compatible EigenDA Proxy Version                                         |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [v1.7.6](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.6) | [v1.0.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.0.0) |
-| [v1.7.7](https://github.com/ethereum-optimism/optimism/releases/tag/v1.7.7) | [v1.2.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.2.0) |
-| [v1.9.0](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.0) | [v1.4.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.4.0) |
-| [v1.9.3](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.3) | [v1.5.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.5.0) |
-| [v1.9.4](https://github.com/ethereum-optimism/optimism/releases/tag/v1.9.4) | [v1.6.0](https://github.com/Layr-Labs/eigenda-proxy/releases/tag/v1.6.0) |
+Make sure to read the different [features](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#features-and-configuration-options-flagsenv-vars) provided by the proxy, to understand the different flag options. We provide an example [holesky config](https://github.com/Layr-Labs/eigenda-proxy/blob/f2f4c94fc655965b7b3d414c89452bdbcc7659be/.env.example.holesky) for integrating with EigenDA V1.
 
-The v1.9.3 op-stack release contains our concurrent batch submission [PR](https://github.com/ethereum-optimism/optimism/pull/11698) which is required for high-throughput EigenDA deployments.
 
-:warning: PSA: High throughput rollups should not update to the [holocene hardfork](https://docs.optimism.io/builders/notices/holocene-changes#for-node-operators)! The new strict batch ordering rules (see [here](https://docs.optimism.io/builders/notices/holocene-changes) and [here](https://specs.optimism.io/protocol/holocene/derivation.html)) broke our concurrent blob submission flow. If you are forced to upgrade, due to following the superchain for eg., make sure to set MAX_CONCURRENT_DA_REQUESTS=1. This will unfortunately reduce your throughput. We have a fix [PR](https://github.com/ethereum-optimism/optimism/pull/13169) that is in the process of getting reviewed.
-
-### Deploying OP Stack
-
-Next deploy the OP Stack components according to the official OP Stack [deployment docs](https://docs.optimism.io/builders/chain-operators/tutorials/create-l2-rollup), but with the following modifications:
-
-#### op-node rollup.json configuration
+### Deploying OP Node
 
 In the op-node `rollup.json` configuration the following should be set:
 
@@ -48,10 +71,11 @@ In the op-node `rollup.json` configuration the following should be set:
   }
 }
 ```
-Only `da_commitment_type` is important, because eigenDA does not use da challenges.
+Make sure to set `da_commitment_type` to use generic commitment instead of [keccak commitments](https://specs.optimism.io/experimental/alt-da.html#input-commitment-submission)! In generic mode, the dachallenge contract won't get deployed (see our analysis [analysis](#da-challenge-contract) as to why we don't use it). The other values are meaningless,
+but they still need to be set somehow.
 
 
-#### op-node CLI configuration
+**op-node CLI configuration**
 
 The following env config values should be set to ensure proper communication between op-node and eigenda-proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
@@ -60,7 +84,9 @@ The following env config values should be set to ensure proper communication bet
 - `OP_NODE_ALTDA_VERIFY_ON_READ=false`
 - `OP_NODE_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
 
-#### op-batcher CLI configuration
+### Deploying OP Batcher
+
+**op-batcher CLI configuration**
 
 The following env config values should be set accordingly to ensure proper communication between OP Batcher and EigenDA Proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
@@ -68,37 +94,25 @@ The following env config values should be set accordingly to ensure proper commu
 - `OP_BATCHER_ALTDA_DA_SERVICE=true`
 - `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`
 - `OP_BATCHER_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
-- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=11000`
-- `OP_BATCHER_TARGET_NUM_FRAMES=1`
+- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1320`
+- `OP_BATCHER_TARGET_NUM_FRAMES=8`
 
-Our high-throughput integration still sends single frames (128KiB each) as EigenDA blobs, but it's able to send them in parallel. Do make sure to set `OP_BATCHER_TARGET_NUM_FRAMES=1`, to pass this [check](https://github.com/ethereum-optimism/optimism/pull/11698/files#diff-c734d1296b2fd691221b92df3edf09c7533c507a74c2316117745c75c3ad5776R577). To reach a desired throughput, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` can then be set to allow submitting enough parallel EigenDA blobs. Blob dispersals on EigenDA mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, assuming we want to reach a throughput of 1MiB/s, which means 8 requests per second each blocking for possibly up to 22mins, we would need to send up to `8*60*22=10560` parallel requests. Above, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` to 11_000 to leave some breathing room in case of jitter.
+The above settings of `OP_BATCHER_TARGET_NUM_FRAMES=8` and `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1320` achieve a throughput of 1MiB blobs: submitting larger blobs (frames) is currently not permitted by the [op-node's derivation pipeline](https://github.com/ethereum-optimism/optimism/blob/c05f5adda536d6c24109613b51c01e0be859cef6/op-node/rollup/derive/frame.go#L14).
 
-The current settings don't make full use of EigenDA's large blobs capability, and force us to send small 128KiB blobs. We have an upstream [PR](https://github.com/ethereum-optimism/optimism/pull/12400) to enable multi-frame blobs to be constructed. The above settings could then be changed to `OP_BATCHER_TARGET_NUM_FRAMES=8` and `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1375` to send the same throughput but via 1MiB blobs (submitting larger blobs is currently not permitted by the op-node's derivation pipeline).
+**Throughput analysis**
 
-### Mainnet Keypair Registration
+To reach a desired throughput, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` should be set to allow submitting enough parallel EigenDA blobs. Blob dispersals on EigenDA V1 mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, assuming blobs of 1MiB/s by setting `OP_BATCHER_TARGET_NUM_FRAMES=8`, in order to reach a throughput of 1MiB/s, which means 8 requests per second each blocking for possibly up to 22mins, we would need to send up to `60*22=1320` parallel requests.
 
-When you are ready to onboard your rollup to mainnet you can fill out the following form to get your keypair whitelisted: [https://forms.gle/niMzQqj1JEzqHEny9](https://forms.gle/niMzQqj1JEzqHEny9).
+**Failover**
+
+Failover was added in this [PR](https://github.com/Layr-Labs/optimism/pull/34), and is automatically supported by the batcher. Each channel will first attempt to disperse to EigenDA via the proxy. If a `503` HTTP error is received, that channel will failover and be submitted as calldata to ethereum instead. To configure when the proxy returns `503` errors, see the [failover signals](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#failover-signals-) section of the Proxy README.
 
 ## Security Guarantees
 
-This setup provides Stage 0 security guarantees without adding an unnecessary trust assumption on the EigenDA disperser. The EigenDA Proxy [docs page](../../eigenda-proxy/eigenda-proxy.md) and [repo readme](https://github.com/Layr-Labs/eigenda-proxy/blob/main/README.md) explain how this is achieved.
+The above setup provides a [trusted integration](../integrations-overview.md#trusted-integration) level of security guarantees without adding an unnecessary trust assumption on the EigenDA disperser.
 
-### OP Stack DA Challenge Contract
+### DA Challenge Contract
 
-One new component of the OP Alt-DA interface is the [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to prevent a data withholding attack executed by the sequencer or DA network. EigenDA does not make use of the challenge contract because uploading high-throughput bandwidth onto Ethereum is not physically possible.
+OP's Alt-DA spec includes a [DA challenge contract](https://specs.optimism.io/experimental/alt-da.html#data-availability-challenge-contract), which allows L2 asset-holders to prevent a data withholding attack executed by the sequencer or DA network. EigenDA does not make use of the challenge contract because not only is uploading high-throughput bandwidth onto Ethereum not physically possible, but even for low throughput rollups, the challenge contract is not economically viable. See [l2beat's analysis of the redstone rollup](https://l2beat.com/scaling/projects/redstone#da-layer-risk-analysis) or donnoh's [Universal Plasma and DA challenges](https://ethresear.ch/t/universal-plasma-and-da-challenges/18629) article for an economic analysis of the challenge contract.
 
-The EigenDA team has roadmap plans to implement fault proof support for EigenDA cert validity in order to provide full safety/liveness guarantees for OP Stack x EigenDA deployments.
-
-## Roadmap
-
-The EigenDA Rollup Integrations team is working to support OP Stack fault proofs and will post updates to [@eigen_da](https://x.com/eigen_da?lang=en).
-
-## Contact
-
-If you are a Rollup considering integrating with EigenDA and OP Stack - reach
-out to our team to discuss how we can support and accelerate your onboarding:
-[https://contact.eigenda.xyz/](https://contact.eigenda.xyz/)
-
-If you are a Rollup developer and have questions on the integration - reach out
-to our Support team via:
-[https://support.eigenlayer.xyz/](https://support.eigenlayer.xyz/)
+This means that even if our op stack fork were to implement failover to keccak commitments (currently it is only possible to failover to ethereum calldata), using the challenge contract would not provide any additional security guarantees, which is why we recommend that every eigenda-op rollup uses GenericCommitments in their [rollup.json](#deploying-op-node) config.
