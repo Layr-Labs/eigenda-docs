@@ -30,6 +30,6 @@ Defined below is the process for which you can use to migrate your vanilla Arbit
         --private-key {PRIVATE_KEY} --gas-limit 1000000
         ``` 
 
-**NOTE:** If this is not done an edge-case can be reached where the sequencer's batch posters are able to submit batches to EigenDA but the `MakeNode` and `Defensive` validators will halt due to an old config being referenced during stateless block validation within the JIT validation server.
+**NOTE:** If this is not done an edge-case can be reached where the sequencer's batch posters are able to submit batches to EigenDA but the `MakeNode` and `Defensive` validators will halt due to an old config being referenced during stateless block validation within the validation server.
 
 6. Verify your deployment. Steps on how to do this can be found via our developer [runbook](https://eigen-labs.notion.site/Developer-Runbook-12466062c1a7495ebc1d803169c37644?pvs=4).
