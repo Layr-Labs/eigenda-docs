@@ -21,7 +21,7 @@ Arbitrum nodes communicate with EigenDA via the proxy for secure communication a
 
 1. Assuming you have yarn and hardhat installed. 
 
-2. Download the nitro contracts source [code](https://github.com/Layr-Labs/nitro-contracts) from the EigenDA Nitro contracts fork using a latest stable version [release](https://github.com/Layr-Labs/nitro-contracts/releases).
+2. Download the nitro contracts source [code](https://github.com/Layr-Labs/nitro-contracts) from the EigenDA Nitro contracts fork using the latest stable version [release](https://github.com/Layr-Labs/nitro-contracts/releases).
 
 3. Within the high level directory, create a new deployment config using existing template:
 ```
@@ -41,7 +41,7 @@ yarn deploy-factory --network ${NETWORK_ID}
 
 To see all relevant environment context to understand which env vars to provide, please advise the [*hardhat.config.ts*](https://github.com/Layr-Labs/nitro-contracts/blob/278fdbc39089fa86330f0c23f0a05aee61972c84/hardhat.config.ts) file for a more in-depth breakdown. 
 
-The script will take a few minutes to complete as it prints out the addresses of the deployed contracts along the way. Upon completion, your rollup creator factory is ready to use for new new chain deployments!
+The script will take a few minutes to complete as it prints out the addresses of the deployed contracts along the way. Upon completion, your rollup creator factory is ready to use for new chain deployments!
 
 **Since this script is hardhat, there are no state checkpoints that happen if a terminal failure occurs midway through execution. Please use at your own risk and ensure that you're connected to a stable RPC provider and have sufficient funds before beginning the deployment.**
 
@@ -81,7 +81,7 @@ While you can interact with the deployed Rollup creator directly, we recommend u
 ### Troubleshooting
 If your nitro setup script node encounters a warning `error getting latest batch count: no contract code at given address`, you should first verify that:
     - **(1)** That the `SequencerInbox` entry in your `/config/orbitSetupScriptConfig` maps to a successfully deployed contract
-    - **(2)** Your RPC provider is sufficiently reliably. Transient errors are common when leveraging free and public RPC providers
+    - **(2)** Your RPC provider is sufficiently reliable. Transient errors are common when leveraging free and public RPC providers
 
 ## Token Bridge
 
