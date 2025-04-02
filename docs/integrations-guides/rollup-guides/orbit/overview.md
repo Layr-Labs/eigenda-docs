@@ -23,15 +23,6 @@ Currently for L3 deployments, we recommend ensuring that:
 
 - If you wish to support higher throughput L3s with reduced risk, you can configure your EigenDA proxy instance with secondary storage fallbacks. This would at least ensure that if the blob certificate were to be invalidated the data would still be partially available. This would compromise the trust model of the rollup given an honest verifier node could when syncing from a confirmed chain head could halt in the event of a reorg'd since it wouldn't have access to the sequencer's secondary store.
 
-### System Testing
-
-We've extended many of Arbitrum Nitro's core system tests to ensure E2E correctness when using EigenDA; i.e:
-- [Added](https://github.com/Layr-Labs/nitro/blob/206560b02e42b801cdece9194dc005a93f539ca5/system_tests/eigenda_test.go#L28-L65) batch posting and derivation test
-- [Added](https://github.com/Layr-Labs/nitro/blob/206560b02e42b801cdece9194dc005a93f539ca5/system_tests/eigenda_test.go#L67-L255) programmatic failover tests to ensure EigenDA successfully rollovers to native Arbitrum DA destinations in the event of `ServiceUnavailable` status codes
-- [Extended](https://github.com/Layr-Labs/nitro/blob/206560b02e42b801cdece9194dc005a93f539ca5/system_tests/full_challenge_impl_test.go#L337-L641) E2E fraud proof tests to assert correctness of OSP dispute for `READINBOXMESSAGE` when using an EigenDA batch destination type.
-
-For replicating EigenDA interactions in a local testing environment, we utilize a local proxy [instance](https://github.com/Layr-Labs/nitro/blob/206560b02e42b801cdece9194dc005a93f539ca5/scripts/start-eigenda-proxy.sh) configured using a memstore backend to provide rapid iteration cycles. We've also added full compatibility with [Github Actions CI](https://github.com/Layr-Labs/nitro/actions) to ensure best practice node development.
-
 ### EigenDA Proxy
 
 [EigenDA Proxy](https://github.com/Layr-Labs/eigenda-proxy) is used for secure and optimized communication between the rollup and the EigenDA disperser. Arbitrum uses the [*Simple Commitment Mode*](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#simple-commitment-mode) for client/server interaction and representing DA certificates. Read more about EigenDA Proxy and its respective security features [here](../../eigenda-proxy/eigenda-proxy.md).
@@ -44,7 +35,7 @@ Please ensure that changes made to batch poster configs are globally applied acr
 
 Currently, the batch poster defaults to a maximum of `16mib` when dispersing batches to EigenDA. This can be adjusted to a lower threshold directly within the batch poster section of your node config:
 
-```
+```json
     "node": {
         ...
         "batch-poster": {
@@ -59,7 +50,7 @@ Currently, the batch poster defaults to a maximum of `16mib` when dispersing bat
 **Enabling Failover**
 
 To remove a trust assumption on the liveness of EigenDA for the liveness of the rollup, we've extended the Arbitrum Nitro batch poster's logic to support opt-in failover to other DA destinations (e.g, AnyTrust, EIP-4844, calldata) in the event of indicated service unavailability from EigenDA. This logic is disabled by default but can be enabled by making the following update to your batch poster config with the following field:
-```
+```json
     "node": {
         ...
         "batch-poster": {
@@ -71,7 +62,7 @@ To remove a trust assumption on the liveness of EigenDA for the liveness of the 
 ```
 
 **NOTE:** 4844 failover is implemented and audited but untested via E2E system tests since there are no existing tests in vanilla Arbitrum that programmatically assert the end-to-end correctness of 4844. Please use at your own risk, if you'd like to disable 4844 in-favor of calldata DA, add the following field to your `dangerous` sub-config via node config:
-```
+```json
     "dangerous": {
         "disable-blob-reader": true,
     },
