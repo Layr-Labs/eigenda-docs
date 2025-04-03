@@ -20,7 +20,7 @@ On this page, we present a technical analysis of EigenDA's security guarantees.
 
 # Cryptographic Primitives
 
-The encoding module is used for extending a blob of data into a set of encoded chunks which can be used to reconstruct the blob. The encoding and proving module needs to satisfy two main properties: 
+The encoding module is used for extending a blob of data into a set of encoded chunks which can be used to reconstruct the blob. The correctness of the encoding is proven by the proving module. The encoding and proving module needs to satisfy two main properties: 
 
 - Any collection of unique, encoded chunks of a sufficient size can be used to reconstruct the original unencoded blob.
 - Each chunk can be paired with an opening proof which can be used to verify that the chunk was properly derived from a blob corresponding to a particular commitment.
@@ -187,7 +187,7 @@ In our implementation, we choose an encoding rate of $r = 8$ (which means that o
 
 In addition to BFT security, the EIGEN quorum provides cryptoeconomic security as an extra layer of protection. Cryptoeconomic security guarantees that if the safety of the system is compromised, a certain portion of stake will be slashed. This creates a strong disincentive for attacking the system. A protocol is considered cryptoeconomically secure when the total cost of an attack always exceeds the total profit from an attack. However, like many other attacks, the profit possible from a DA withholding attack can be difficult to quantify. That’s why the emphasis is placed on slashing: the ability to penalize misbehaving validators is key to maintaining system safety.
 
-### Intersubjective Slashing with Chain Forking
+### Intersubjective Slashing with Token Forking
 
 If BFT security fails and data certified by a valid DA certificate becomes unretrievable, any community member can raise a data unavailability alarm. Once triggered, other community members will attempt to retrieve and verify the data. If a sufficient number of community members confirm that safety has indeed been compromised, they can initiate a token fork to slash the stake of dishonest validators (see more in the [EIGEN Token Whitepaper](https://docs.eigenlayer.xyz/assets/files/EIGEN_Token_Whitepaper-0df8e17b7efa052fd2a22e1ade9c6f69.pdf)). 
 
@@ -197,4 +197,6 @@ As discussed in [Security FAQs](./security-FAQs.md) , the Data Availability Samp
 
 ## Token Toxicity
 
-In addition to BFT security, the custom quorum provides an extra security guarantee through Token Toxicity. Token toxicity refers to the phenomenon where the value of a rollup's native token declines sharply when the rollup fails to function properly. Specifically, if DA isn't ensured for a roll-up, market confidence in the roll-up service declines, causing its token price to drop. This economic incentive encourages holders of the roll-up's custom token to delegate their stakes only to trusted operators, minimizing the risk of data unavailability and potential loss in token value.
+In addition to BFT security, the custom quorum provides an extra security guarantee through Token Toxicity. Token toxicity refers to the phenomenon where the value of a rollup's native token declines sharply when the rollup fails to function properly. Specifically, if DA isn't ensured for a rollup, market confidence in the roll-up service declines, causing its token price to drop. This economic incentive encourages holders of the roll-up's custom token to delegate their stakes only to trusted operators, minimizing the risk of data unavailability and potential loss in token value.
+
+In conclusion, EigenDA’s security model combines BFT security, cryptoeconomic security, and token toxicity to create a robust, multi-layered defense against safety and liveness failures. 

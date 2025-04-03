@@ -7,9 +7,9 @@ title: Security FAQs
 
 The purpose of this post is to review frequently asked questions and better understand security tradeoffs when using DA solutions to Ethereum as an Ethereum L2. Outside of the scope of this is a holistic security assessment of DA. 
 
-## What kinds of security can L2-DA solutions provide for Ethereum L2s?
+## What kinds of security can alt-DA solutions provide for Ethereum L2s?
 
-BFT security and cryptoeconomic security are the only types of security possible for L2-DA. A detailed discussion about how EigenDA achieves both of these forms of security is provided in [Security Model](./security-model.md).
+BFT security and cryptoeconomic security are the only types of security possible for alt-DA. A detailed discussion about how EigenDA achieves both of these forms of security is provided in [Security Model](./security-model.md).
 
 Even for DA protocols which purport to provide unilateral verifiability to a light client operator of a Data Availability Sampling (DAS) protocol, this function cannot be evaluated by an L1 smart contract, since it requires networking capabilities which are not available in that context. Thus, rollup bridges cannot verify that the data is available from the DA providers before accepting a DA attestation. In other words, the observation of the light nodes cannot be provably bridged to layer-1.
 
@@ -55,7 +55,7 @@ Yes, EigenDA is actively developing a scalable DAS protocol which addresses many
 
 As we discussed above, the DAC vs. DAS distinction is not meaningful. EigenDA provides slashing and BFT security, just like the DA solution using public blockchain, like Celestia. 
 
-Most L2-DA solutions classified as DAC suffers from small sizes of committee members and lack of diversity. EigenDA is permission-less and highly decentralized. There remains a limited ability for EigenDA governance to influence operator makeup, but this is being progressively removed.
+Most DA service classified as DAC suffers from small sizes of committee members and lack of diversity. EigenDA is permission-less and highly decentralized. There remains a limited ability for EigenDA governance to influence operator makeup, but this is being progressively removed.
 
 As of March 19, 2025, EigenDA's restaked ETH quorum consists of 148 validators, with the top 5 controlling approximately 40% of the total stake. Around \$8.8B worth of ETH has been re-staked in this quorum. In the quorum where EIGEN is the staked asset, there are 130 validators, with the top 5 holding about 44% of the total stake. Roughly \$472M worth of EIGEN is staked in this quorum.
 
@@ -63,7 +63,7 @@ For comparison, Celestia has 100 active validators out of a total of 254. The to
 
 ## What security does restaked ETH provide EigenDA?
 
-Each EigenDA is additionally validated by a quorum of over \$8.8B of ETH restaked, meaning that a colluding set of operators would need to receive over \$4.4B* in delegation from ETH re-stakers in order to attack the system.
+EigenDA is additionally validated by a quorum of over \$8.8B of ETH restaked, meaning that a colluding set of operators would need to receive over \$4.4B* in delegation from ETH re-stakers in order to attack the system.
 
 ## What does EigenDA use KZG Polynomial Commitments for?
 
