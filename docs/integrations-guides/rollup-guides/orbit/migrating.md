@@ -4,7 +4,7 @@ title: Migrating an existing chain
 
 # Migrating your Orbit Chain to use EigenDA
 
-Defined below is the process for which you can use to migrate your vanilla Arbitrum sequencer using native Arbitrum DA (i.e, Ethereum calldata, 4844 blobs, anytrust) to one using high throughput and low cost via EigenDA. This procedure is identical regardless of your parent chain context (e.g, Ethereum, Arbitrum One) with varying security [implications](overview.md#eth-layer2-vs-layer3-deployments) based on the depth of your deployment.
+Defined below is the process for which you can use to migrate your vanilla Arbitrum sequencer using native Arbitrum DA (i.e, Ethereum calldata, 4844 blobs, anytrust) to one using high throughput and low cost via EigenDA. This procedure is identical regardless of your parent chain context (e.g, Ethereum, Arbitrum One) with varying security [implications](overview.md#eth-l2-vs-l3-deployments) based on the depth of your deployment.
 
 # Procedure
 
