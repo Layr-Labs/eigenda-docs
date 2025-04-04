@@ -87,11 +87,15 @@ const config = {
         redirects: [
           {
             from: "/eigenda-guides/eigenda-overview/",
-            to: "/overview/",
+            to: "/core-concepts/overview/",
           },
           {
             from: "/eigenda/overview/",
-            to: "/overview/",
+            to: "/core-concepts/overview/",
+          },
+          {
+            from: "/overview/",
+            to: '/core-concepts/overview/',
           },
           {
             from: "/eigenda-guides/eigenda-rollup-user-guides/",
@@ -305,7 +309,7 @@ const config = {
         },
         items: [
           {
-            to: "overview",
+            to: "core-concepts/overview",
             label: "Docs",
             position: "left",
           },
