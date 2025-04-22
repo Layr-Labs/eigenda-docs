@@ -35,7 +35,7 @@ cast send --rpc-url <YOUR_RPC_URL> \
  0x7aEe17dd3C80859C5F59A3947B3DC1F1377193A5 \
  "depositOnDemand(address)" \
 <YOUR_ADDRESS> \
- --value 1000000000000000000
+ --value 1ether
 ```
 Now that we have the account setup for on-demand payments, let's send data to EigenDA.
 
