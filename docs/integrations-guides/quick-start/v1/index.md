@@ -1,11 +1,12 @@
 ---
 sidebar_position: 2
-title: Quick Start
+title: V1 Guide
 ---
 
 # Quick Start
 
-In this guide, we manually disperse and retrieve a blob from the EigenDA disperser. This is an extremely simple example that circumvents most of the complexities needed to benefit from the [secure properties](../../core-concepts/overview.md) that EigenDA has to offer. After completing this quickstart, we recommend reading the [proxy](../eigenda-proxy/eigenda-proxy.md) guide to see how to setup a full integration with EigenDA.
+In this guide, we manually disperse and retrieve a blob from the EigenDA disperser. This is an extremely simple example that circumvents most of the complexities needed to benefit from the [secure properties](/core-concepts/overview)
+) that EigenDA has to offer. After completing this quickstart, we recommend reading the [EigenDA Proxy Guide](/integrations-guides/eigenda-proxy) guide to see how to setup a full integration with EigenDA.
 
 ## Dispersing Your First Blob to Testnet
 
@@ -17,7 +18,7 @@ In this guide, we manually disperse and retrieve a blob from the EigenDA dispers
 
 **Step 1: Store (Disperse) a blob**
 
-We target the [Holesky](../../networks/holesky.md) Disperser/DisperseBlob endpoint:
+We target the [Holesky Network](/networks/holesky) Disperser/DisperseBlob endpoint:
 
 ```bash
 $ grpcurl \
@@ -32,7 +33,7 @@ $ grpcurl \
 
 **Step 2: Poll Status Until the Blob gets Batched and Bridged**
 
-The Disperser will return a `requestId` that you can use to poll the status of the blob. The status will change from `PROCESSING` to `CONFIRMED` once the blob has been successfully bridged onchain. This can take up to a few minutes, depending on network conditions. See the [v1 api](../../api/v1/disperser/overview.md) documentation for more details.
+The Disperser will return a `requestId` that you can use to poll the status of the blob. The status will change from `PROCESSING` to `CONFIRMED` once the blob has been successfully bridged onchain. This can take up to a few minutes, depending on network conditions. See the [Disperser API v1 Overview](/api/v1/disperser/overview) documentation for more details.
 
 ```bash
 # Update the value of REQUEST_ID with the result of your disperse call above
@@ -141,6 +142,6 @@ that is not encoded correctly, and that in order to disperse this blob you
 should first encode it using `kzgpad`, a utility distributed in the `eigenda`
 repo. This error is much more likely to be encountered when playing with EigenDA
 using a raw GRPC CLI, since there is no encoding logic built-in. Please see
-[Blob Encoding Requirements](../../api/v1/disperser/blob-serialization-requirements.md) for more detail.
+[Blob Serialization Requirements](/api/v1/disperser/blob-serialization-requirements) for more detail.
 
 
