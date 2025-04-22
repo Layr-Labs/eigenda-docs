@@ -12,7 +12,7 @@ This glossary provides definitions for core components and related terms of the 
 Validator nodes are responsible for attesting to the availability of a blob and making that blob available to retrieval nodes (and eventually light nodes). Validator nodes are registered and staked in EigenLayer, registered to the EigenDA operator set(s) corresponding to their delegated staked asset(s). Each Validator node validates, stores, and serves only a portion of each blob processed by the protocol.
 
 ### Dispersers
-Dispersers encode data and pass this data to the Validator nodes. Dispersers must generate proofs for the correctness of the data encoding which are also passed to the Validator nodes. The disperser also aggregates availability attestations from the Validator nodes which can be bridged on-chain to support use-cases such as rollups.
+Dispersers encode data and pass this data to the Validator nodes. Dispersers must generate proofs for the correctness of the data encoding which are also passed to the Validator nodes. The disperser also aggregates availability attestations from the Validator nodes which can be bridged on-chain to support use-cases like rollups.
 
 ### Retrieval Nodes
 Retrieval nodes collect data shards from the Validator nodes and decode them to produce the original data content.
@@ -20,8 +20,8 @@ Retrieval nodes collect data shards from the Validator nodes and decode them to 
 ### Light Nodes (Planned)
 Light nodes provide observability so that Validator nodes cannot withhold data from retrieval nodes without this withholding being broadly observable.
 
-### EigenDA Service Manager
-A smart contract on Ethereum, serving as the primary interface with EigenDA on Ethereum. Responsible for tracking operator state, interacting with Eigenlayer core contracts and exposing DA certificate verifications to EigenDA users.
+### Cert Verifier
+A smart contract on Ethereum, exposing a `verifyDACertV2()` function which verifies a blob cert using the security thresholds and required quorums. 
 
 ## Cryptography
 
@@ -43,7 +43,7 @@ The practice of increasing a system's capacity by adding more machines rather th
 A cryptographic proof attesting that specific data has been properly encoded, distributed and is available on EigenDA. Contains signatures from validator nodes and other metadata used to validate by EigenDA users like rollups, AVSs or apps.
 
 ### Blob
-A user-submitted piece of data represented as a BLOB (Binary Unstructured Large Object), used to send large amounts of data in a network.
+Casually referred to as a piece of data submitted to EigenDA. Technically the data is encoded on the BN254 field element and interpreted as coefficients of polynomials. 
 
 ### Chunk
 A shard of the erasure-coded blob that is assigned to and stored by individual validators based on their stake weight. Each validator is responsible for only storing their specific chunks rather than the entire blob.
