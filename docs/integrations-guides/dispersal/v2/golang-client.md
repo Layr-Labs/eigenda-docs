@@ -32,7 +32,7 @@ Calculate the amount of data needed to send, funds deposited into the payment va
 ```bash
 cast send --rpc-url <YOUR_RPC_URL> \
  --private-key <YOUR_PRIVATE_KEY> \
- 0x3660d586f792320a1364637715ca7e9439daa2c7 \
+ 0x7aEe17dd3C80859C5F59A3947B3DC1F1377193A5 \
  "depositOnDemand(address)" \
 <YOUR_ADDRESS> \
  --value 1000000000000000000
@@ -51,11 +51,7 @@ cd v2disperse
 2. Environment Variable setup 
 
 ```bash
-<<<<<<< HEAD
-echo "EIGENDA_AUTH_SK=<YOUR_PRIVATE_KEY>" > .env
-=======
-echo "EIGENDA_AUTH_PK=<YOUR_PRIVATE_KEY>" > .env
->>>>>>> 592419c (minor fixes, note included)
+echo "EIGENDA_AUTH_SK=<YOUR_SECRET_KEY>" > .env
 ```
 
 3. Create the main file:
@@ -72,6 +68,10 @@ import (
 	"fmt"
 	"time"
 
+    "github.com/joho/godotenv"
+
+    
+
 	"github.com/Layr-Labs/eigenda/api/clients/v2"
 	authv2 "github.com/Layr-Labs/eigenda/core/auth/v2"
 	corev2 "github.com/Layr-Labs/eigenda/core/v2"
@@ -84,9 +84,15 @@ import (
 Your `signer` should be the same address you deposited from
 :::
 ```Golang
-signer := authv2.NewLocalBlobRequestSigner(authKey)
+err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+	}
+	privateKey := os.Getenv("EIGENDA_AUTH_PK")
+
+signer, err := authv2.NewLocalBlobRequestSigner(privateKey)
 disp, err := clients.NewDisperserClient(&clients.DisperserClientConfig{
-	Hostname:          "disperser-preprod-holesky.eigenda.xyz",
+	Hostname:          "disperser-testnet-holesky.eigenda.xyz",
 	Port:              "443",
 	UseSecureGrpcFlag: true,
 }, signer, nil, nil)
@@ -105,7 +111,7 @@ defer cancel()
 
 #### 4. Prepare Data to Send
 ```Golang
-bytesToSend := []byte("Hello, World!")
+bytesToSend := []byte("Hello World")
 bytesToSend = codec.ConvertByPaddingEmptyByte(bytesToSend)
 quorums := []uint8{0, 1}
 ```
@@ -122,8 +128,4 @@ if err != nil {
 Call `GetBlobStatus()` to interact with the data
 ```Golang
 blobStatus, err = disp.GetBlobStatus(ctx, request_id)
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> 592419c (minor fixes, note included)
