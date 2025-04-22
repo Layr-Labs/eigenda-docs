@@ -17,7 +17,7 @@ function Home() {
               />
 
               <Card
-                to="integrations-guides/quick-start"
+                to="/integrations-guides/quick-start/v2"
                 header="Quick Start"
                 body="Learn how EigenDA works by dispersing and retrieving a blob on the command line"
               />

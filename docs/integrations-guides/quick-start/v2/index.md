@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-title: Golang Client
+title: V2 Guide
 ---
 
 # EigenDA Payment and Data Dispersal Guide
@@ -8,18 +8,18 @@ This guide walks through the process of setting up payments and dispersing data 
 
 ## On Demand Data Dispersal
 ### On-chain setup
-:::info Prerequisites
+:::info Pre-Requisites
 - ETH on the Ethereum Holesky testnet
 - [Foundry](https://book.getfoundry.sh/getting-started/installation) installed
 - RPC URL for Holesky
 - Private key for transactions
 :::
 
-To disperse to the network you will need a balance to pull from. If you would like to learn more about EigenDA's Payment Module, check the reference *here (insert ref to Payments)*.
+To disperse to the network you will need a balance to pull from. If you would like to learn more about EigenDA's Payment Module, check the reference [here](../../../releases/payments.md).
 
-To start make sure you have ETH on the Ethereum Holesky testnet, we'll deposit into the payment vault and then any other EigenDA requests charges will be pulled from here. 
+To start make sure you have ETH on the Ethereum Holesky testnet, we'll deposit into the Payment Vault and then any other EigenDA requests charges will be pulled from here. 
 
-To start we will deposit into the payment vault using `Foundry's` `cast`. 
+To start we will deposit into the payment vault using Foundry's `cast`. 
 :::note Installation
 If you have not installed Foundry, follow their install commands [here](https://book.getfoundry.sh/getting-started/installation). 
 :::
@@ -48,13 +48,8 @@ To disperse a data, we'll start by setting up our `Disperser Client` to interact
 mkdir v2disperse
 cd v2disperse
 ```
-2. Environment Variable setup 
 
-```bash
-echo "EIGENDA_AUTH_SK=<YOUR_SECRET_KEY>" > .env
-```
-
-3. Create the main file:
+2. Create the main file:
 ```bash
 go mod init
 ```
@@ -129,3 +124,6 @@ Call `GetBlobStatus()` to interact with the data
 ```Golang
 blobStatus, err = disp.GetBlobStatus(ctx, request_id)
 ```
+
+Now you're set up for dispersing data with EigenDA, for further examples of interacting with the EigenDA client check our repo [here](https://github.com/Layr-Labs/eigenda/tree/master/api/clients/v2/examples) or the EigenDA Proxy guides [here](../../eigenda-proxy/eigenda-proxy.md)
+
