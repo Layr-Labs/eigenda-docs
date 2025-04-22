@@ -51,7 +51,11 @@ cd v2disperse
 2. Environment Variable setup 
 
 ```bash
+<<<<<<< HEAD
 echo "EIGENDA_AUTH_SK=<YOUR_PRIVATE_KEY>" > .env
+=======
+echo "EIGENDA_AUTH_PK=<YOUR_PRIVATE_KEY>" > .env
+>>>>>>> 592419c (minor fixes, note included)
 ```
 
 3. Create the main file:
@@ -118,4 +122,8 @@ if err != nil {
 Call `GetBlobStatus()` to interact with the data
 ```Golang
 blobStatus, err = disp.GetBlobStatus(ctx, request_id)
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> 592419c (minor fixes, note included)
