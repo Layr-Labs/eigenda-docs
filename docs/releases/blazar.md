@@ -146,7 +146,7 @@ Blobs are broken up into KZG encoded chunks and distributed to DA nodes. The fol
 
 In the “happy pathway”, it’s generally going to be faster and easier to download the unencoded blob directly from a relay. Where downloading chunks from a DA node becomes important is from a security perspective. If all relays in possession of a blob go down or are maliciously/selfishly withholding the data, the DA nodes are a very reliable way to fetch the data (as only a fraction of the chunks distributed to DA nodes are needed to reconstruct the original data).
 
-More detailed documentation on this API can be found [here](https://layr-labs.github.io/eigenda/protobufs/generated/node.html).
+More detailed documentation on this API can be found [here](https://layr-labs.github.io/eigenda/protobufs/generated/node_v2.html).
 
 ```protobuf
 service Retrieval {
