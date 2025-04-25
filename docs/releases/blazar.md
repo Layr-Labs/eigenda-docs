@@ -161,7 +161,7 @@ service Retrieval {
 
 Relays are responsible for storing and serving both unencoded blobs as well as encoded chunks. Encoded chunks can only be downloaded by authenticated DA validator nodes.
 
-More detailed documentation on this API can be found [here](https://layr-labs.github.io/eigenda/protobufs/generated/node.html).
+More detailed documentation on this API can be found [here](https://layr-labs.github.io/eigenda/protobufs/generated/relay.html).
 
 ```protobuf
 // Relay is a service that provides access to public relay functionality.
