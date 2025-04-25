@@ -13,14 +13,23 @@ call 'Total Quorum Stake' (TQS). For example, if an operator Foobar has 3% stake
 on the restaked ETH quorum, and 5% ETH on a staked WETH quorum, then operator
 Foobar's TQS is 8%.
 
-Operators should use the following table to determine which [EigenLayer node class](https://docs.eigenlayer.xyz/eigenlayer/operator-guides/eigenlayer-node-classes#general-purpose-eigenlayer-node-classes)
-is appropriate for their level of stake:
+Operators should use the following table to determine which node class is appropriate for their level of stake:
 
 | Total Quorum Stake (TQS) | Max Allocated Throughput |  Node Class |
 | ------------------------ | ----------------------- | -------------------- |
 | Up to 0.03% (Solo staker)      | 80 Kbps    | General Purpose - large    |
 | Up to 0.2%                     |  500 Kbps | General Purpose - xl        |
 | Up to 20%                      |  50 Mbps  | General Purpose - 4xl      |
+
+
+Operators should use the following table to plan their hardware profile for each node class:
+
+| Class                   | vCPUs (10th gen+) | Memory | Networking Capacity |
+| ----------------------- | ----------------- | ------ | ------------------- |
+| General Purpose - large | 2                 | 8 GB   | 5 Mbps              |
+| General Purpose - xl    | 4                 | 16 GB  | 25 Mbps             |
+| General Purpose - 4xl   | 16                | 64 GB  | 5 Gbps              |
+
 
 Here 'Max Allocated Throughput' refers to the maximum amount of blob shard traffic that
 will be sent to a node based on their total quorum stake. This measure does not translate
