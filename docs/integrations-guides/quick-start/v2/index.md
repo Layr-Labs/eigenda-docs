@@ -32,7 +32,7 @@ Calculate the amount of data needed to send, funds deposited into the payment va
 ```bash
 cast send --rpc-url <YOUR_RPC_URL> \
  --private-key <YOUR_PRIVATE_KEY> \
- 0x7aEe17dd3C80859C5F59A3947B3DC1F1377193A5 \
+ 0x4a7Fff191BCDa5806f1Bc8689afc1417c08C61AB \
  "depositOnDemand(address)" \
 <YOUR_ADDRESS> \
  --value 1ether
