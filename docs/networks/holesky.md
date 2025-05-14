@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Holesky
 
-The EigenDA Holesky testnet is the current EigenDA testnet. The EigenDA Holesky testnet was preceded by the now-sunset [EigenDA Goerli testnet](./goerli.md).
+The EigenDA Holesky testnet is the current EigenDA testnet for operators. The EigenDA Holesky testnet was preceded by the now-sunset [EigenDA Goerli testnet](./goerli.md).
 
 ## Quick Links
 
