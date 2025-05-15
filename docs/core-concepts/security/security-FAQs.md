@@ -69,16 +69,4 @@ EigenDA is additionally validated by a quorum of over \$8.8B of ETH restaked, me
 
 In EigenDA, KZG commitment is used to guarantee that the data chunks are correctly encoded from the data blob. This enables the validators to efficiently verify the validity of the chunks they received from the disperser. In comparison, fraud proofs require longer time window and extra trust assumptions to ensure the validity of data chunks.
 
-## What’s the Plan to Address the Security Risks of EigenDA listed on L2BEAT?
-
-Our plan is summarized below:
-
-| **Risk Category** | **Current Status** | **Roadmap** |
-| --- | --- | --- |
-| Fraud Detection | Red - No Fraud Detection | **Current Status**: EigenDA has been developing a Data Availability Sampling (DAS) protocol designed to scale to very high throughputs. <br /> **Next Steps**: We will be publishing a research publication during Q2 2025 and building on the protocol throughout 2025. |
-| Economic Security | Red - No Slashing | **Current Status**: EigenDA utilizes the forkable EigenToken as a securing asset.  <br /> **Next Steps**: Slashing for data availability withholding can be enabled once fraud detection mechanisms are in place later in the year. |
-| Committee Security | Orange - Permissioned | **Current Status:** EigenDA utilizes a permissioned off-chain entity to facilitate churning low stake operators when new operators join; additionally, operators can be ejected from EigenDA quorums by governance.  <br /> **Next Steps:** The EigenDA churner and governance-owned ejector functionalities are expected to be deprecated following the V2 mainnet launch, at which point EigenDA will be permissionless |
-| Relayer Failure / Censorship | Red - Rollups can be censored by disperser | **Current Status:** All end users must communicate with the network via the centralized disperser. <br /> **Next Steps:** A permissionless dispersal protocol has been designed and will be shipped in Q2, 2025 |
-| Upgradeability / Exit Window | Red - No Delay | **Current Status:** Contracts can be upgraded either instantly from the 9/11 community multisig or after a 10 day timelock from the 3/5 ops multisig <br /> **Next Steps:** Move contract governance to EigenDA specific multisigs and evaluate the tradeoff between instant upgradability to mitigate critical bugs and purely timelocked upgradability. As with most rollup settlement contracts themselves and other DA bridges, EigenDA bridge settlement contracts have not yet shed their governance-moderated upgradeability; however, this is an update that can be expected over time as protocols reach new stages of maturity. |
-
 *This conclusion is based on a confirmation threshold of 63%, which corresponds to a safety threshold of 50%. A more detailed analysis is available in [Security Model](./security-model.md).
