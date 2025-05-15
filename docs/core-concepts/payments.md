@@ -117,7 +117,7 @@ type PaymentMetadata struct {
 }
 ```
 
-Users would reserve some bandwidth by setting a reservation onchain, to signal offchain disperser to reserve dedicated bandwidth for the user client. The reservation definition contains the reserved amount (`symbolsPerSecond`), reservation start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`) that will be used for payment distribution in the future. At the time of this writing, the reservation can only be set by the EigenDA governance, so an user would need to contact the EigenDA team to set up a reservation.
+Users would reserve some bandwidth by setting a reservation onchain, to signal offchain disperser to reserve dedicated bandwidth for the user client. The reservation definition contains the reserved amount (`symbolsPerSecond`), reservation start time (`startTimestamp`), end time (`endTimestamp`), allowed custom quorum numbers (`quorumNumbers`), and corresponding quorum splits (`quorumSplits`) that will be used for payment distribution in the future. 
 
 ```go
 // On-chain record of reservations
@@ -157,7 +157,7 @@ function setReservation(
 
 `SymbolsPerSecond` and `reservationPeriodInterval` make up the maximum number of symbols that can be dispersed in a single reservation period for the reservation owner. A symbol is defined as 32 bytes, and is measured by the length of the erasure coded blob. A disperser client attaches a reservation period index in the payment header to indicate which reservation period the request belongs to. The disperser server accounts for both request latency and reservation overflows. If the requests exceed the allowed latency period or reservation overflows, then the request will be rejected. Once a reservation period is over, the disperser server and client will start considering a new reservation period. If the reservation limit is hit before the period ends, the client will switch to on-demand payments if it is available, or wait for the next reservation period.
 
-Example: As a default, EigenDA team will set reservation period interval to be 5 minutes, and minimum number of symbols per dispersal to be 4096 symbols (This is the size of a 128 KiB blob including metadata). As a user, consider sending requests with respect to these two parameters and your particular reservation's limited symbols per second. If you have a reservation with 100 symbols per second, the disperser will allow for 1 MiB of data to be dispersed every 5 minutes. If you would like to adjust your reservation limit, please contact the EigenDA team.
+Example: As a default, EigenDA team will set reservation period interval to be 5 minutes, and minimum number of symbols per dispersal to be 4096 symbols (This is the size of a 128 KiB blob including metadata). As a user, consider sending requests with respect to these two parameters and your particular reservation's limited symbols per second. If you have a reservation with 100 symbols per second, the disperser will allow for 1 MiB of data to be dispersed every 5 minutes.
 
 Below we provide a timeline of the reservation lifecycle.
 
@@ -179,7 +179,6 @@ Period 4    : User sends data. Within limit -> OK.
 section After Reservation End
  Post-expiry
  : User sends data -> Rejected/fallback.
- : Contact EigenDA team to update validity timestamps
 ```
 
 ### Disperser Client requirements

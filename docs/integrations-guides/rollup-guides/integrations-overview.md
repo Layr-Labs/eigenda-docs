@@ -5,7 +5,7 @@ sidebar_position: 1
 
 This document aims to outline what a secure EigenDA integration looks like, to provide rollup
 engineers with a strong understanding of how an EigenDA integration would impact
-their tech stack and security model. For full details, see the [EigenDA V2 integration spec](https://layr-labs.github.io/eigenda/integration.html#certblobtiming-validation).
+their tech stack and security model. For full details, see the [EigenDA V2 integration spec](https://layr-labs.github.io/eigenda/integration/spec/6-secure-integration.html#certblobtiming-validation).
 
 > Note: Each rollup stack uses slightly different terminology to refer to the same ideas.
 > We try to use the most general language possible but might sometimes use stack-specific language for clarity.

@@ -27,6 +27,9 @@ Different actors in the rollup topology will have to use proxy for communicating
 
 *E.g, In Arbitrum there is a `MakeNode` validator that posts state claims to the parent chain's rollup assertion chain. In the event of a challenge, both asserter/challenger players will have to pre-populate their local pre-image stores with batches read from the proxy to compute the WAVM execution traces that they will bisect over.*
 
+:::note
+Reference this [Quick Start](../quick-start/v2/index.md) to setup payments for your usage. 
+:::
 ## Technical Details
 [EigenDA Proxy](https://github.com/Layr-Labs/eigenda-proxy) wraps the [high-level EigenDA client](https://github.com/Layr-Labs/eigenda/blob/master/api/clients/eigenda_client.go) with an HTTP server, and performs additional verification tasks when reading and writing blobs that eliminate any trust assumption on the EigenDA disperser service. EigenDA Proxy also provides additional security features (i.e, read fallback) and optional performance optimizations (i.e, caching). Instructions for building and running the service can be found [here](https://github.com/Layr-Labs/eigenda-proxy/blob/main/README.md).
 
