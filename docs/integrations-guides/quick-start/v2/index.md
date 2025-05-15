@@ -15,7 +15,7 @@ This guide walks through the process of setting up payments and dispersing data 
 - Private key for transactions
 :::
 
-To disperse to the network you will need a balance to pull from. If you would like to learn more about EigenDA's Payment Module, check the reference [here](../../../releases/payments.md).
+To disperse to the network you will need a balance to pull from. If you would like to learn more about EigenDA's Payment Module, check the reference [here](../../../core-concepts/payments.md).
 
 To start make sure you have ETH on the Ethereum Holesky testnet, we'll deposit into the Payment Vault and then any other EigenDA requests charges will be pulled from here. 
 
