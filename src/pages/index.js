@@ -41,7 +41,7 @@ function Home() {
               />
 
               <Card
-                to="/docs/core-concepts/glossary"
+                to="core-concepts/glossary"
                 header="Glossary"
                 body="The glossary contains definitions of key components, concepts and terms used in the EigenDA protocol"
               />
