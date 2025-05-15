@@ -87,7 +87,7 @@ We push docker images to our [ghcr registry](https://github.com/Layr-Labs/eigend
 
 Make sure to read the different [features](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#features-and-configuration-options-flagsenv-vars) provided by the proxy, to understand the different flag options. We provide an example [holesky config](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky) which contains the env vars required to configure Proxy for retrieval from both EigenDA V1 and V2.
 
-For the OP Batcher, make sure to set [EIGENDA_PROXY_STORAGE_DISPERSAL_BACKEND=V2](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky#L106) to submit blobs to EigenDA V2.
+If deploying proxy for an op-batcher, which means blobs will be dispersed to EigenDA, make sure to set [EIGENDA_PROXY_STORAGE_DISPERSAL_BACKEND=V2](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky#L106) to submit blobs to EigenDA V2.
 
 ### Deploying OP Node
 
