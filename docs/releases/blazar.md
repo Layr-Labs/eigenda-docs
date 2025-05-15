@@ -13,7 +13,7 @@ Blazar will have a massive impact on the system’s core performance parameters:
 
 **Improved system throughput and stability**. Optimized network utilization in Blazar is expected to unlock substantial improvements to the capacity and stability of the decentralized EigenDA network.
 
-Additionally, Blazar bundles features such as [consumer payments](./payments.md), which allow for permissionless usage of EigenDA by different applications.
+Additionally, Blazar bundles features such as [consumer payments](../core-concepts/payments.md), which allow for permissionless usage of EigenDA by different applications.
 
 ## Motivation
 
