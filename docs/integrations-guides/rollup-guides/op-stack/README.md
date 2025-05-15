@@ -50,16 +50,23 @@ You can run `just eigenda-devnet-start` to start a devnet which will spin-up an 
 
 Deploy your OP Stack according to the official OP [deployment docs](https://docs.optimism.io/builders/chain-operators/tutorials/create-l2-rollup). Our fork currently only modifies the op-batcher and op-node, so make sure to also read the instructions below to deploy those.
 
-### Deploying EigenDA Proxy
+### Rollup Config
 
-We push docker images to our [ghcr registry](https://github.com/Layr-Labs/eigenda-proxy/pkgs/container/eigenda-proxy) on every [release](https://github.com/Layr-Labs/eigenda-proxy/releases).
+If using op-deployer to [initialize your chain](https://docs.optimism.io/operators/chain-operators/tools/op-deployer#init-configure-your-chain), make sure to set the [DangerousAltDAConfig](https://github.com/ethereum-optimism/optimism/blob/d474182026cb0a56874c1c2658849f7a1951b55d/op-deployer/pkg/deployer/state/chain_intent.go#L69) fields in your intent file (don't fret the OP FUD; EigenDA rollups don't bite):
 
-Make sure to read the different [features](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#features-and-configuration-options-flagsenv-vars) provided by the proxy, to understand the different flag options. We provide an example [holesky config](https://github.com/Layr-Labs/eigenda-proxy/blob/f2f4c94fc655965b7b3d414c89452bdbcc7659be/.env.example.holesky) for integrating with EigenDA V1.
+```toml
+[[chains]]
+  # Your chain's ID, encoded as a 32-byte hex string
+  id = "0x00000000000000000000000000000000000000000000000000000a25406f3e60"
+  # Only called dangerous because it hasn't been tested by OP Labs
+  [chains.dangerousAltDAConfig]
+    useAltDA = true
+    daCommitmentType = "GenericCommitment" # instead of KeccakCommitment
+    daChallengeWindow = 300  # unused random value
+    daResolveWindow = 300 # unused random value
+```
 
-
-### Deploying OP Node
-
-In the op-node `rollup.json` configuration the following should be set:
+With `GenericCommitment`, this will skip deploying the DAChallengeContract (see our [analysis](#da-challenge-contract) below for why we don't use it), and create a `rollup.json` configuration file with the following alt_da fields:
 
 ```json
 {
@@ -71,41 +78,61 @@ In the op-node `rollup.json` configuration the following should be set:
   }
 }
 ```
-Make sure to set `da_commitment_type` to use generic commitment instead of [keccak commitments](https://specs.optimism.io/experimental/alt-da.html#input-commitment-submission)! In generic mode, the dachallenge contract won't get deployed (see our analysis [analysis](#da-challenge-contract) as to why we don't use it). The other values are meaningless,
-but they still need to be set somehow.
 
+If you are not using op-deployer and possibly generating this file manually, make sure to set `da_commitment_type` to use generic commitment instead of [keccak commitments](https://specs.optimism.io/experimental/alt-da.html#input-commitment-submission)! The other values are meaningless, but they still need to be set somehow.
 
-**op-node CLI configuration**
+### Deploying EigenDA Proxy
+
+We push docker images to our [ghcr registry](https://github.com/Layr-Labs/eigenda-proxy/pkgs/container/eigenda-proxy) on every [release](https://github.com/Layr-Labs/eigenda-proxy/releases).
+
+Make sure to read the different [features](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#features-and-configuration-options-flagsenv-vars) provided by the proxy, to understand the different flag options. We provide an example [holesky config](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky) which contains the env vars required to configure Proxy for retrieval from both EigenDA V1 and V2.
+
+For the OP Batcher, make sure to set [EIGENDA_PROXY_STORAGE_DISPERSAL_BACKEND=V2](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky#L106) to submit blobs to EigenDA V2.
+
+### Deploying OP Node
 
 The following env config values should be set to ensure proper communication between op-node and eigenda-proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
+- `OP_NODE_ROLLUP_CONFIG={ROLLUP_CONFIG_PATH}`: path to the `rollup.json` file mentioned [above](#rollup-config)
 - `OP_NODE_ALTDA_ENABLED=true`
-- `OP_NODE_ALTDA_DA_SERVICE=true`
-- `OP_NODE_ALTDA_VERIFY_ON_READ=false`
+- `OP_NODE_ALTDA_DA_SERVICE=true`: this weird name means to use generic commitments instead of keccak commitments.
+- `OP_NODE_ALTDA_VERIFY_ON_READ=false`: another weird name which is only used for keccak commitments.
 - `OP_NODE_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
 
 ### Deploying OP Batcher
 
-**op-batcher CLI configuration**
-
 The following env config values should be set accordingly to ensure proper communication between OP Batcher and EigenDA Proxy, replacing `{EIGENDA_PROXY_URL}` with the URL of your EigenDA Proxy server.
 
 - `OP_BATCHER_ALTDA_ENABLED=true`
-- `OP_BATCHER_ALTDA_DA_SERVICE=true`
-- `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`
+- `OP_BATCHER_ALTDA_DA_SERVICE=true`: this weird name means to use generic commitments instead of keccak commitments.
+- `OP_BATCHER_ALTDA_VERIFY_ON_READ=false`: another weird name which is only used for keccak commitments.
 - `OP_BATCHER_ALTDA_DA_SERVER={EIGENDA_PROXY_URL}`
-- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1320`
 - `OP_BATCHER_TARGET_NUM_FRAMES=8`
+- `OP_BATCHER_MAX_L1_TX_SIZE_BYTES=120000`: default value
+- `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=10`
 
-The above settings of `OP_BATCHER_TARGET_NUM_FRAMES=8` and `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1320` achieve a throughput of 1MiB blobs: submitting larger blobs (frames) is currently not permitted by the [op-node's derivation pipeline](https://github.com/ethereum-optimism/optimism/blob/c05f5adda536d6c24109613b51c01e0be859cef6/op-node/rollup/derive/frame.go#L14).
+Each blob submitted to EigenDA consists of `OP_BATCHER_TARGET_NUM_FRAMES` number of frames, each of size `OP_BATCHER_MAX_L1_TX_SIZE_BYTES`. The above values submit blobs of ~1MiB. We advise not setting `OP_BATCHER_MAX_L1_TX_SIZE_BYTES` larger than the default in case [failover](#failover) is required, which will submit the frames directly to ethereum as calldata, so must fit in a single transaction (max 128KiB).
 
-**Throughput analysis**
+EigenDA V2 dispersals take ~10seconds, so in order to achieve a throughput of 1MiB/s, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=10` to allow 10 pipelined requests. 
 
-To reach a desired throughput, `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS` should be set to allow submitting enough parallel EigenDA blobs. Blob dispersals on EigenDA V1 mainnet currently take 10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, assuming blobs of 1MiB/s by setting `OP_BATCHER_TARGET_NUM_FRAMES=8`, in order to reach a throughput of 1MiB/s, which means 8 requests per second each blocking for possibly up to 22mins, we would need to send up to `60*22=1320` parallel requests.
+<details>
+<summary>EigenDA V1 Setting</summary>
+<br>
 
-**Failover**
+EigenDA V1, because of its blocking calls, required setting `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1320` to achieve 1MiB/s throughput. This is because blob dispersals on EigenDA V1 mainnet take ~10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, assuming blobs of 1MiB/s by setting `OP_BATCHER_TARGET_NUM_FRAMES=8`, in order to reach a throughput of 1MiB/s, which means 8 requests per second each blocking for possibly up to 22mins, we would need to send up to `60*22=1320` parallel requests.
+</details>
+
+#### **Failover**
 
 Failover was added in this [PR](https://github.com/Layr-Labs/optimism/pull/34), and is automatically supported by the batcher. Each channel will first attempt to disperse to EigenDA via the proxy. If a `503` HTTP error is received, that channel will failover and be submitted as calldata to ethereum instead. To configure when the proxy returns `503` errors, see the [failover signals](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#failover-signals-) section of the Proxy README.
+
+## Migrating To EigenDA V2
+
+For [trusted](../integrations-overview.md#trusted-integration) integrations, migrating to EigenDA V2 is as simple as:
+- op-node: restarting the eigenda-proxy to support [both V1 and V2 backends](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky#L102)
+- op-batcher: restarting the eigenda-proxy to [disperse to V2](https://github.com/Layr-Labs/eigenda-proxy/blob/5f887a68889437d88cd1d39c45c1327f78cd74a4/.env.exampleV1AndV2.holesky#L106)
+
+Please refer to the [EigenDA Proxy README](https://github.com/Layr-Labs/eigenda-proxy?tab=readme-ov-file#migrating-from-eigenda-v1-to-v2) for more details.
 
 ## Security Guarantees
 
