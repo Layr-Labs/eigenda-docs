@@ -41,9 +41,9 @@ function Home() {
               />
 
               <Card
-                to="https://forms.gle/CMSJTxQPXfG5HTQQ7"
-                header="Register for EigenDA Mainnet"
-                body="EigenDA Mainnet will soon be permissionless; until then please register here to launch your rollup"
+                to="/docs/core-concepts/glossary"
+                header="Glossary"
+                body="The glossary contains definitions of key components, concepts and terms used in the EigenDA protocol"
               />
             </div>
           </div>

@@ -355,7 +355,7 @@ const config = {
               },
               {
                 label: "Twitter",
-                href: "https://twitter.com/eigenlayer",
+                href: "https://x.com/eigen_da",
               },
             ],
           },
@@ -367,8 +367,8 @@ const config = {
                 href: "https://github.com/Layr-Labs",
               },
               {
-                label: "Discourse",
-                href: "http://forum.eigenlayer.xyz/",
+                label: "EigenDA Research",
+                href: "https://forum.eigenlayer.xyz/c/eigenda-research/",
               },
               {
                 label: "Youtube",
