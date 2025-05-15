@@ -87,7 +87,7 @@ err := godotenv.Load()
 
 signer, err := authv2.NewLocalBlobRequestSigner(privateKey)
 disp, err := clients.NewDisperserClient(&clients.DisperserClientConfig{
-	Hostname:          "disperser-testnet-holesky.eigenda.xyz",
+	Hostname:          "disperser-v2-testnet-sepolia.eigenda.xyz",
 	Port:              "443",
 	UseSecureGrpcFlag: true,
 }, signer, nil, nil)
