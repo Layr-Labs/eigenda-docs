@@ -115,10 +115,9 @@ Each blob submitted to EigenDA consists of `OP_BATCHER_TARGET_NUM_FRAMES` number
 
 EigenDA V2 dispersals take ~10seconds, so in order to achieve a throughput of 1MiB/s, we set `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=10` to allow 10 pipelined requests. 
 
+<!-- details creates a dropdown menu -->
 <details>
 <summary>EigenDA V1 Setting</summary>
-<br>
-
 EigenDA V1, because of its blocking calls, required setting `OP_BATCHER_ALTDA_MAX_CONCURRENT_DA_REQUESTS=1320` to achieve 1MiB/s throughput. This is because blob dispersals on EigenDA V1 mainnet take ~10 mins for batching and 12 mins for Ethereum finality, which means a blob submitted to the eigenda-proxy could take up to 22 mins before returning. Thus, assuming blobs of 1MiB/s by setting `OP_BATCHER_TARGET_NUM_FRAMES=8`, in order to reach a throughput of 1MiB/s, which means 8 requests per second each blocking for possibly up to 22mins, we would need to send up to `60*22=1320` parallel requests.
 </details>
 
