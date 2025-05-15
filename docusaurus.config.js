@@ -364,7 +364,7 @@ const config = {
             items: [
               {
                 label: "GitHub",
-                href: "https://github.com/Layr-Labs",
+                href: "https://github.com/Layr-Labs/eigenda",
               },
               {
                 label: "EigenDA Research",
