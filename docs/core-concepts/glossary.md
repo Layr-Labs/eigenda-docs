@@ -42,8 +42,11 @@ The practice of increasing a system's capacity by adding more machines rather th
 ### DA Certificate
 A cryptographic proof attesting that specific data has been properly encoded, distributed and is available on EigenDA. Contains signatures from validator nodes and other metadata used to validate by EigenDA users like rollups, AVSs or apps.
 
+### Payload
+User submitted data to EigenDA.
+
 ### Blob
-Casually referred to as a piece of data submitted to EigenDA. Technically the data is encoded on the BN254 field element and interpreted as coefficients of polynomials. 
+Technically the data is encoded on the BN254 field element and interpreted as coefficients of polynomials. 
 
 ### Chunk
 A shard of the erasure-coded blob that is assigned to and stored by individual validators based on their stake weight. Each validator is responsible for only storing their specific chunks rather than the entire blob.
