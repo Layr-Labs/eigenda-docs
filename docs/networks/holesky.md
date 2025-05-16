@@ -26,6 +26,18 @@ The EigenDA Holesky testnet is the current EigenDA testnet for operators. The Ei
 | Stake Sync (AVS-Sync) Interval | Every 24 hours |
 | Ejection Cooldown Period | 24 hours |
 
+## Contract Addresses
+
+| Contract | Address |
+| --- | --- |
+| RegistryCoordinator | [0x53012C69A189cfA2D9d29eb6F19B32e0A2EA3490](https://holesky.etherscan.io/address/0x53012C69A189cfA2D9d29eb6F19B32e0A2EA3490) |
+| StakeRegistry | [0xBDACD5998989Eec814ac7A0f0f6596088AA2a270](https://holesky.etherscan.io/address/0xBDACD5998989Eec814ac7A0f0f6596088AA2a270) |
+| IndexRegistry | [0x2E3D6c0744b10eb0A4e6F679F71554a39Ec47a5D](https://holesky.etherscan.io/address/0x2E3D6c0744b10eb0A4e6F679F71554a39Ec47a5D) |
+| BLSApkRegistry | [0x066cF95c1bf0927124DFB8B02B401bc23A79730D](https://holesky.etherscan.io/address/0x066cF95c1bf0927124DFB8B02B401bc23A79730D) |
+| EigenDAServiceManager | [0xD4A7E1Bd8015057293f0D0A557088c286942e84b](https://holesky.etherscan.io/address/0xD4A7E1Bd8015057293f0D0A557088c286942e84b) |
+| BLSOperatorStateRetriever | [0xB4baAfee917fb4449f5ec64804217bccE9f46C67](https://holesky.etherscan.io/address/0xB4baAfee917fb4449f5ec64804217bccE9f46C67) |
+| PaymentVault | [0x4a7Fff191BCDa5806f1Bc8689afc1417c08C61AB](https://holesky.etherscan.io/address/0x4a7Fff191BCDa5806f1Bc8689afc1417c08C61AB) |
+
 ## Quorums
 
 | Quorum Number | Token |
