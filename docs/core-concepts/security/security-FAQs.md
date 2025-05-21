@@ -51,16 +51,6 @@ However, current instantiations of Data Availability Sampling tend to have sever
 
 Yes, EigenDA is actively developing a scalable DAS protocol which addresses many of the limitations of the previous section. A whitepaper of EigenDA DAS will be published soon.
 
-## Is EigenDA a DAC? How decentralized is EigenDA?
-
-As we discussed above, the DAC vs. DAS distinction is not meaningful. EigenDA provides slashing and BFT security, just like the DA solution using public blockchain, like Celestia. 
-
-Most DA service classified as DAC suffers from small sizes of committee members and lack of diversity. EigenDA is permission-less and highly decentralized. There remains a limited ability for EigenDA governance to influence operator makeup, but this is being progressively removed.
-
-As of March 19, 2025, EigenDA's restaked ETH quorum consists of 148 validators, with the top 5 controlling approximately 40% of the total stake. Around \$8.8B worth of ETH has been re-staked in this quorum. In the quorum where EIGEN is the staked asset, there are 130 validators, with the top 5 holding about 44% of the total stake. Roughly \$472M worth of EIGEN is staked in this quorum.
-
-For comparison, Celestia has 100 active validators out of a total of 254. The top 5 validators hold around 29% of the voting power, with approximately \$1.2B worth of TIA staked.
-
 ## What security does restaked ETH provide EigenDA?
 
 EigenDA is additionally validated by a quorum of over \$8.8B of ETH restaked, meaning that a colluding set of operators would need to receive over \$4.4B* in delegation from ETH re-stakers in order to attack the system.
