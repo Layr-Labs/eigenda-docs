@@ -175,7 +175,7 @@ $$
 \frac{m}{(m-n)r}  \leq 1 - \eta_s - \eta_l \Leftrightarrow r \ge \frac{m}{(m-n)(1-\eta_s-\eta_l)}
 $$
 
-Assuming the system aims to tolerate up to 54% adversarial stake for safety attacks ($\eta_s = 54 \%$) and and up to 30% adversarial stake for liveness attacks ($\eta_l = 30 \%$),  and given system parameters $m = 8192$  and $n = 200$, we compute: $r \ge 8192 / (8192-200)/(1-54\% -30\%)= 6.4$ . Therefore, to ensure system security under these adversarial conditions, the encoding rate must be at least 6.4.
+Assuming the system aims to tolerate up to 54% adversarial stake for safety attacks ($\eta_s = 54 \%$) and and up to 33% adversarial stake for liveness attacks ($\eta_l = 33 \%$),  and given system parameters $m = 8192$  and $n = 200$, we compute: $r \ge 8192 / (8192-200)/(1-54\% -33\%)= 7.9$ . Therefore, to ensure system security under these adversarial conditions, the encoding rate must be at least 7.9.
 
 In our implementation, we choose an encoding rate of $r = 8$ (which means that our system operates with a 8X overhead). Therefore, we can compute the minimum value of $\gamma$ as $\gamma_{min} = \frac{8192}{(8192-200)*8} = 0.13$. This yields the following safety and liveness threshold: $\eta_S = \eta_C - 0.13$ and $\eta_L = 1 - \eta_C$. Combining the two gives: $\eta_S + \eta_L = 0.87$. The safety-liveness threshold trade-off of our system, given the chosen parameters, is illustrated in the figure below. Any adversary with a stake profile $(\eta_s, \eta_l)$ that lies below the line in the plot falls within the defensible region of the system. 
 
