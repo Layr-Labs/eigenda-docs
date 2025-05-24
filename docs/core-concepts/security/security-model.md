@@ -49,39 +49,27 @@ In the rest of this page, we provide a detailed analysis of how the three kinds 
 
 ## BFT Security Model
 
-The BFT security model ensures system safety and liveness as long as the stake delegated to malicious validators remains below a predefined threshold.
+The BFT security model ensures system safety and liveness as long as the stake delegated to malicious validators remains below a predefined threshold. 
+We begin by analyzing the reconstruction guarantee of our chunk assignment algorithm, and then proceed to prove the BFT security of EigenDA.
 
-### Security Parameters
+### Chunk Assignment Algorithm
 
-The allocation of blob data among the EigenDA validators is governed by Chunk Assignment logic which takes as input a set of `BlobParameters` which are linked to the blob `Version` by a mapping in the `EigenDAServiceManager` contract. The `BlobParameters` consist of:
+In this section, we describe how the encoded chunks are allocated to each validator based on their stake, and prove the reconstruction property of the assignment.
+
+**Parameters**
+
+The allocation of data among the EigenDA validators is governed by chunk assignment logic which takes as input a set of `BlobParameters` which are linked to the blob `Version` by a mapping in the `EigenDAServiceManager` contract. The `BlobParameters` consist of:
 
 - `NumChunks` - The number of encoded chunks that will be generated for each blob (must be a power of 2).
 - `CodingRate` - The total size of the encoded chunks divided by the size of the original blob (must be a power of two). Note that for representational purposes, this is the inverse of the standard coding rate used in coding theory.
 - `MaxNumOperators` - The maximum number of operators which can be supported by the blob `Version`.
-
-Separately, Byzantine liveness and safety properties of a blob are specified by a collection of `SecurityParameters`. 
-
-- `ConfirmationThreshold` - The confirmation threshold defines the minimum percentage of stake which needs to sign to make the DA certificate valid.
-- `SafetyThreshold` - The safety threshold refers to the minimum percentage of total stake an attacker must control to make a blob with a valid DA certificate unavailable.
-- `LivenessThreshold` - The liveness threshold refers to the minimum percentage of total stake an attacker must control to cause a liveness failure.
-
-### Assumptions
-
-1. To guarantee **safety**, we assume that the adversary controls less than the `SafetyThreshold` percentage of the total stake.
-2. To guarantee **liveness**, we currently rely on a trusted disperser that does not censor clients’ blob disperser requests. We will soon introduce decentralized dispersal to remove this trust assumption. Additionally, to ensure liveness, we assume the adversary is delegated with less than `LivenessThreshold` percentage of the total stake.
-
-### Chunk Assignment Logic
-
-**Overview** 
-
-The chunk assignment logic assigns encoded chunks to validators in such a way that the security properties specified by the `SecurityParameters` can be verified.
 
 The chunk assignment logic provides the following primitives: 
 
 - `GetChunkAssignments`. Given a blob version and the state of the validators, generates a mapping from each chunk index to a validator.
 - `VerifySecurityParameters`. Validates whether a given set of security parameters is valid with respect to a blob version.
 
-For the purposes of modeling, we let $m_i$ denote the number of chunks which the assignment logic maps to an operator $i$. We also denote the `NumChunks` defined by the blob version as $m$, the `CodingRate` as $r$, and the `MaxNumOperators` as $n$. Any set of $m/r$ unique chunks can be used to recover the blob. We let $\alpha_i = rm_i/m$, which is the number of chunks assigned to validator $i$, divided by the number of chunks needed for recover the blob. We also denote $\eta_i$ as the percentage of quorum stake which is assigned to the validator $i$. The minimum percentage of the total stake that a group of validators must collectively hold in order to possess enough chunks to recover the blob is denoted by $\gamma$ . The confirmation threshold, safety threshold, and liveness threshold are denoted as $\eta_C$, $\eta_S$ and $\eta_L$. Additionally, $\eta_S = \eta_C - \gamma$ and $\eta_L = 1 - \eta_C$. The key terminology is summarized below for reference:
+For the purposes of modeling, we let $m_i$ denote the number of chunks which the assignment logic maps to an operator $i$. We also denote the `NumChunks` defined by the blob version as $m$, the `CodingRate` as $r$, and the `MaxNumOperators` as $n$. Any set of $m/r$ unique chunks can be used to recover the blob. We let $\alpha_i = rm_i/m$, which is the number of chunks assigned to validator $i$, divided by the number of chunks needed to recover the blob. We also denote $\eta_i$ as the percentage of quorum stake which is assigned to the validator $i$. The minimum percentage of the total stake that a group of validators must collectively hold in order to possess enough chunks to recover the blob is denoted by $\gamma$. The key terminology is summarized below for reference:
 
 | **Term** | **Symbol** | **Description** |
 | --- | --- | --- |
@@ -89,58 +77,49 @@ For the purposes of modeling, we let $m_i$ denote the number of chunks which the
 | Validator Set | $N$ | Set of all the validators. $\|N\|$ is the total number of validator nodes participating in the system. |
 | Total Chunks | $m$ | The total number of chunks after encoding (currently $m=8192$) |
 | Coding Rate | $r$ | The total number of chunks after encoding / total number of chunks before encoding (currently $r=8$) |
-| Percentage of blob per validator  | $\alpha_i$ | $\alpha_i = rm_i/m$, the percentage of chunks required to reconstruct the blob assigned to validator $i$ |
-| Num of Chunks Assigned | $m_i$ | The number of chunks assigned to validator $i$ |
-| Validator Stake | $\eta_i$  | The stake proportion of validator $i$ ($0 \le \eta_i \le 1$, and $\sum_{i} \eta_i = 1$) |
+| Percentage of blob per validator  | $\alpha_i$ | $\alpha_i = rm_i/m$, the percentage of chunks required to reconstruct the blob assigned to validator $i$ in a quorum |
+| Num of Chunks Assigned | $m_i$ | The number of chunks assigned to validator $i$ in a quorum|
+| Validator Stake | $\eta_i$  | The stake proportion of validator $i$ in a quorum ($0 \le \eta_i \le 1$, and $\sum_{i} \eta_i = 1$) |
 | Reconstruction Threshold | $\gamma$  | The minimum percentage of total stake required for a group of validators to successfully reconstruct the blob |
-| Confirmation Threshold | $\eta_C$ | The minimum percentage of stake to make a DA certificate valid |
-| Safety Threshold | $\eta_S$ | The minimum percentage of stake to cause safety failure, $\eta_S = \eta_C - \gamma$ |
-| Liveness Threshold | $\eta_L$ | The minimum percentage of stake to cause liveness failure, $\eta_L = 1 - \eta_C$ |
 
-**Properties**
+**Properties for a Single Quorum**
 
-The assignment logic must satisfy the following properties: 
+We start by describing the chunk assignment logic and the properties we aim to satisfy within a single quorum.
+For each quorum, the assignment algorithm is designed to satisfy the following properties: 
 
-1. Exact number of chunks: $\sum_i m_i = m$. 
+1. Non-overlapping assignment: $\sum_i m_i \le m$. 
 2. Reconstruction: If a blob passes `VerifySecurityParameters`, then for any set of validators $H \subseteq N$ such that $\sum_{i \in H} \eta_i \ge \gamma$, we must have $\sum_{i\in H} \alpha_i \ge 1$. 
+
+Note that EigenDA supports multiple quorums, and a single validator may participate in several of them. To improve efficiency, we introduced optimizations that minimize the number of chunks assigned to each validator, while still preserving the required availability and safety properties within each quorum.
 
 **Specification**
 
-- **GetChunkAssignments**
+``GetChunkAssignments``
 
-Let
+The number of chunks assigned to validator $i$ is calculated by: 
+$$ m_i= \left\lceil\eta_i(m- \|N\|)\right\rceil, $$
+where $\|N\|$ is the actual number of operators. 
+We rank the validators in a deterministic order and then assign chunks sequentially until each validator $i$ has received $m_i$ chunks.
 
-$$
-m'_i= \left\lceil\eta_i(m- \|N\|)\right\rceil
-$$
+``VerifySecurityParameters``
 
-where $\|N\|$ is the actual number of operators. Note that $\sum_{i} m'_{i} \le   \sum_{i} [\eta_{i} (m-\|N\|)+1] = m-\|N\| + \|N\| = m$. Sort the validator nodes (in a deterministic order), and let $k_i$ be the index of node $i$ within this list.  Let  $m' = \sum_i m’_i$. Finally, let
-
-$$
-m_i=m'_i + \mathbb{I}_{k_i \le m-m'}
-$$
-
-- **VerifySecurityParameters**
-
-Verification succeeds as long as the following condition holds
+Verification succeeds as long as the following condition holds:
 
 $$
-n \le m(1 - 1/r\gamma)
+n \le m(1 - \frac{1}{r\gamma})
 $$
 
 Note that from the inequality above, we can derive that $\gamma \ge \frac{m}{(m-n)r} > 1/r$, which implies that the reconstruction threshold is greater than the theoretical lower bound of stake needed for reconstruction $(1/r)$, due to the chunk assignment logic. 
 
-**Analysis**
+**Proof of Properties**
 
 We want to show that for a blob which has been distributed using `GetChunkAssignments` and which satisfies `VerifySecurityParameters` , the following properties hold: 
 
-1. Number of allocated chunks is equal to $m$. 
+1. Proof of Non-overlapping assignment. Note that:
+ $$\sum_{i} m'_{i} \le   \sum_{i} [\eta_{i} (m-\|N\|)+1] = m-\|N\| + \|N\| = m$$
+Therefore, the chunks assigned to all the validators are greater than the chunks assigned to the validators, ensuring that there is no overlapping between the chunks assigned to each of them.
 
-$$
-\sum_i m_i = \sum_i (m'_i + \mathbb{I}_{k_i \le m - m'}) = m ' + \sum \mathbb{I}_{k_i \le m - m'} = m' + m-m' = m
-$$
-
-2. Reconstruction threshold satisfied. We show that $\alpha_i  \ge \eta_i /\gamma$:
+2. Proof of Reconstruction. We show that $\alpha_i  \ge \eta_i /\gamma$:
 
 $$
 m_i \ge \eta_i(m- \|N\|) \ge \eta_i(m - m(1-1/r\gamma))=\eta_i m/(r\gamma) 
@@ -150,11 +129,54 @@ $$
 \Rightarrow \alpha_i = rm_i/m \ge \eta_i/\gamma
 $$
 
-Therefore, $\sum_{i\in H} \alpha_i \ge \sum_{i\in H} \eta_i/\gamma \ge 1$ when $\sum_{i \in H} \eta_i \ge \gamma$.
+Therefore, $\sum_{i\in H} \alpha_i \ge \sum_{i\in H} \eta_i/\gamma \ge 1$ when $\sum_{i \in H} \eta_i \ge \gamma$. 
+This means that any set of validators holding at least a $\gamma$ fraction of the total stake collectively owns at least as many chunks as are required to reconstruct one blob, i.e., at least $m / r$ chunks.
+Since there is no overlap between the chunks assigned to each validator within a quorum, the union of their assigned chunks forms a set that can be used to reconstruct the full blob.
 
-### Security Analysis
+**Optimization: Minimizing Chunks Assigned to Each Validator**
 
-In this part, we prove that the security and liveness holds when the assumptions are satisfied.
+In EigenDA, a client may require validators from multiple quorums to store data and sign a DA certificate for a blob. 
+A validator may participate in more than one quorum at the same time. 
+A naive approach to assigning chunks is to run the chunk assignment algorithm described above independently for each quorum and send each validator the chunks they are supposed to store in each quorum separately. 
+However, this method results in validators storing the sum of workloads from all quorums they participate in, which is inefficient and degrades performance.
+
+To reduce the number of chunks assigned to each validator, we apply the following strategies:
+
+1. An optimization algorithm is designed to increase the overlap of chunks assigned to each validator across multiple quorums. 
+Furthermore, each validator is sent only the union of their assigned chunks across all quorums, reducing redundancy and minimizing overall storage overhead.
+
+2. The number of unique chunks assigned to any validator is capped at $m / r$.
+
+We analyse the impact of the optimization as follows:
+
+1. The optimization algorithm does not change the number of chunks assigned to each validator within any quorum. 
+The non-overlapping property is also preserved. 
+Therefore, the reconstruction guarantees of each quorum remain unchanged.
+
+2. We now show that the reconstruction property still holds after applying the capping:
+
+- Case 1: If no validator in the choosen set of validators who have at least $\gamma$ stake is assigned more than $m / r$ unique chunks, the cap has no effect. The reconstruction property remains intact.
+
+- Case 2: If a validator in the chosen set is assigned more than $m / r$ chunks, the cap reduces their allocation to exactly $m / r$ chunks. Since this validator alone holds $m / r$ unique chunks, they can reconstruct the blob. Therefore, the validator set as a whole also retains the ability to reconstruct the blob.
+
+
+### Safety and Livness Analysis
+
+In this section, we define and prove the safety and liveness properties of EigenDA, building on the reconstruction property established above.
+
+The Byzantine liveness and safety properties of a blob are specified by a collection of `SecurityParameters`. 
+
+- `ConfirmationThreshold` (also denoted as $\eta_C$) - The confirmation threshold defines the minimum percentage of stake which needs to sign to make the DA certificate valid.
+- `SafetyThreshold` (also denoted as $\eta_S$) - The safety threshold refers to the minimum percentage of total stake an attacker must control to make a blob with a valid DA certificate unavailable.
+- `LivenessThreshold`(also denoted as $\eta_L$) - The liveness threshold refers to the minimum percentage of total stake an attacker must control to cause a liveness failure.
+
+
+We start with the assumptions to guarantee safety and liveness:
+
+1. To guarantee **safety**, we assume that the adversary controls less than the `SafetyThreshold` percentage of the total stake.
+2. To guarantee **liveness**, we currently rely on a trusted disperser that does not censor clients’ blob disperser requests. We will soon introduce decentralized dispersal to remove this trust assumption. Additionally, to ensure liveness, we assume the adversary is delegated with less than `LivenessThreshold` percentage of the total stake.
+
+In the following part, we prove that the security and liveness holds when the assumptions are satisfied.
 
 First, we prove the security of our protocol: If the malicious party is delegated with less than $\eta_S = \eta_C - \gamma$ percentage of stake in the quorum, when a DA certificate is issued, any end-user can retrieve the blob within the time window during which the blob is supposed to be available.
 Proof: 
@@ -163,7 +185,7 @@ As we proved in the previous section, for any set of validators $H$ such that $\
 
 Second, we prove the liveness of our protocol:  If the malicious party controls less than $\eta_L = 1 - \eta_C$ portion of stake in the quorum, when a client calls the dispersal function, they will eventually get back a DA certificate for the blob they submitted, assuming that the disperser is honest. This simply follows from the fact that an honest disperser would encode and distribute the chunks following the protocol and all the honest validators would send their signatures to the dispersal when they receive and verify the chunks they are assigned. Therefore, since the portion of honest stake is greater than $\eta_C$, enough signatures will be collected by the disperser and a DA certificate will be issued in the end.
 
-### Encoding Rate and System Overhead
+### Encoding Rate and Security Thresholds
 
 In the previous section, we demonstrated that the system is secure—that is, both the safety and liveness properties are upheld—provided the adversarial stake remains below a certain threshold. In this section, we aim to determine the minimum required encoding rate based on a given adversarial stake percentage, in order to quantify the system’s overhead.
 
