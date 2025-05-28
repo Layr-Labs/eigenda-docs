@@ -216,3 +216,7 @@ h4 > strong {
 .token.plain {
   color: var(--eigenda-main);
 }
+
+.hidden {
+  display: none !important;
+}
