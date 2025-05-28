@@ -97,7 +97,9 @@ Note that EigenDA supports multiple quorums, and a single validator may particip
 ``GetChunkAssignments``
 
 The number of chunks assigned to validator $i$ is calculated by: 
-$$ m_i= \left\lceil\eta_i(m- \|N\|)\right\rceil, $$
+$$ 
+m_i= \left\lceil\eta_i(m- \|N\|)\right\rceil, 
+$$
 where $\|N\|$ is the actual number of operators. 
 We rank the validators in a deterministic order and then assign chunks sequentially until each validator $i$ has received $m_i$ chunks.
 
