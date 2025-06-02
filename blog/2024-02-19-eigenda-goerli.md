@@ -1,14 +1,14 @@
 ---
 title: "Goerli Testnet Retrieval Incident"
 slug: goerli-eigenda-retrieving-outatge-feb-2024
-tags: [goerli,eigenda]
+tags: [goerli, eigenda]
 ---
 
 ### Resolved [Feb 19, 2024 - 15:00 PT]
 
 - This incident has been resolved.
 
-- Additional Support: If you are still encountering issues relating to EigenDA blob retrieval, please share via the [EigenLayer Discord](https://discord.gg/eigenlayer) #support-eigenda channel.
+- Additional Support: If you are still encountering issues related to EigenDA blob retrieval, please share via the [EigenLayer Discord](https://discord.gg/eigenlayer) #support-eigenda channel.
 
 ### Monitoring [Feb 19, 2024 - 15:00 PT]
 

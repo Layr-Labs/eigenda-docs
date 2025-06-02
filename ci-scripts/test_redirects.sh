@@ -62,7 +62,7 @@ printf "done.\n"
 trap cleanup EXIT
 
 echo ""
-echo "Begining tests"
+echo "Beginning tests"
 echo ""
 while IFS= read -r url; do
     full_url="http://localhost:3000${url}"
