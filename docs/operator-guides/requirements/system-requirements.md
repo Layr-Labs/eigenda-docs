@@ -11,24 +11,24 @@ The following system requirements apply to the **Blazar (V2) upgrade** and are c
 The EigenDA network design dictates that operators with greater stake will
 be asked to store a larger number of blob chunks/shards. As a result, an operator's node requirements are a
 function of the stake amounts across participating quorums, which we
-call 'Effective Total Stake' (ETS). 
+call 'Total Work Share' (TWS). 
 
-### How ETS Works
+### How TWS Works
 
-An operator’s **ETS** is calculated as follows:
+An operator’s **TWS** is calculated as follows:
 
-- For the ETH and EIGEN quorums, ETS is the **maximum** of the two stake weights.
-- For any additional quorums, their stake **adds** to the base ETS.
+- For the ETH and EIGEN quorums, TWS is the **maximum** of the two stake weights.
+- For any additional quorums, their stake **adds** to the base TWS.
 
 **Example**:
-- 5% stake in ETH + 10% in EIGEN → ETS = 10%
-- Add 5% in a third quorum → ETS = 15%
+- 5% stake in ETH + 10% in EIGEN → TWS = 10%
+- Add 5% in a third quorum → TWS = 15%
 
 ### Hardware Recommendations
 
-Use the table below to determine the recommended hardware based on your ETS:
+Use the table below to determine the recommended hardware based on your TWS:
 
-| Class | Effective Total Stake (ETS) | vCPUs (10th gen+) | Memory | Disk IOPS | Networking Capacity |
+| Class | Total Work Share (TWS)      | vCPUs (10th gen+) | Memory | Disk IOPS | Networking Capacity |
 | ----- | --------------------------- | ----------------- | ------ | --------- | ------------------- |
 | Small | Up to 2%                    | 4                 | 16 GB  | 3,000     | 1 Gbps              |
 | Large | Greater than 2%             | 16                | 64 GB  | 12,000    | 10 Gbps             |
@@ -54,7 +54,7 @@ EigenDA operator nodes are designed to scale up to 100 MB/s throughput.
 **storage is the only resource that must scale** with 
 increased throughput. The rest of the system can remain fixed, as per the general requirements.
 
-To operate at full capacity (100 MB/s) with an ETS of 5%, 
+To operate at full capacity (100 MB/s) with an TWS of 5%, 
 a node would require approximately 50 TB of storage. 
 However, provisioning full capacity is typically cost-prohibitive and results in inefficient resource usage.
 
@@ -72,19 +72,17 @@ The **preferred approach** is to provision storage elastically, allowing it to s
 
 If elastic provisioning is not possible, storage must be provisioned for full capacity using the following formula:
 ```
-Require Storage (TB) = ETS (%) * 1000
+Required Storage (TB) = TWS (%) * 1000
 ```
-Example: For an ETS of 5%, provision 50 TB to support the full throughput capacity. 
+Example: For an TWS of 5%, provision 50 TB to support the full throughput capacity. 
 
 
 :::info
 The formula above is derived and simplified from the following formula:
 
 ```
-<throughput (MB/s)> * <14 days in seconds> * <coding rate> * <% stake>
+<Gross System Throughput(MB/s)> * <14 days in seconds> * <% stake>
 ```
-
-Where `<coding rate> = 8` for all current EigenDA quorums.
 :::
 
 ## System Upgrades
