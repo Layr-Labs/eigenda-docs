@@ -17,7 +17,7 @@ Defined below is the process for which you can use to migrate your vanilla Arbit
 4. Update your Arbitrum system configs to enable EigenDA. This includes changes to your batch posters, validators, and sequencer node configs; i.e:
 - Update **node** field section to use eigenda-proxy configuration; ie:
 
-        `"eigen-da": {"enable": true,"rpc": "http://eigenda_proxy:4242"}`
+        `"eigen-da": {"enable": true,"rpc": "http://eigenda_proxy:3100"}`
 
 - Update **arbitrum** field section to enable eigenda; ie:
 
