@@ -35,6 +35,7 @@ The EigenDA Holesky testnet is the EigenDA testnet for operators.
 | IndexRegistry | [0x2E3D6c0744b10eb0A4e6F679F71554a39Ec47a5D](https://holesky.etherscan.io/address/0x2E3D6c0744b10eb0A4e6F679F71554a39Ec47a5D) |
 | BLSApkRegistry | [0x066cF95c1bf0927124DFB8B02B401bc23A79730D](https://holesky.etherscan.io/address/0x066cF95c1bf0927124DFB8B02B401bc23A79730D) |
 | EigenDAServiceManager | [0xD4A7E1Bd8015057293f0D0A557088c286942e84b](https://holesky.etherscan.io/address/0xD4A7E1Bd8015057293f0D0A557088c286942e84b) |
+| CertVerifier | [0xFe52fE1940858DCb6e12153E2104aD0fDFbE1162](https://holesky.etherscan.io/address/0xFe52fE1940858DCb6e12153E2104aD0fDFbE1162) |
 | BLSOperatorStateRetriever | [0xB4baAfee917fb4449f5ec64804217bccE9f46C67](https://holesky.etherscan.io/address/0xB4baAfee917fb4449f5ec64804217bccE9f46C67) |
 | PaymentVault | [0x4a7Fff191BCDa5806f1Bc8689afc1417c08C61AB](https://holesky.etherscan.io/address/0x4a7Fff191BCDa5806f1Bc8689afc1417c08C61AB) |
 
