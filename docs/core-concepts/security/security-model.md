@@ -17,6 +17,7 @@ EigenDA mitigates these risks through a BFT security model backed by restaked c
 Additionally, EIGEN slashing introduces strong accountability: in the event of a safety failure, stake can be slashed, penalizing operators who sign availability attestations for data they do not actually serve. Extra economic alignment is also provided by token toxicity.
 
 On this page, we present a technical analysis of EigenDA's security guarantees.
+We use the terms *validator* and *operator* interchangiblity in this document.
 
 # Cryptographic Primitives
 
@@ -98,9 +99,9 @@ Note that EigenDA supports multiple quorums, and a single validator may particip
 
 The number of chunks assigned to validator $i$ is calculated by: 
 $$ 
-m_i= \left\lceil\eta_i(m- \|N\|)\right\rceil, 
+m_i= \left\lceil\eta_i(m- n)\right\rceil, 
 $$
-where $\|N\|$ is the actual number of operators. 
+where $n$ is the maximum number of operators. 
 We rank the validators in a deterministic order and then assign chunks sequentially until each validator $i$ has received $m_i$ chunks.
 
 ``VerifySecurityParameters``
@@ -118,13 +119,13 @@ Note that from the inequality above, we can derive that $\gamma \ge \frac{m}{(m-
 We want to show that for a blob which has been distributed using `GetChunkAssignments` and which satisfies `VerifySecurityParameters` , the following properties hold: 
 
 1. Proof of Non-overlapping assignment. Note that:
- $$\sum_{i} m'_{i} \le   \sum_{i} [\eta_{i} (m-\|N\|)+1] = m-\|N\| + \|N\| = m$$
+ $$\sum_{i} m'_{i} \le   \sum_{i} [\eta_{i} (m - n)+1] = m- n + \|N\| \le m$$
 Therefore, the chunks assigned to all the validators are greater than the chunks assigned to the validators, ensuring that there is no overlapping between the chunks assigned to each of them.
 
 2. Proof of Reconstruction. We show that $\alpha_i  \ge \eta_i /\gamma$:
 
 $$
-m_i \ge \eta_i(m- \|N\|) \ge \eta_i(m - m(1-1/r\gamma))=\eta_i m/(r\gamma) 
+m_i \ge \eta_i(m - n) \ge \eta_i(m - m(1-1/r\gamma))=\eta_i m/(r\gamma) 
 $$
 
 $$
