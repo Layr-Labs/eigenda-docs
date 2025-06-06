@@ -50,7 +50,7 @@ Dispersals specify in the BlobHeader the [quorum_numbers](https://github.com/Lay
 
 ### EigenDACertVerifierRouter
 
-Given the immutable nature of the EigenDACertVerifier, changing its logic or thresholds requires deploying a new contract. Secure rollup stacks then need to securely point their derivation pipeline to the new contract, which would require a hard fork. To solve this problem, we introduce the EigenDACertVerifierRouter, which is a custom proxy contract which "reifies implementation update history" by maintaining a mapping of activation block numbers to CertVerifier contracts, allowing to verify historical certs onchain (and without requiring an archive node offchain!). It overall:
+Given the immutable nature of the EigenDACertVerifier, changing its logic or thresholds requires deploying a new contract. Secure rollup stacks then need to securely point their derivation pipeline to the new contract, which would require a hard fork. To solve this problem, we introduce the EigenDACertVerifierRouter, which is a custom proxy contract which "reifies implementation update history" by maintaining a mapping of activation block numbers to CertVerifier contracts. This enabled onchain verification of historical certs, as well as offchain verification without requiring an archive node (since the entire mapping is stored in storage). It overall:
 - Maintains a mapping of activation block number (ABN) → `EigenDACertVerifier` address: new verifiers can be added at any future block
 - Routes `checkDACert` requests to the appropriate EigenDACertVerifier contract based on reference block number (RBN) in the abi.encoded cert
 
