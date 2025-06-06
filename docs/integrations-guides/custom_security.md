@@ -70,4 +70,4 @@ The flow to get setup with a CertVerifierRouter and enabling custom quorums woul
 4. Rollup operators restart their [eigenda-proxy](./eigenda-proxy/eigenda-proxy.md) instance, changing the [--eigenda.v2.cert-verifier-router-or-immutable-verifier-addr](https://github.com/Layr-Labs/eigenda-proxy/blob/34ff55add522a9c7ade281919efa46cd9ac78ce1/docs/help_out.txt#L56) flag to point to the router.
 5. Rollup deploys a new EigenDACertVerifier contract with [_quorumNumbersRequired](https://github.com/Layr-Labs/eigenda/blob/5fa94eab470823c8fdd829fc5974fe2969068a21/contracts/src/periphery/cert/EigenDACertVerifier.sol#L43) including its custom quorum number.
 6. Rollup calls [addCertVerifier](https://github.com/Layr-Labs/eigenda/blob/5fa94eab470823c8fdd829fc5974fe2969068a21/contracts/src/periphery/cert/router/EigenDACertVerifierRouter.sol#L44) on the router, activating the new cert verifier at any future block number of its choice.
-7. Rollup signs [Kumbaya](https://youtu.be/zJG0Zg4oi7g?si=WP6GaqpF5opCT-EJ&t=14)
+7. Rollup sings [Kumbaya](https://youtu.be/zJG0Zg4oi7g?si=WP6GaqpF5opCT-EJ&t=14)
