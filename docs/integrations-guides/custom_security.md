@@ -56,7 +56,7 @@ Given the immutable nature of the EigenDACertVerifier, changing its logic or thr
 
 Note that the Router is only compatible with EigenDACertVerifiers versions >= 3.
 
-Each rollup stack will integrate need to integrate the Router in different ways to maintain a secure integration. We refer users to their respective rollup stack docs:
+Each rollup stack will need to integrate the Router in different ways to maintain a secure integration. We refer users to their respective rollup stack docs:
 - [OP Stack Integration](./rollup-guides/op-stack/README.md)
 - [Arbitrum Orbit Integration](./rollup-guides/orbit/overview.md)
 - [zkSync ZK Stack Integration](./rollup-guides/zksync/README.md)
