@@ -54,7 +54,7 @@ Given the immutable nature of the EigenDACertVerifier, changing its logic or thr
 - Maintains a mapping of activation block number (ABN) → `EigenDACertVerifier` address: new verifiers can be added at any future block
 - Routes `checkDACert` requests to the appropriate EigenDACertVerifier contract based on reference block number (RBN) in the abi.encoded cert
 
-Note that the Router is only compatible with EigenDACertVerifiers versions >= 3.
+**Note** that the Router is only compatible with EigenDACertVerifiers versions >= 3.
 
 Each rollup stack will need to integrate the Router in different ways to maintain a secure integration. We refer users to their respective rollup stack docs:
 - [OP Stack Integration](./rollup-guides/op-stack/README.md)
