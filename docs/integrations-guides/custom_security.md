@@ -17,7 +17,7 @@ This means a rollup's token holders can decide, by delegating their tokens, whic
 
 Custom quorums and thresholds enable rollups and other users to:
 - Define specific operator sets for data verification via delegation of their own token
-- Enforce verification of the custom quorum's signature, starting at a specific block number
+- Enforce verification of the custom quorum's signature, starting at a specific activation block number
 - Set custom confirmation thresholds for data availability confirmation
 - Securely upgrade these thresholds as security needs evolve
 
