@@ -35,7 +35,7 @@ This creates a powerful economic flywheel where the rollup's success directly en
 Backward-compatible secure updates to custom quorums and thresholds are implemented using the exact same mechanism that is used for seamlessly (and securely) updating EigenDA Cert verification logic.
 This allows cert verification to be securely added to rollup stacks without requiring major changes to the rollup's architecture, nor hard forks.
 
-TODO: Link to the spec page ethen is writing after https://github.com/Layr-Labs/eigenda/pull/1642 gets merged.
+For more information, see the secure integration [contracts spec](https://layr-labs.github.io/eigenda/integration/spec/4-contracts.html).
 
 ### EigenDACertVerifier
 
