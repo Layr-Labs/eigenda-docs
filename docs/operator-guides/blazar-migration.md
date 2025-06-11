@@ -60,7 +60,7 @@ Feb 20 19:50:46.760 INF grpc/server_v2.go:140 new StoreChunks request batchHeade
 ## Optional: Remote BLS Signer Support
 Blazar supports the latest [cerberus](https://github.com/Layr-Labs/cerberus) remote BLS signer API.
 
-Enabling the BLS signer is optional.
+Enabling the BLS signer is optional. To enable remote BLS signer, operators need to define the `NODE_BLS_SIGNER_API_KEY` environment variable within the `.env` file.
 
 Follow the steps from the [cerberus setup guide](https://github.com/Layr-Labs/cerberus?tab=readme-ov-file#remote-signer-implementation-of-cerberus-api) to create an API key.
 
