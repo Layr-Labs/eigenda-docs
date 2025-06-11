@@ -58,7 +58,7 @@ Feb 20 19:50:46.760 INF grpc/server_v2.go:140 new StoreChunks request batchHeade
 ```
 
 ## Optional: Remote BLS Signer Support
-Blazar supports the latest latest [cerberus](https://github.com/Layr-Labs/cerberus) remote BLS signer API.
+Blazar supports the latest [cerberus](https://github.com/Layr-Labs/cerberus) remote BLS signer API.
 
 Enabling the BLS signer is optional.
 
